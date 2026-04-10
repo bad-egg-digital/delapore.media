@@ -1,0 +1,63 @@
+services:
+  nginx:
+    image: nginx:latest
+    container_name: ${APP_NAME}-nginx
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - "./docker/nginx/:/etc/nginx/templates/"
+      - ./:/var/www/html:rw,cached
+      - ./docker/certs:/etc/certs
+    environment:
+      - "NGINX_ENVSUBST_TEMPLATE_SUFFIX=.conf"
+      - "DOMAIN=${DOMAIN}"
+    depends_on:
+      - wordpress
+    restart: always
+
+  mysql:
+    image: mariadb:10.7
+    container_name: ${APP_NAME}-mysql
+    command: --lower_case_table_names=2
+    volumes:
+       - './docker/data/db:/var/lib/mysql:delegated'
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+    restart: always
+    ports:
+      - '3306:3306'
+
+  wordpress:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    container_name: ${APP_NAME}-wordpress
+    volumes:
+      - ./:/var/www/html:rw,cached
+      - ./docker/config/php.ini:/usr/local/etc/php/conf.d/php.ini
+    depends_on:
+      - mysql
+    restart: always
+
+  phpmyadmin:
+    image: arm64v8/phpmyadmin
+    container_name: ${APP_NAME}-phpmyadmin
+    volumes:
+      - ./docker/config/phpmyadmin.ini:/usr/local/etc/php/conf.d/phpmyadmin.ini
+    environment:
+      PMA_HOST: "${DB_HOST}"
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+    ports:
+      - '8082:80'
+    links:
+      - mysql:mysql
+
+  mailpit:
+    container_name: ${APP_NAME}-mailpit
+    image: axllent/mailpit
+    ports:
+      - "8025:8025"
+      - "1025:1025"

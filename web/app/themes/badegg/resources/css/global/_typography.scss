@@ -1,0 +1,171 @@
+@use "variables";
+
+.wysiwyg {
+  > *:first-child {
+    margin-top: 0;
+  }
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: variables.$secondary-darkest;
+  font-weight: 700;
+  font-family: variables.$font;
+  line-height: 1.1em;
+  margin: 1.5em 0 0.5em;
+  padding: 0;
+
+  &.mini {
+    font-size: 1em;
+    margin: 0 0 0.25em;
+
+    @media (min-width: variables.$screen-md) {
+      font-size: 1.25em;
+    }
+  }
+
+  &.section-title { margin-top: 0; }
+  &.has-subtitle { margin-bottom: 0.25em; }
+
+  &.subhead {
+    margin-top: 0.125em;
+
+    &-big {
+      @extend h1;
+    }
+  }
+
+  @media screen {
+    .knockout & {
+      color: variables.$white;
+    }
+  }
+}
+
+h1 {
+  font-size: 1.75em;
+  margin-top: 0;
+}
+
+h2 { font-size: 1.5em; }
+h3 { font-size: 1.25em; }
+
+h4,
+h5 { font-size: 1.15em; }
+
+@media (min-width: variables.$screen-md) {
+  h1 { font-size: 2.25em; }
+  h2 { font-size: 2em; }
+  h3 { font-size: 1.5em; }
+
+  h4,
+  h5 {
+    font-size: 1.25em;
+  }
+}
+
+p,
+li,
+td,
+label {
+  color: variables.$grey-darker;
+  font-family: variables.$font;
+  font-weight: 400;
+  line-height: 1.5em;
+  margin: 0 0 0.8em;
+  padding: 0;
+
+  @media screen {
+    .knockout & {
+      color: variables.$white;
+    }
+  }
+}
+
+p {
+  @media (min-width: variables.$screen-md) {
+    font-size: 1.125em;
+  }
+
+  @media (min-width: variables.$screen-lg) {
+    font-size: 1.25em;
+  }
+}
+
+a {
+  color: variables.$tertiary;
+  text-decoration: none;
+  outline: none;
+  transition: color 300ms ease;
+
+  &:hover,
+  &:focus {
+    color: variables.$tertiary;
+    text-decoration: underline;
+  }
+
+  @media screen {
+    .knockout & {
+      color: variables.$tertiary-lighter;
+
+      &:hover,
+      &:focus {
+        color: variables.$tertiary-lighter;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+strong { font-weight: 700; }
+small { font-size: 0.8em; }
+
+li {
+  margin: 0.125em 0;
+  line-height: 1.5em;
+}
+
+ul,
+ol {
+  margin: 0 0 0.7em;
+  padding: 0 0 0 1.2em;
+}
+
+.nolist {
+  margin: 0;
+  padding: 0;
+  text-align: inherit;
+  list-style: none;
+
+  li {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+hr {
+  margin: 2em auto;
+  height: 0;
+  border: 0 solid variables.$grey-light;
+  border-width: variables.$borderThin 0 0;
+
+  @media screen {
+    .knockout & {
+      border-color: variables.$white;
+    }
+  }
+}
+
+.align {
+  &-left { text-align: left; }
+  &-centre, &-center { text-align: center; }
+  &-right { text-align: right; }
+}

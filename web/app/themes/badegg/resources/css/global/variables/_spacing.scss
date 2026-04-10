@@ -1,0 +1,49 @@
+@use "sass:math";
+
+$offCanvasWidth:      17.5em;
+
+$brandWidth:          9em !default;
+$brandHeight:         3em !default;
+
+$tileAspectRatio:     math.div(400, 640) * 100%;
+$heroAspectRatio:     math.div(593, 1920) * 100vw;
+$slideAspectRatio:    math.div(733, 1920) * 100vw;
+
+$sectionSmallest:       0.500em;
+$sectionSmaller:        1.000em;
+$sectionSmall:          1.500em;
+$sectionMedium:         3.000em;
+$sectionLarge:          5.000em;
+$sectionLarger:         7.500em;
+$sectionLargest:       10.000em;
+
+$containerLarger:      87.000em;
+$containerLarge:       73.125em;
+$containerMedium:      60.000em;
+$containerSmall:       50.000em;
+$containerNarrow:      40.000em;
+
+$innerLargest:          5.000em;
+$innerLarger:           3.000em;
+$innerLarge:            2.000em;
+$innerMedium:           1.500em;
+$innerSmall:            1.000em;
+$innerSmaller:          0.750em;
+$innerSmallest:         0.500em;
+
+$gap:                   1em;
+$gapSmall:              0.5em;
+$gapMedium:             1em;
+$gapLarge:              2em;
+
+$borderRadiusLargeer:   1.500em;
+$borderRadiusLarge:     1.000em;
+$borderRadius:          1.000em;
+$borderRadiusSmall:     0.500em;
+$borderRadiusSmaller:   0.250em;
+
+$borderThin:           0.0625em;
+$borderWidth:          0.1250em;
+$borderThick:          0.2500em;
+$borderThicker:        0.5000em;
+$borderThickest:       1.0000em;

@@ -1,0 +1,14 @@
+@use "../global/variables";
+
+#mce-responses {
+  .response {
+    padding: 0 0 1em;
+    margin: 0 0 1em;
+    font-size: 0.875em;
+    border-bottom: 1px solid variables.$grey-lighter;
+  }
+}
+
+.knockout #mce-responses .response {
+  border-bottom-color: rgba(variables.$white, 0.3);
+}

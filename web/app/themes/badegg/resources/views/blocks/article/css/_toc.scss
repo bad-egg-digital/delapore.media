@@ -1,0 +1,40 @@
+@use "../../../../css/global/variables";
+
+.article-toc {
+  position: sticky;
+  top: 0;
+
+  h3 {
+    font-size: 1em;
+    margin: 0 0 1em;
+    padding: 0 0 1em;
+    border: 0 solid variables.$grey-lightest;
+    border-width: 0 0 1px;
+  }
+
+  a {
+    display: block;
+    color: variables.$grey-light;
+    font-weight: 700;
+    padding: 0.5em 0;
+    font-size: 1.25em;
+
+    &.active,
+    &:hover {
+      color: variables.$tertiary;
+    }
+  }
+
+  @media screen {
+    .knockout & {
+      a {
+        color: variables.$white;
+
+        &.active,
+        &:hover {
+          color: variables.$tertiary-lighter;
+        }
+      }
+    }
+  }
+}

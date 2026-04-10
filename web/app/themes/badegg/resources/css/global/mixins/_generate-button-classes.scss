@@ -1,0 +1,68 @@
+@use "../variables";
+
+@use "sass:color";
+
+@mixin generate_button_colors($name, $hex) {
+
+  $buttons: (
+    ".btn",
+    "button",
+    "input[type=submit]",
+  );
+
+  @each $button in $buttons {
+    #{$button}.#{$name} {
+      color: variables.$white;
+      background: $hex;
+      border-color: $hex;
+
+      &:hover,
+      &:focus {
+        color: variables.$white;
+        background: color.adjust($hex, $lightness: 10%);
+        border-color: color.adjust($hex, $lightness: 10%);
+      }
+    }
+
+    #{$button}.#{$name}.outline {
+      color: $hex;
+      background: transparent;
+      border-color: $hex;
+
+      &:hover,
+      &:focus {
+        color: white;
+        background: #{$hex};
+        border-color: #{$hex};
+      }
+    }
+
+    @media screen {
+      *:not(.bg-#{$name}) #{$button}.#{$name} {
+        color: white;
+        background-color: $hex;
+        border-color: $hex;
+
+        &:hover,
+        &:focus {
+          color: white;
+          background-color: color.adjust($hex, $lightness: 10%);
+          border-color: color.adjust($hex, $lightness: 10%);
+        }
+      }
+
+      .bg-#{$name} #{$button}.#{$name} {
+        color: $hex;
+        background: white;
+        border-color: white;
+
+        &:hover,
+        &:focus {
+          color: white;
+          background: transparent;
+          border-color: white;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+// define as many $color-stops as needed
+@mixin linear-gradient($direction, $color-stops...) {
+  background: list.nth(list.nth($color-stops, 1), 1);
+  background: linear-gradient($direction, $color-stops);
+}

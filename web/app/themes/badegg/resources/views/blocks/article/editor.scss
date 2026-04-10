@@ -1,0 +1,81 @@
+@use "../../../css/global/variables";
+
+.wp-block-badegg-article {
+  position: relative;
+
+  .wp-block-pullquote {
+    padding: 0;
+    margin: variables.$innerLarge auto;
+  }
+
+  .badegg-article-select-parent {
+    appearance: none;
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor:e-resize;
+
+    &:hover {
+      background: rgba(variables.$black, 0.1);
+    }
+  }
+
+  > .container {
+    position: relative;
+    z-index: 10;
+    border: 2px transparent dashed;
+  }
+
+  &:hover {
+    > .container {
+      border-color: variables.$wpblue;
+      background-color: rgba(variables.$white, 0.3);
+
+      > * {
+        opacity: 0.7;
+      }
+
+      &:hover {
+        background: transparent;
+
+        > * {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  &.knockout {
+    .badegg-article-select-parent {
+      &:hover {
+        background: rgba(variables.$white, 0.1);
+      }
+    }
+
+    &:hover {
+      > .container {
+        background-color: rgba(variables.$black, 0.3);
+
+        &:hover {
+          background: transparent;
+        }
+      }
+    }
+  }
+
+  .block-editor-block-list {
+    &__layout {
+      > *:first-child {
+        margin-top: 0;
+      }
+
+      > *:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+@use "../variables";
+
+.has-bg-image {
+  position: relative;
+  overflow: hidden;
+
+  > .container {
+    position: relative;
+    z-index: 10;
+  }
+
+  .bg {
+    &-image {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    &-fixed {
+      background-attachment: fixed;
+    }
+
+    &-contain {
+      background-size: contain;
+    }
+
+    &-filter {
+      &-screen {
+        mix-blend-mode: screen;
+        filter: grayscale(100);
+      }
+
+      &-multiply {
+        mix-blend-mode: multiply;
+        filter: grayscale(100);
+      }
+    }
+  }
+}

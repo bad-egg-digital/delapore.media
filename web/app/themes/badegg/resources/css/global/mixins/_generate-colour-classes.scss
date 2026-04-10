@@ -1,0 +1,67 @@
+@use "text-contrast";
+@use "../variables";
+
+@use "sass:color";
+
+@mixin generate_colour_classes($name, $hex) {
+  .#{$name} {
+    color: $hex;
+  }
+
+  .fill-#{$name} {
+    fill: $hex;
+  }
+
+  .border-#{$name} {
+    border-color: $hex;
+  }
+
+  h1,h2,h3,h4,h5,h6 {
+    &.#{$name} {
+      color: $hex;
+    }
+  }
+
+  @media screen {
+    .bg-#{$name} {
+      background-color: $hex;
+
+      ::selection {
+        @include text-contrast.text_contrast(color.invert($hex));
+        background: color.invert($hex);
+        @if($name == "white") {
+          color: variables.$white;
+          background: variables.$tertiary;
+        } @else if($name == "black") {
+          color: variables.$white;
+          background: variables.$tertiary-lighter;
+        } @else {
+          @include text-contrast.text_contrast(color.invert($hex));
+          background: color.invert($hex);
+        }
+      }
+
+      &.has-gradient {
+        background: linear-gradient(0deg, $hex 0%, variables.$white 100%);
+
+        &.knockout {
+          background: linear-gradient(0deg, $hex 0%, variables.$black 100%);
+        }
+      }
+
+      h1,h2,h3,h4,h5,h6 {
+        &.#{$name} {
+          color: variables.$black;
+        }
+      }
+
+      &.knockout {
+        h1,h2,h3,h4,h5,h6 {
+          &.#{$name} {
+            color: variables.$white;
+          }
+        }
+      }
+    }
+  }
+}

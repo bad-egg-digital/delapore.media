@@ -1,0 +1,207 @@
+@use "../variables";
+
+.brand {
+  display: block;
+  width: variables.$brandWidth;
+  height: variables.$brandHeight;
+
+  svg,
+  img {
+    display: block;
+    width: variables.$brandWidth;
+    height: variables.$brandHeight;
+  }
+
+  .knockout & {
+    @media screen {
+      .fill-primary {
+        fill: variables.$white;
+      }
+
+      .fill-grey {
+        fill: rgba(variables.$white, 0.8);
+      }
+    }
+  }
+}
+
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: calc(100% - variables.$innerMedium * 2);
+  margin: auto;
+
+  @container (min-width: #{variables.$screen-md}) {
+    width: calc(100% - variables.$innerLarge * 3);
+  }
+
+  @container (min-width: #{variables.$screen-lg}) {
+    width: calc(100% - variables.$innerLarge * 4);
+  }
+
+  &-full { width: auto; }
+  &-larger { max-width: variables.$containerLarger; }
+  &-large { max-width: variables.$containerLarge; }
+  &-medium { max-width: variables.$containerMedium; }
+  &-small { max-width: variables.$containerSmall; }
+  &-narrow { max-width: variables.$containerNarrow; }
+}
+
+.section {
+  padding: variables.$sectionMedium 0;
+
+  &-small {  padding: variables.$sectionSmall  0; }
+  &-medium { padding: variables.$sectionMedium 0; }
+  &-large {  padding: variables.$sectionLarge  0; }
+
+  @container (min-width: #{variables.$screen-md}) {
+    padding: (variables.$sectionMedium * 1.5) 0;
+
+    &-small { padding: (variables.$sectionSmall * 1.5) 0; }
+    &-medium { padding: (variables.$sectionMedium * 1.5) 0; }
+    &-large { padding: (variables.$sectionLarge * 1.5) 0; }
+  }
+
+  @container (min-width: #{variables.$screen-lg}) {
+    padding: (variables.$sectionMedium * 2) 0;
+
+    &-small { padding: (variables.$sectionSmall * 2) 0; }
+    &-medium { padding: (variables.$sectionMedium * 2) 0; }
+    &-large { padding: (variables.$sectionLarge * 2) 0; }
+  }
+
+  &-zero-top {    padding-top:    unset; }
+  &-zero-bottom { padding-bottom: unset; }
+}
+
+.section-m {
+  margin: variables.$sectionMedium 0;
+
+  &-small {  margin: variables.$sectionSmall  0; }
+  &-medium { margin: variables.$sectionMedium 0; }
+  &-large {  margin: variables.$sectionLarge  0; }
+
+  @container (min-width: #{variables.$screen-md}) {
+    margin: (variables.$sectionMedium * 1.5) 0;
+
+    &-small { margin: (variables.$sectionSmall * 1.5) 0; }
+    &-medium { margin: (variables.$sectionMedium * 1.5) 0; }
+    &-large { margin: (variables.$sectionLarge * 1.5) 0; }
+  }
+
+  @container (min-width: #{variables.$screen-lg}) {
+    margin: (variables.$sectionMedium * 2) 0;
+
+    &-small { margin: (variables.$sectionSmall * 2) 0; }
+    &-medium { margin: (variables.$sectionMedium * 2) 0; }
+    &-large { margin: (variables.$sectionLarge * 2) 0; }
+  }
+
+  &-zero-top {    margin-top:    unset; }
+  &-zero-bottom { margin-bottom: unset; }
+}
+
+.inner {
+  padding: variables.$innerMedium;
+
+  &-largest {  padding: variables.$innerLargest;  }
+  &-larger {   padding: variables.$innerLarger;   }
+  &-large {    padding: variables.$innerLarge;    }
+  &-small {    padding: variables.$innerSmall;    }
+  &-smaller {  padding: variables.$innerSmaller;  }
+  &-smallest { padding: variables.$innerSmallest; }
+
+  @container (min-width: #{variables.$screen-md}) {
+    padding: (variables.$innerMedium * 1.5);
+
+    &-largest {  padding: (variables.$innerLargest * 1.25);  }
+    &-larger {   padding: (variables.$innerLarger * 1.25);   }
+    &-large {    padding: (variables.$innerLarge * 1.25);    }
+    &-small {    padding: (variables.$innerSmall * 1.25);    }
+    &-smaller {  padding: (variables.$innerSmaller * 1.25);  }
+    &-smallest { padding: (variables.$innerSmallest * 1.25); }
+  }
+
+  @container (min-width: #{variables.$screen-lg}) {
+    padding: (variables.$innerMedium * 2);
+
+    &-largest {  padding: (variables.$innerLargest * 1.5);  }
+    &-larger {   padding: (variables.$innerLarger * 1.5);   }
+    &-large {    padding: (variables.$innerLarge * 1.5);    }
+    &-small {    padding: (variables.$innerSmall * 1.5);    }
+    &-smaller {  padding: (variables.$innerSmaller * 1.5);  }
+    &-smallest { padding: (variables.$innerSmallest * 1.5); }
+  }
+
+  &-zero-x { padding-left: unset; padding-right: unset; }
+  &-zero-y { padding-top:  unset; padding-top:   unset; }
+
+  &-top { padding-left: unset; padding-right: unset; padding-bottom: unset; }
+  &-right { padding-left: unset; padding-top: unset; padding-bottom: unset; }
+  &-bottom { padding-left: unset; padding-right: unset; padding-top: unset; }
+  &-left { padding-top: unset; padding-right: unset; padding-bottom: unset; }
+
+  &-unset {
+    &-top { padding-top: unset; }
+    &-right { padding-right: unset; }
+    &-bottom {padding-bottom: unset; }
+    &-left { padding-left: unset; }
+  }
+}
+
+.rounded {
+  overflow: hidden;
+  border-radius: variables.$borderRadius;
+
+  &-small {
+    border-radius: (variables.$borderRadius * 0.75);
+  }
+
+  &-top {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  &-bottom {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+}
+
+.border {
+  border-style: solid;
+  border-width: variables.$borderWidth;
+
+  &-thin { border-width: 0.0625em; }
+  &-regular { border-width: variables.$borderWidth; }
+  &-thick { border-width: variables.$borderThick; }
+  &-thicker { border-width: variables.$borderThicker; }
+
+  &-top {
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+  }
+
+  &-right {
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+  }
+
+  &-bottom {
+    border-top-width: 0;
+    border-right-width: 0;
+    border-left-width: 0;
+  }
+
+  &-left {
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+  }
+}
+

@@ -1,0 +1,14 @@
+@use "../../../../css/global/variables/colours";
+@use "../../../../css/global/variables/fonts";
+
+.wp-block-verse {
+  font-family: fonts.$font;
+  line-height: 2;
+  word-wrap: normal;
+
+  @media screen {
+    .knockout & {
+      color: colours.$white;
+    }
+  }
+}

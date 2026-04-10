@@ -1,0 +1,16 @@
+{
+  "disabled": false,
+  "apiVersion": 3,
+  "name": "badegg/example",
+  "title": "Example",
+  "category": "badegg",
+  "icon": "cover-image",
+  "description": "This is an example of a custom native block",
+  "editorScript": "example-editor-script",
+  "editorStyle": "example-editor-style",
+  "style": "example-style",
+  "script": "example-script",
+  "supports": {
+    "html": false
+  }
+}

@@ -1,0 +1,117 @@
+@use "../../../../css/global/variables/breakpoints";
+@use "../../../../css/global/variables/spacing";
+@use "../../../../css/global/variables/colours";
+@use "../../../../css/global/variables/fonts";
+
+.wp-block-badegg-article {
+  .wp-block-pullquote blockquote,
+  .wp-block-quote {
+    position: relative;
+    text-align: center;
+    font-size: 1.25em;
+    padding: 0;
+    padding: 1em 0;
+    margin: spacing.$innerLarge auto;
+
+    * {
+      position: relative;
+      z-index: 3;
+    }
+
+    p {
+      font-family: fonts.$blockquote;
+      font-style: italic;
+      margin: 0 0 0.25em;
+      color: colours.$primary;
+    }
+
+    cite {
+      font-size: 0.6em;
+      font-family: fonts.$font;
+      font-style: normal;
+      color: colours.$grey;
+    }
+
+    &::before {
+      content: '\201C';
+      position: absolute;
+      z-index: 2;
+      top: -0.25em;
+      left: calc(50% - 0.5em);
+      display: block;
+      text-align: center;
+      font-size: 1.5em;
+      width: 1em;
+      color: colours.$secondary;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: auto calc(20% - 1em) 0;
+      border-width: 1px 0 0;
+      border-style: solid;
+    }
+
+    > *:first-child {
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        top: -0.75em;
+        display: block;
+        width: 30%;
+        border-width: 1px 0 0;
+        border-style: solid;
+      }
+
+      &::before {
+        right: calc(50% + 1em);
+      }
+
+      &::after {
+        left: calc(50% + 1em);
+      }
+    }
+
+    &::after,
+    > *:first-child::before,
+    > *:first-child::after {
+      border-color: colours.$grey-lighter;
+    }
+
+    &.is-style-plain {
+      &::before,
+      &::after,
+      > *:first-child::before,
+      > *:first-child::after {
+        content: none;
+      }
+    }
+
+    @container BadEggArticle (min-width: #{breakpoints.$screen-sm}) {
+      font-size: 1.5em;
+    }
+  }
+
+  @media screen {
+  &.knockout {
+    .wp-block-pullquote blockquote,
+    .wp-block-quote {
+      p {
+        color: colours.$primary-light;
+      }
+
+      cite {
+        color: rgba(colours.$white, 0.7);
+      }
+
+      &::after,
+      > *:first-child::before,
+      > *:first-child::after {
+        border-color: rgba(colours.$white,0.2);
+      }
+    }
+  }
+  }
+}

@@ -1,0 +1,67 @@
+@use "../global/variables";
+
+.wp-block-list {
+  container-name: wpBlockList;
+  container-type: inline-size;
+
+  > * {
+    &:first-child {
+      &.section-zero-top {
+        @media (max-width: variables.$screen-xs-max) {
+          padding-top: variables.$sectionSmall;
+        }
+      }
+
+      .has-first-block-knockout & {
+        &::before {
+          content: '';
+          display: block;
+          height: 8.25em;
+
+          @media (min-width: variables.$screen-lg) {
+            height: 10.25em;
+          }
+        }
+      }
+    }
+  }
+}
+
+.is-on-fire,
+.has-bg-image {
+  position: relative;
+
+  > .inner,
+  > .container {
+    position: relative;
+    z-index: 10;
+  }
+}
+
+.badegg-block-background {
+  position: absolute;
+  inset: 0;
+}
+
+.block-footer,
+.block-intro {
+  display: flex;
+
+  &.section {
+    @extend .section-small !optional;
+  }
+
+  &.align-left { justify-content: flex-start; }
+  &.align-right { justify-content: flex-end; }
+  &.align-centre { justify-content: center; }
+
+  > .container {
+    width: auto;
+    margin: 0;
+
+    .align-left &,
+    .align-right & {
+      margin: 0;
+    }
+  }
+}

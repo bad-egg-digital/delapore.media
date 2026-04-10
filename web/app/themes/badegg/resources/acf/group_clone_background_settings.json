@@ -1,0 +1,137 @@
+{
+    "key": "group_clone_background_settings",
+    "title": "Clone: Background Settings",
+    "fields": [
+        {
+            "key": "field_67325dd23234e",
+            "label": "Colour",
+            "name": "bg_colour",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "0": "None",
+                "primary": "<i class=\"fas fa-circle\" style=\"color: #dd3333\"><\/i> Punch",
+                "secondary": "<i class=\"fas fa-circle\" style=\"color: #81d742\"><\/i> Atlantis",
+                "tertiary": "<i class=\"fas fa-circle\" style=\"color: #8224e3\"><\/i> Purple Heart",
+                "white": "<i class=\"fas fa-circle\" style=\"color: #FFFFFF\"><\/i> White",
+                "grey": "<i class=\"fas fa-circle\" style=\"color: #808080\"><\/i> Gray",
+                "black": "<i class=\"fas fa-circle\" style=\"color: #000000\"><\/i> Black"
+            },
+            "default_value": 0,
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "allow_in_bindings": 1,
+            "ui": 1,
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_67325e213234f",
+            "label": "Tint",
+            "name": "bg_tint",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_67325dd23234e",
+                        "operator": "!=",
+                        "value": "0"
+                    }
+                ],
+                [
+                    {
+                        "field": "field_67325dd23234e",
+                        "operator": "!=",
+                        "value": "black"
+                    }
+                ],
+                [
+                    {
+                        "field": "field_67325dd23234e",
+                        "operator": "!=",
+                        "value": "white"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "lightest": "Lightest",
+                "lighter": "Lighter",
+                "light": "Light",
+                "0": "None",
+                "dark": "Dark",
+                "darker": "Darker",
+                "darkest": "Darkest"
+            },
+            "default_value": 0,
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "allow_in_bindings": 1,
+            "ui": 1,
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_67350f526abf1",
+            "label": "",
+            "name": "contrast",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Text Contrast",
+            "default_value": 0,
+            "allow_in_bindings": 0,
+            "ui_on_text": "Light",
+            "ui_off_text": "Dark",
+            "ui": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "widget",
+                "operator": "==",
+                "value": "rss"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "display_title": "",
+    "modified": 1767548180
+}

@@ -1,0 +1,25 @@
+{
+  "disabled": false,
+  "apiVersion": 3,
+  "name": "badegg/article",
+  "title": "Article Builder",
+  "category": "badegg",
+  "icon": {
+    "src": "format-aside",
+    "foreground": "#f58762"
+  },
+  "description": "A wrapper to contain core blocks",
+  "attributes": {
+    "sidebar": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "html": true,
+    "color": {
+      "background": false,
+      "text": false
+    }
+  }
+}

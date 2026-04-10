@@ -1,0 +1,28 @@
+{
+  "apiVersion": 3,
+  "name": "badegg/acfdemo",
+  "title": "ACF Demo",
+  "category": "badegg",
+  "icon": "media-document",
+  "description": "An example block powered by ACF",
+  "keywords": ["acf", "demo"],
+
+  "acf": {
+      "mode": "preview",
+      "validate": "false",
+      "renderCallback": "\\App\\Blocks\\render_acf"
+  },
+  "supports": {
+      "anchor": true,
+      "align": false,
+      "jsx": true
+  },
+  "example": {
+    "attributes": {
+      "mode": "preview",
+      "data": {
+        "inserter": true
+      }
+    }
+  }
+}

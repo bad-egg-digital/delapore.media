@@ -1,0 +1,46 @@
+@use "../../../../css/global/variables/breakpoints";
+@use "../../../../css/global/variables/spacing";
+
+.wp-block-badegg-article {
+  .wp-block-image {
+    &.is-style-rounded {
+      img {
+        border-radius: 9999px;
+      }
+    }
+
+    @container BadEggArticle (min-width: #{breakpoints.$screen-sm}) {
+      .alignleft,
+      .alignright {
+        margin-bottom: spacing.$innerSmall;
+      }
+
+      .alignleft {
+        float: left;
+        margin-right: spacing.$innerLarge;
+      }
+
+      .alignright {
+        float: right;
+        margin-left: spacing.$innerLarge;
+      }
+    }
+  }
+
+  .is-image-fill-element,
+  .is-cropped {
+    figure {
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+
+      img {
+        flex: 1 0 0%;
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+        aspect-ratio: 1;
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+@use "sass:math";
+
+$px: math.div(1, 16);
+
+$screen-xxs:   22.5em !default;
+$screen-xs:    30.0em !default;
+$screen-sm:    48.0em !default;
+$screen-md:    62.0em !default;
+$screen-lg:    75.0em !default;
+$screen-xl:    87.5em !default;
+$screen-xxl:   100.0em !default;
+$screen-xxxl:  120.0em !default;
+
+// So media queries don"t overlap when required
+$screen-xxs-max: ($screen-xs   - $px) !default;
+$screen-xs-max:  ($screen-sm   - $px) !default;
+$screen-sm-max:  ($screen-md   - $px) !default;
+$screen-md-max:  ($screen-lg   - $px) !default;
+$screen-lg-max:  ($screen-xl   - $px) !default;
+$screen-xl-max:  ($screen-xxl  - $px) !default;
+$screen-xxl-max: ($screen-xxxl - $px) !default;
+
+// Breakpoints
+$breakpoints: (
+  "screen-xxs":  $screen-xxs,
+  "screen-xs":   $screen-xs,
+  "screen-sm":   $screen-sm,
+  "screen-md":   $screen-md,
+  "screen-lg":   $screen-lg,
+  "screen-xl":   $screen-xl,
+  "screen-xxl":  $screen-xxl,
+  "screen-xxxl": $screen-xxxl,
+);

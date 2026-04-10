@@ -1,0 +1,34 @@
+@use "../mixins";
+@use "../variables";
+
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: variables.$secondary-light rgba(variables.$primary-darkest, 0.8);
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 0.75rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(variables.$primary-darkest, 0.8);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color:  variables.$secondary-light;
+  border-radius: 1.5rem;
+  border: 0.25rem solid transparent;
+}
+
+::selection {
+  color: variables.$white;
+  background: variables.$tertiary;
+}
+
+@each $color, $hex in variables.$colors {
+  @include mixins.generate_colour_classes($color, $hex);
+  @include mixins.generate_button_colors($color, $hex);
+}
+

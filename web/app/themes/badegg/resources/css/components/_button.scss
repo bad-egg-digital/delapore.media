@@ -1,0 +1,113 @@
+@use "../global/variables/fonts";
+@use "../global/variables/colours";
+
+button {
+  &%block,
+  &.block {
+    background-color: transparent;
+    border: none;
+    font-size: 1em;
+    padding: 0;
+  }
+}
+
+button,
+input[type="submit"] {
+  &.btn {
+    appearance: none;
+  }
+}
+
+%button,
+.btn {
+  display: inline-block;
+  padding: 0.5em 1.25em;
+  border: 0.125em solid colours.$black;
+  border-radius: 1.5em;
+  background-color: colours.$black;
+  color: colours.$white;
+  font-family: fonts.$font;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: normal;
+  cursor: pointer;
+  transition: none 300ms ease;
+  transition-property: background-color, color, border-color;
+
+  .knockout & {
+    background-color: colours.$white;
+    border-color: colours.$white;
+    color: currentcolor;
+    text-decoration: none;
+  }
+
+  &:hover {
+    color: colours.$white;
+    text-decoration: none;
+    background-color: rgba(colours.$black, 0.5);
+    border-color: rgba(colours.$black, 0.5);
+
+    .knockout & {
+      background-color: rgba(colours.$white, 0.5);
+      border-color: rgba(colours.$white, 0.5);
+      color: currentcolor;
+      text-decoration: none;
+    }
+  }
+
+  &.outline {
+    border-color: colours.$black;
+    background-color: transparent;
+    color: colours.$black;
+
+    &:hover,
+    &:focus {
+      background-color: colours.$black;
+      color: colours.$white;
+    }
+
+    .knockout & {
+      @media screen {
+        border-color: colours.$white;
+        color: colours.$white;
+
+        &:hover,
+        &:focus {
+          background-color: colours.$white;
+          color: colours.$black;
+        }
+      }
+    }
+  }
+
+  &.wide {
+    padding-right: 3em;
+    padding-left: 3em;
+  }
+
+  &.thin {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
+
+  &.full {
+    display: block;
+    width: 100%;
+    padding-right: 0.625em;
+    padding-left: 0.625em;
+    text-align: center;
+  }
+
+  &.small { font-size: 1em; }
+  &.smaller { font-size: 0.875em; }
+  &.big { font-size: 1.25em; }
+  &.bigger { font-size: 1.5em; }
+}
+
+.btn-wrap {
+  margin: 1.5em -0.25em -0.25em;
+
+  .btn {
+    margin: 0.25em;
+  }
+}

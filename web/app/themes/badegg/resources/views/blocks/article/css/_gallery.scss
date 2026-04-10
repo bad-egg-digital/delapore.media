@@ -1,0 +1,12 @@
+@use "sass:math";
+
+@use "../../../../css/global/variables/breakpoints";
+@use "../../../../css/global/variables/spacing";
+
+.wp-block-badegg-article {
+  .wp-block-gallery {
+    @for $i from 2 through 8 {
+      &.columns-#{$i} > * { width: calc(math.div(1, $i) * 100% - (spacing.$gap - math.div(spacing.$gap, $i))); }
+    }
+  }
+}

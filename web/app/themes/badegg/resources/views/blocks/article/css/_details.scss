@@ -1,0 +1,17 @@
+@use "../../../../css/global/variables/colours";
+@use "../../../../css/global/variables/fonts";
+
+.wp-block-details {
+  summary {
+    font-family: fonts.$font;
+    font-weight: bold;
+  }
+
+  @media screen {
+    .knockout & {
+      summary {
+        color: colours.$white;
+      }
+    }
+  }
+}

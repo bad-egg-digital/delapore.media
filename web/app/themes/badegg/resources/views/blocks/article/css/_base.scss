@@ -1,0 +1,78 @@
+@use "sass:math";
+
+@use "../../../../css/global/variables";
+
+.wp-block-badegg-article {
+  container-name: BadEggArticle;
+  container-type: inline-size;
+
+  .is-layout-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: variables.$gapLarge;
+  }
+
+  &.has-sidebar {
+    .article {
+      &-layout {
+        display: flex;
+        flex-wrap: wrap;
+        gap: variables.$gapLarge;
+      }
+
+      &-main {
+        flex: 0 0 100%;
+      }
+
+      @container BadEggArticle (max-width: #{variables.$screen-sm-max}) {
+        &-sidebar {
+          display: none;
+        }
+      }
+
+      @container BadEggArticle (min-width: #{variables.$screen-sm}) {
+        &-layout {
+          flex-wrap: nowrap;
+        }
+
+        &-main {
+          flex: 1 1 auto;
+          padding-right: variables.$gapLarge;
+          border: 0 solid variables.$grey-lightest;
+          border-width: 0 1px 0 0;
+        }
+
+        &-sidebar {
+          flex: 0 0 30%;
+          min-width: 15em;
+        }
+      }
+
+      @container BadEggArticle (min-width: #{variables.$screen-lg}) {
+        &-layout {
+          gap: (variables.$gapLarge * 1.5);
+        }
+
+        &-main {
+          padding-right: (variables.$gapLarge * 1.5);
+        }
+      }
+
+      @container BadEggArticle (min-width: #{variables.$screen-xl}) {
+        &-layout {
+          gap: (variables.$gapLarge * 2);
+        }
+
+        &-main {
+          padding-right: (variables.$gapLarge * 2);
+        }
+      }
+    }
+  }
+
+  .toc-anchor {
+    display: block;
+    position: relative;
+    visibility: hidden;
+  }
+}

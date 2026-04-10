@@ -1,0 +1,64 @@
+{
+  "container_width": {
+      "type": "string",
+      "default": ""
+  },
+  "alignment": {
+      "type": "string"
+  },
+  "padding_top": {
+      "type": "boolean",
+      "default": true
+  },
+  "padding_bottom": {
+      "type": "boolean",
+      "default": true
+  },
+  "background_colour": {
+      "type": "string",
+      "default": ""
+  },
+  "background_hex": {
+      "type": "string",
+      "default": ""
+  },
+  "background_tint": {
+      "type": "string",
+      "default": "0"
+  },
+  "background_image": {
+      "type": "integer",
+      "default": 0
+  },
+  "background_url": {
+    "type": "string",
+    "default": ""
+  },
+  "background_url_lazy": {
+    "type": "string",
+    "default": ""
+  },
+  "background_lazy": {
+    "type": "boolean",
+    "default": true
+  },
+  "background_opacity": {
+      "type": "integer",
+      "default": 30
+  },
+  "background_position": {
+      "type": "object",
+      "default": {
+        "x": 0.5,
+        "y": 0.5
+      }
+  },
+  "background_fixed": {
+      "type": "boolean",
+      "default": false
+  },
+  "background_contrast": {
+      "type": "boolean",
+      "default": false
+  }
+}

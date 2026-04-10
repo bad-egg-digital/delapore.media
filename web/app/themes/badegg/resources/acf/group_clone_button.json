@@ -1,0 +1,151 @@
+{
+    "key": "group_clone_button",
+    "title": "Clone: Button",
+    "fields": [
+        {
+            "key": "field_672d3d7b2c273",
+            "label": "Link",
+            "name": "link",
+            "aria-label": "",
+            "type": "link",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "allow_in_bindings": 1
+        },
+        {
+            "key": "field_673529a2a37a1",
+            "label": "Class",
+            "name": "class",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_672d3d7b2c273",
+                        "operator": "!=empty"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 1,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_672d3db22c274",
+            "label": "Colour",
+            "name": "colour",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_672d3d7b2c273",
+                        "operator": "!=empty"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "primary": "<i class=\"fas fa-circle\" style=\"color: #002448\"><\/i> Prussian Blue",
+                "secondary": "<i class=\"fas fa-circle\" style=\"color: #fc533e\"><\/i> Sunset Orange",
+                "tertiary": "<i class=\"fas fa-circle\" style=\"color: #fdd400\"><\/i> Gold",
+                "quaternary": "<i class=\"fas fa-circle\" style=\"color: #7d89d1\"><\/i> Moody Blue",
+                "quinary": "<i class=\"fas fa-circle\" style=\"color: #ffdab4\"><\/i> Frangipani",
+                "0": "<i class=\"fas fa-circle\" style=\"color: #FFFFFF\"><\/i> White",
+                "black": "<i class=\"fas fa-circle\" style=\"color: #000000\"><\/i> Black",
+                "quaternary-white": "<i class=\"fas fa-circle text-gradient text-gradient-quaternary-white\"><\/i> Moody Blue to White",
+                "quinary-white": "<i class=\"fas fa-circle text-gradient text-gradient-quinary-white\"><\/i> Frangipani to White",
+                "white-quaternary": "<i class=\"fas fa-circle text-gradient text-gradient-white-quaternary\"><\/i> White to Moody Blue",
+                "white-quinary": "<i class=\"fas fa-circle text-gradient text-gradient-white-quinary\"><\/i> White to Frangipani"
+            },
+            "default_value": "primary",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "allow_in_bindings": 1,
+            "ui": 1,
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        },
+        {
+            "key": "field_672d3dc52c275",
+            "label": "Style",
+            "name": "style",
+            "aria-label": "",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_672d3d7b2c273",
+                        "operator": "!=empty"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "0": "Solid",
+                "outline": "Outline"
+            },
+            "default_value": 0,
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "allow_in_bindings": 1,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "create_options": 0,
+            "save_options": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "widget",
+                "operator": "==",
+                "value": "rss"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1748001311
+}
