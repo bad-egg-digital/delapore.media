@@ -6,13 +6,15 @@
     @php(do_action('get_header'))
     @php(wp_head())
 
-    @vite(['resources/css/app.scss', 'resources/js/app.js'])
+    @viteReactRefresh
+    @vite(['resources/css/app.scss', 'resources/js/index.jsx'])
   </head>
 
   <body @php(body_class())>
     @php(wp_body_open())
 
     <div id="app">
+    {{--
       <a class="sr-only focus:not-sr-only" href="#main">
         {{ __('Skip to content', 'badegg') }}
       </a>
@@ -34,6 +36,7 @@
       </div>
 
       @include('partials.menu-off-canvas')
+    --}}
     </div>
 
     @php(do_action('get_footer'))

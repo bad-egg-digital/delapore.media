@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import laravel from 'laravel-vite-plugin'
+import react from '@vitejs/plugin-react'
 import { wordpressPlugin, wordpressThemeJson } from '@roots/vite-plugin';
 import fg from 'fast-glob';
 import path from 'path';
@@ -32,7 +33,7 @@ export default defineConfig({
     laravel({
       input: {
         'css/app': 'resources/css/app.scss',
-        'js/app': 'resources/js/app.js',
+        'js/index': 'resources/js/index.jsx',
         'css/editor': 'resources/css/editor.scss',
         'js/editor': 'resources/js/editor.js',
         ...editorStyle,
@@ -53,6 +54,8 @@ export default defineConfig({
       disableTailwindFonts: true,
       disableTailwindFontSizes: true,
     }),
+
+    react(),
   ],
   resolve: {
     alias: {
