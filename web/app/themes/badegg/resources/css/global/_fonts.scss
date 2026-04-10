@@ -19,8 +19,8 @@
   font-family: 'Ubuntu';
   font-style: normal;
   font-weight: 400;
-  src: url('../fonts/ubuntu-v20-latin-regular.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+ */
-       url('../fonts/ubuntu-v20-latin-regular.woff') format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  src: url('@fonts/ubuntu-v20-latin-regular.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+ */
+       url('@fonts/ubuntu-v20-latin-regular.woff') format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 /* ubuntu-italic - latin */
@@ -29,8 +29,8 @@
   font-family: 'Ubuntu';
   font-style: italic;
   font-weight: 400;
-  src: url('../fonts/ubuntu-v20-latin-italic.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+ */
-       url('../fonts/ubuntu-v20-latin-italic.woff') format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  src: url('@fonts/ubuntu-v20-latin-italic.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+ */
+       url('@fonts/ubuntu-v20-latin-italic.woff') format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 /* ubuntu-700 - latin */
@@ -39,8 +39,8 @@
   font-family: 'Ubuntu';
   font-style: normal;
   font-weight: 700;
-  src: url('../fonts/ubuntu-v20-latin-700.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+ */
-       url('../fonts/ubuntu-v20-latin-700.woff') format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  src: url('@fonts/ubuntu-v20-latin-700.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+ */
+       url('@fonts/ubuntu-v20-latin-700.woff') format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
 /* ubuntu-700italic - latin */
@@ -49,6 +49,6 @@
   font-family: 'Ubuntu';
   font-style: italic;
   font-weight: 700;
-  src: url('../fonts/ubuntu-v20-latin-700italic.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+ */
-       url('../fonts/ubuntu-v20-latin-700italic.woff') format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  src: url('@fonts/ubuntu-v20-latin-700italic.woff2') format('woff2'), /* Chrome 36+, Opera 23+, Firefox 39+ */
+       url('@fonts/ubuntu-v20-latin-700italic.woff') format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
