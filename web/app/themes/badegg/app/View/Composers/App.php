@@ -27,11 +27,16 @@ class App extends Composer
 
     public function with()
     {
-        return [
-            'Colour' => new Tools\Colour,
+        $context = [
             'VideoSrcset' => new Utilities\VideoSrcset,
             'ImageSrcset' => new Utilities\ImageSrcset,
             'siteName' => $this->siteName(),
         ];
+
+        if(class_exists('\BadEggCup\Tools\Colour')) {
+            $context['Colour'] = new Tools\Colour;
+        }
+
+        return $context;
     }
 }
