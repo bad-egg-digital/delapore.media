@@ -1,7 +1,4 @@
-// import.meta.glob([
-//   '../images/**',
-//   '../fonts/**',
-// ]);
+import './assets'
 
 // import Header from '../views/sections/header/header.js';
 // import LazyLoad from './lib/Lazy.js';
@@ -17,10 +14,11 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
 
 ReactDOM.createRoot(document.getElementById('app')).render(
-  <React.StrictMode>
+  <HelmetProvider>
     <App />
-  </React.StrictMode>
+  </HelmetProvider>
 )
