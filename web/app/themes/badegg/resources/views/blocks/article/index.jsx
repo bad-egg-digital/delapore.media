@@ -18,10 +18,10 @@ import {
 	ToggleControl,
 } from '@wordpress/components';
 
-import allowedBlocks from '../../../json/block-core-whitelist.json';
-import { containerClassNames, sectionClassNames } from '../../../js/blocks/lib/classNames';
-import BackgroundImage from '../../../js/blocks/components/BackgroundImage';
-import BlockSettings from '../../../js/blocks/components/BlockSettings';
+import allowedBlocks from '@json/block-core-whitelist.json';
+import { containerClassNames, sectionClassNames } from '@scripts/lib/classNames';
+import BackgroundImage from '@blocks/partials/BackgroundImage';
+import BlockSettings from '@blocks/partials/BlockSettings';
 
 registerBlockType(metadata.name, {
   edit({ attributes, setAttributes, clientId }) {
@@ -121,6 +121,7 @@ registerBlockType(metadata.name, {
         </div>
 
         <BackgroundImage { ...attributes } />
+
       </div>
     )
   }

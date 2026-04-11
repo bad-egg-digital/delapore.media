@@ -1,5 +1,10 @@
-@use "app";
+// Global Variables, Mixins, and Framework
 @use "global/variables";
+@forward "global/mixins";
+@forward "global/fonts";
+@forward "global/typography";
+@forward "global/framework";
+
 
 html :where(.wp-block) {
   max-width: none;

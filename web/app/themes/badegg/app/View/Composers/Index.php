@@ -25,6 +25,8 @@ class Index extends Composer
 
     public function with()
     {
+        if(is_404()) return;
+
         $postType = $this->get_archivePostType();
 
         $postTypeSlug = $postType->name;
@@ -39,6 +41,8 @@ class Index extends Composer
 
     public function get_archivePostType()
     {
+        if(is_404()) return;
+
         $structure = [
             'name' => '',
             'singular' => '',

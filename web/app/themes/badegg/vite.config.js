@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import laravel from 'laravel-vite-plugin'
+import react from '@vitejs/plugin-react'
 import { wordpressPlugin, wordpressThemeJson } from '@roots/vite-plugin';
 import fg from 'fast-glob';
 import path from 'path';
@@ -21,6 +22,7 @@ function blockAsset(file)
   return list;
 }
 
+// const editorScript = blockAsset('index.jsx');
 const editorStyle = blockAsset('editor.scss');
 const script = blockAsset('script.js');
 const viewScript = blockAsset('view.js');
@@ -32,9 +34,10 @@ export default defineConfig({
     laravel({
       input: {
         'css/app': 'resources/css/app.scss',
-        'js/app': 'resources/js/app.js',
+        'js/app': 'resources/js/app.jsx',
         'css/editor': 'resources/css/editor.scss',
         'js/editor': 'resources/js/editor.js',
+        // ...editorScript,
         ...editorStyle,
         ...viewScript,
         ...script,
@@ -53,6 +56,8 @@ export default defineConfig({
       disableTailwindFonts: true,
       disableTailwindFontSizes: true,
     }),
+
+    react(),
   ],
   resolve: {
     alias: {
@@ -60,6 +65,9 @@ export default defineConfig({
       '@styles': '/resources/css',
       '@fonts': '/resources/fonts',
       '@images': '/resources/images',
+      '@json': '/resources/json',
+      '@blocks': '/resources/views/blocks',
+      '@views': '/resources/views',
     },
   },
 })
