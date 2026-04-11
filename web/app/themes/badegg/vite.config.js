@@ -63,6 +63,7 @@ export default defineConfig({
       '@styles': '/resources/css',
       '@fonts': '/resources/fonts',
       '@images': '/resources/images',
+      '@blocks': '/resources/views/blocks',
     },
   },
 })
