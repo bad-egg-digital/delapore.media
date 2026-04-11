@@ -7,7 +7,7 @@
     @php(wp_head())
 
     @viteReactRefresh
-    @vite(['resources/css/app.scss', 'resources/js/index.jsx'])
+    @vite(['resources/css/app.scss', 'resources/js/app.jsx'])
   </head>
 
   <body @php(body_class())>

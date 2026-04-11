@@ -22,6 +22,7 @@ function blockAsset(file)
   return list;
 }
 
+// const editorScript = blockAsset('index.jsx');
 const editorStyle = blockAsset('editor.scss');
 const script = blockAsset('script.js');
 const viewScript = blockAsset('view.js');
@@ -33,9 +34,10 @@ export default defineConfig({
     laravel({
       input: {
         'css/app': 'resources/css/app.scss',
-        'js/index': 'resources/js/index.jsx',
+        'js/app': 'resources/js/app.jsx',
         'css/editor': 'resources/css/editor.scss',
         'js/editor': 'resources/js/editor.js',
+        // ...editorScript,
         ...editorStyle,
         ...viewScript,
         ...script,
@@ -63,7 +65,9 @@ export default defineConfig({
       '@styles': '/resources/css',
       '@fonts': '/resources/fonts',
       '@images': '/resources/images',
+      '@json': '/resources/json',
       '@blocks': '/resources/views/blocks',
+      '@views': '/resources/views',
     },
   },
 })

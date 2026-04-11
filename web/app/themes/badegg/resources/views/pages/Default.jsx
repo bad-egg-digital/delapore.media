@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
-export default function Page() {
+export default function DefaultPage() {
   const { slug } = useParams()
   const [page, setPage] = useState(null)
   const [loading, setLoading] = useState(true)

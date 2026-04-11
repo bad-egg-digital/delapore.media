@@ -3,7 +3,7 @@
 import metadata from './block.json';
 import { registerBlockType } from '@wordpress/blocks';
 import { useBlockProps } from '@wordpress/block-editor';
-import { containerClassNames, sectionClassNames } from '../../../js/blocks/lib/classNames';
+import { containerClassNames, sectionClassNames } from '@scripts/lib/classNames';
 
 registerBlockType(metadata.name, {
   edit({ attributes }) {

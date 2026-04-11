@@ -1,17 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import './assets'
+import ReactDOM from 'react-dom/client'
+import App from '@views/layouts/App'
 
-import Home from './views/Home'
-import Page from './views/Page'
-
-export default function App() {
-  return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/:slug" element={<Page />} />
-        </Routes>
-      </BrowserRouter>
-    </>
-  )
-}
+ReactDOM.createRoot(document.getElementById('app')).render(<App />)

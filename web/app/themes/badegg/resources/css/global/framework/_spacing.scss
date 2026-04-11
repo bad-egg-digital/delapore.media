@@ -3,13 +3,13 @@
 .brand {
   display: block;
   width: variables.$brandWidth;
-  height: variables.$brandHeight;
+  // height: variables.$brandHeight;
 
   svg,
   img {
     display: block;
     width: variables.$brandWidth;
-    height: variables.$brandHeight;
+    // height: variables.$brandHeight;
   }
 
   .knockout & {
