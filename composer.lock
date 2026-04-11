@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "04fc46e47494b6bd7ad10cccc65c1748",
+    "content-hash": "e4c369706d8948d4ba756b4333c34d52",
     "packages": [
         {
             "name": "bad-egg-packagist/bad-egg-cup",
@@ -1770,6 +1770,24 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/resizable-editor-sidebar/"
+        },
+        {
+            "name": "wpackagist-plugin/wp-graphql",
+            "version": "2.11.1",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wp-graphql/",
+                "reference": "tags/2.11.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wp-graphql.2.11.1.zip"
+            },
+            "require": {
+                "composer/installers": "^1.0 || ^2.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/wp-graphql/"
         }
     ],
     "packages-dev": [

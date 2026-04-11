@@ -67,7 +67,8 @@
     "wpackagist-plugin/resizable-editor-sidebar": "^1.3",
     "bad-egg-packagist/bad-egg-digital-login-page": "^1.0",
     "bad-egg-packagist/bad-egg-cup": "^1.0",
-    "bad-egg-packagist/hard-boiled-security": "^1.0"
+    "bad-egg-packagist/hard-boiled-security": "^1.0",
+    "wpackagist-plugin/wp-graphql": "^2.11"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
@@ -93,7 +94,8 @@
         "bad-egg-packagist/bad-egg-cup",
         "bad-egg-packagist/bad-egg-digital-login-page",
         "bad-egg-packagist/hard-boiled-security",
-        "wpengine/advanced-custom-fields-pro"
+        "wpengine/advanced-custom-fields-pro",
+        "wpackagist-plugin/wp-graphql"
       ],
       "web/app/plugins/{$name}/": ["type:wordpress-plugin"],
       "web/app/themes/{$name}/": ["type:wordpress-theme"]
