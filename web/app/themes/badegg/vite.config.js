@@ -34,7 +34,7 @@ export default defineConfig({
     laravel({
       input: {
         'css/app': 'resources/css/app.scss',
-        'js/app': 'resources/js/app.jsx',
+        'js/index': 'resources/js/index.jsx',
         'css/editor': 'resources/css/editor.scss',
         'js/editor': 'resources/js/editor.js',
         // ...editorScript,

@@ -7,37 +7,13 @@
     @php(wp_head())
 
     @viteReactRefresh
-    @vite(['resources/css/app.scss', 'resources/js/app.jsx'])
+    @vite(['resources/css/app.scss', 'resources/js/index.jsx'])
   </head>
 
   <body @php(body_class())>
     @php(wp_body_open())
 
-    <div id="app">
-    {{--
-      <a class="sr-only focus:not-sr-only" href="#main">
-        {{ __('Skip to content', 'badegg') }}
-      </a>
-
-      @include('sections.header.header')
-
-      <div class="wrapper">
-        <main id="main" class="main">
-          @yield('content')
-        </main>
-
-        @hasSection('sidebar')
-          <aside class="sidebar">
-            @yield('sidebar')
-          </aside>
-        @endif
-
-        @include('sections.footer.footer')
-      </div>
-
-      @include('partials.menu-off-canvas')
-    --}}
-    </div>
+    <div id="app"> </div>
 
     @php(do_action('get_footer'))
     @php(wp_footer())

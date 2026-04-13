@@ -5,8 +5,9 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function Header() {
-  const [companyName, setCompanyName] = useState('Company Name')
-  const [items, setItems] = useState([{ label: 'Home', path: '/' }])
+  const [ headerLoaded, setHeaderLoaded ] = useState(false)
+  const [ companyName, setCompanyName] = useState('Loading...')
+  const [ items, setItems] = useState([{ label: 'Home', path: '/' }])
 
   useEffect(() => {
     fetch( badEggAPI.graphql, {
@@ -32,6 +33,7 @@ export default function Header() {
       .then(res => {
         setItems(res.data.menuItems.nodes)
         setCompanyName(res.data.badEggCup.company.name)
+        setHeaderLoaded(true);
       })
   }, [])
 
@@ -46,8 +48,8 @@ export default function Header() {
           <nav>
             <ul className="nolist">
               {items.map((item, index) => (
-                <li>
-                  <Link key={ index } to={item.path}>{item.label}</Link>
+                <li key={ index }>
+                  <Link  to={item.path}>{item.label}</Link>
                 </li>
               ))}
             </ul>
