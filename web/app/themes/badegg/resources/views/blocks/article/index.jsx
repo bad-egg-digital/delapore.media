@@ -101,28 +101,7 @@ registerBlockType(metadata.name, {
       </section>
     );
   },
-  save({ attributes }) {
-    const blockProps = useBlockProps.save();
-    blockProps.className = sectionClassNames(attributes, blockProps.className).join(' ');
-
-    return (
-      <div { ...blockProps }>
-        <div className={ containerClassNames(attributes).join(' ') } >
-          <div className="article-layout">
-            <div className="article-main wysiwyg">
-              <InnerBlocks.Content />
-            </div>
-            { attributes.sidebar ? (
-              <div className="article-sidebar">
-                <div className="article-toc js-article-toc"></div>
-              </div>
-            ) : null }
-          </div>
-        </div>
-
-        <BackgroundImage { ...attributes } />
-
-      </div>
-    )
+  save() {
+    return  <InnerBlocks.Content />
   }
 });
