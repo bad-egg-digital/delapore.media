@@ -11,7 +11,9 @@ class GraphQL
     {
         if(class_exists('WPGraphQL')) {
             add_action( 'graphql_register_types', [$this, 'rootQuery']);
+            add_action( 'graphql_register_types', [$this, 'JSON']);
             add_action( 'graphql_register_types', [$this, 'archives']);
+            add_action( 'graphql_register_types', [$this, 'blocks']);
             add_action( 'graphql_register_types', [$this, 'badeggcup']);
         }
     }
@@ -21,6 +23,16 @@ class GraphQL
         register_graphql_field('RootQuery', $this->prefix, [
             'type' => $this->prefix,
             'resolve' => fn() => true,
+        ]);
+    }
+
+    public function JSON()
+    {
+        register_graphql_scalar('JSON', [
+            'description' => 'Arbitrary JSON value',
+            'serialize' => fn($value) => $value,
+            'parseValue' => fn($value) => $value,
+            'parseLiteral' => fn($ast) => null,
         ]);
     }
 
@@ -77,6 +89,58 @@ class GraphQL
         } else {
             return;
         }
+    }
+
+    public function blocks()
+    {
+        register_graphql_object_type('Block', [
+            'description' => 'Gutenberg block node',
+            'fields' => [
+                'name'          => [ 'type' => 'String' ],
+                'attributes'    => [ 'type' => 'JSON' ],
+                'innerBlocks'   => [ 'type' => ['list_of' => 'Block'] ],
+            ],
+        ]);
+
+        $postTypes = [
+            'page',
+            'post',
+        ];
+
+        $resolver = function ($post){
+            $content = $post->contentRaw ?? get_post_field('post_content', $post->databaseId);
+
+            if (!$content)  return [];
+
+            $parsed = parse_blocks($content);
+
+            return $this->blocksMap($parsed);
+        };
+
+        foreach($postTypes as $postType) {
+            register_graphql_field(ucfirst($postType), 'blocks', [
+                'type'    => ['list_of' => 'Block'],
+                'resolve' => $resolver,
+            ]);
+        }
+    }
+
+    public function blocksMap($blocks = []) {
+        $data = [];
+
+        if($blocks) {
+            foreach ($blocks as $block) {
+                $mapped = [
+                    'name'        => $block['blockName'] ?? null,
+                    'attributes'  => $block['attrs'] ?? [],
+                    'innerBlocks' => $this->blocksMap($block['innerBlocks']),
+                ];
+
+                $data[] = $mapped;
+            }
+        }
+
+        return $data;
     }
 
     public function badeggcup()
