@@ -2,6 +2,8 @@ import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
+import BlockSwitchboard from '@blocks/Switchboard'
+
 export default function DefaultPage({ isFrontPage }) {
   const { slug } = useParams()
   const [ page, setPage ] = useState(null)
@@ -19,14 +21,33 @@ export default function DefaultPage({ isFrontPage }) {
             id
             slug
             title
-            content
+            blocks {
+              name
+              attributes
+              innerBlocks {
+                attributes
+                name
+                innerBlocks {
+                  innerBlocks {
+                    innerBlocks {
+                      innerBlocks {
+                        innerBlocks {
+                          attributes
+                          name
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       ` }),
     })
       .then(res => res.json())
       .then(res => {
-        setPage(res.data?.page)
+        setPage(res?.data?.page)
         setLoading(false)
       })
   }, [slug])
@@ -46,7 +67,10 @@ export default function DefaultPage({ isFrontPage }) {
 
       <h1>{page.title}</h1>
 
-      <div dangerouslySetInnerHTML={{ __html: page.content }} />
+      { page?.blocks
+        ? page.blocks.map((block, index) => <BlockSwitchboard key={index} { ...block } />)
+        : null
+      }
     </>
 
   )

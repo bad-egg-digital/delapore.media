@@ -1,5 +1,3 @@
-import './_app.scss';
-
 import { Helmet } from 'react-helmet-async'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
