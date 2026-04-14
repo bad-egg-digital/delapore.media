@@ -66,8 +66,8 @@ export default defineConfig({
       '@fonts': '/resources/fonts',
       '@images': '/resources/images',
       '@json': '/resources/json',
-      '@blocks': '/resources/views/blocks',
       '@views': '/resources/views',
+      '@blocks': '/resources/views/blocks',
     },
   },
 })

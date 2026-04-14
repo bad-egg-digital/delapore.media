@@ -18,5 +18,6 @@
   "core/paragraph",
   "core/quote",
   "core/pullquote",
-  "core/verse"
+  "core/verse",
+  "core/post-featured-image"
 ]

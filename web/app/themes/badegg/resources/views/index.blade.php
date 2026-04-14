@@ -1,23 +1,21 @@
-@extends('layouts.app')
+<!doctype html>
+<html @php(language_attributes())>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @php(do_action('get_header'))
+    @php(wp_head())
 
-@section('content')
-  @include('partials.page-header')
+    @viteReactRefresh
+    @vite(['resources/css/app.scss', 'resources/js/index.jsx'])
+  </head>
 
-  @if (! have_posts())
-    <x-alert type="warning">
-      {!! __('Sorry, no results were found.', 'badegg') !!}
-    </x-alert>
+  <body @php(body_class())>
+    @php(wp_body_open())
 
-    {!! get_search_form(false) !!}
-  @endif
+    <div id="app"> </div>
 
-  @while(have_posts()) @php(the_post())
-    @includeFirst(['partials.content-' . get_post_type(), 'partials.content'])
-  @endwhile
-
-  {!! get_the_posts_navigation() !!}
-@endsection
-
-@section('sidebar')
-  @include('sections.sidebar')
-@endsection
+    @php(do_action('get_footer'))
+    @php(wp_footer())
+  </body>
+</html>
