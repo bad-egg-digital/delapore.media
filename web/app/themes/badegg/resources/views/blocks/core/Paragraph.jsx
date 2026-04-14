@@ -7,7 +7,6 @@ export default function Paragraph( attributes ) {
     content,
     dropCap,
     align,
-    style,
   } = attributes;
 
   let htmlAttributes = {
@@ -18,7 +17,6 @@ export default function Paragraph( attributes ) {
         'has-drop-cap': (dropCap && align !== 'right' && align !== 'center'),
       }
     ),
-    style: style,
   }
 
 	return (

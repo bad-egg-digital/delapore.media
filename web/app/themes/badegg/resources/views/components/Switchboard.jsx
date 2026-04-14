@@ -59,10 +59,10 @@ export default function Switchboard( props ) {
       return <Footnotes key={index} name={ name } { ...attributes } />
 
     case "core/heading":
-      return <Heading key={index} name={ name } {...attributes} />;
+      return <Heading key={index} name={ name } content={ content } { ...attributes } />;
 
     case "core/paragraph":
-      return <Paragraph key={index} name={ name } content={ content } {...attributes} />;
+      return <Paragraph key={index} name={ name } content={ content } { ...attributes } />;
 
     case 'core/verse':
       return <Verse key={index} name={ name } { ...attributes } />
