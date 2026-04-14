@@ -98,6 +98,7 @@ class GraphQL
             'fields' => [
                 'name'          => [ 'type' => 'String' ],
                 'attributes'    => [ 'type' => 'JSON' ],
+                'content'       => [ 'type' => 'string' ],
                 'innerBlocks'   => [ 'type' => ['list_of' => 'Block'] ],
             ],
         ]);
@@ -139,12 +140,24 @@ class GraphQL
                 $data[] =  [
                     'name'        => $block['blockName'] ?? null,
                     'attributes'  => $block['attrs'] ?? [],
+                    'content'     => $this->unwrapBlock($block['innerHTML']),
                     'innerBlocks' => $inner,
                 ];
             }
         }
 
         return $data;
+    }
+
+    public function unwrapBlock($html) {
+        $html = trim($html);
+
+        // Matches a single outer HTML tag wrapper
+        if (preg_match('#^<([a-z0-9]+)([^>]*)>(.*)</\1>$#is', $html, $m)) {
+            return $m[3];
+        }
+
+        return $html;
     }
 
     public function badeggcup()

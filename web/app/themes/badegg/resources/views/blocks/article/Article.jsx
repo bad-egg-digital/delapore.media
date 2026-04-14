@@ -1,7 +1,7 @@
 import './style.scss'
 import BlockSwitchboard from '@blocks/Switchboard'
 
-export default function Article({ name, attributes, innerBlocks }) {
+export default function Article({ name, innerBlocks }) {
 
   return (
     <>

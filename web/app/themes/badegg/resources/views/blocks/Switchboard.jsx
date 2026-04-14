@@ -24,7 +24,7 @@ import Example from '@blocks/example/Example';
 import Article from '@blocks/article/Article';
 
 export default function Switchboard( props ) {
-  const { index, name, attributes, innerBlocks } = props;
+  const { index, name, content, attributes, innerBlocks } = props;
 
   switch (name) {
 
@@ -59,10 +59,10 @@ export default function Switchboard( props ) {
       return <Footnotes key={index} name={ name } { ...attributes } />
 
     case "core/heading":
-      return <Heading name={ name } {...attributes} />;
+      return <Heading key={index} name={ name } {...attributes} />;
 
     case "core/paragraph":
-      return <Paragraph name={ name } {...attributes} />;
+      return <Paragraph key={index} content={ content } {...attributes} />;
 
     case 'core/verse':
       return <Verse key={index} name={ name } { ...attributes } />
