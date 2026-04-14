@@ -1,3 +1,5 @@
+import './Embed.scss'
+
 export default function Embed(attributes) {
   const { name } = attributes;
 

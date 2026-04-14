@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { useEffect, useState } from 'react'
 
-import BlockSwitchboard from '@blocks/Switchboard'
+import BlockSwitchboard from '@views/components/Switchboard'
 import Error from '@views/templates/Error'
 
 export default function Single({ postType = 'page' }) {
@@ -74,20 +74,16 @@ export default function Single({ postType = 'page' }) {
           <meta property="og:description" content="Dynamic page content" />
         </Helmet>
 
-        <>
 
-          <h1>{ post.title }</h1>
+        <h1>{ post.title }</h1>
 
-          { !post ?
-            `${ postType } not found ...`
-          : null }
-
-          { post?.blocks
-            ? post.blocks.map((block, index) => <BlockSwitchboard key={index} { ...block } />)
-            : null
-          }
-
-        </>
+        { post.blocks ? (
+          <div className="block-list">
+            { post.blocks.map((block, index) => <BlockSwitchboard key={index} { ...block } />) }
+          </div>
+        )
+          : null
+        }
       </>
 
     )

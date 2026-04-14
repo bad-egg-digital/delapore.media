@@ -1,3 +1,5 @@
+import './Gallery.scss'
+
 export default function Gallery(attributes) {
   const { name, innerBlocks } = attributes;
 

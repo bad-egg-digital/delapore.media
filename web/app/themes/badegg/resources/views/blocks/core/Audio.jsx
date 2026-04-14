@@ -1,3 +1,5 @@
+import './Embed.scss'
+
 export default function Audio(attributes) {
   const { name } = attributes;
 

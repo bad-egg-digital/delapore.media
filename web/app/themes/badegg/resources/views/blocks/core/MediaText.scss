@@ -1,0 +1,17 @@
+@use "@styles/global/variables";
+
+.core-media-text {
+  display: grid;
+  gap: variables.$innerLarge;
+
+  @container BadEggArticle (max-width: #{variables.$screen-xs-max}) {
+    &.is-stacked-on-mobile {
+      display: block;
+
+      .wp-block-media-text__media {
+        margin-bottom: variables.$innerLarge;
+      }
+    }
+  }
+}
+

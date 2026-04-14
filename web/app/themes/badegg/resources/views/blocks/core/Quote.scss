@@ -1,0 +1,87 @@
+@use "@styles/global/variables";
+
+.core-pullquote blockquote,
+.core-quote {
+  position: relative;
+  text-align: center;
+  font-size: 1.25em;
+  padding: 0;
+  padding: 1em 0;
+  margin: variables.$innerLarge auto;
+
+  * {
+    position: relative;
+    z-index: 3;
+  }
+
+  p {
+    font-family: variables.$blockquote;
+    font-style: italic;
+    margin: 0 0 0.25em;
+    color: variables.$primary;
+  }
+
+  cite {
+    font-size: 0.6em;
+    font-family: variables.$font;
+    font-style: normal;
+    color: variables.$grey;
+  }
+
+  &::before {
+    content: '\201C';
+    position: absolute;
+    z-index: 2;
+    top: -0.25em;
+    left: calc(50% - 0.5em);
+    display: block;
+    text-align: center;
+    font-size: 1.5em;
+    width: 1em;
+    color: variables.$secondary;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: auto calc(20% - 1em) 0;
+    border-width: 1px 0 0;
+    border-style: solid;
+  }
+
+  > *:first-child {
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: -0.75em;
+      display: block;
+      width: 30%;
+      border-width: 1px 0 0;
+      border-style: solid;
+    }
+
+    &::before {
+      right: calc(50% + 1em);
+    }
+
+    &::after {
+      left: calc(50% + 1em);
+    }
+  }
+
+  &::after,
+  > *:first-child::before,
+  > *:first-child::after {
+    border-color: variables.$grey-lighter;
+  }
+
+  &.is-style-plain {
+    &::before,
+    &::after,
+    > *:first-child::before,
+    > *:first-child::after {
+      content: none;
+    }
+  }
+}

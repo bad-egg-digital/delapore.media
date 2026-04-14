@@ -1,3 +1,5 @@
+import './Details.scss'
+
 export default function Details(attributes) {
   const { name } = attributes;
 

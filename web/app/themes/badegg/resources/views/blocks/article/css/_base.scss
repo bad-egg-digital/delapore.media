@@ -1,16 +1,9 @@
 @use "sass:math";
-
-@use "../../../../css/global/variables";
+@use "@styles/global/variables";
 
 .wp-block-badegg-article {
   container-name: BadEggArticle;
   container-type: inline-size;
-
-  .is-layout-flex {
-    display: flex;
-    flex-wrap: wrap;
-    gap: variables.$gapLarge;
-  }
 
   &.has-sidebar {
     .article {

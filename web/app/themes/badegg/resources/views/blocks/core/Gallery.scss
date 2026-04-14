@@ -1,0 +1,9 @@
+@use "sass:math";
+
+@use "@styles/global/variables";
+
+.core-gallery {
+  @for $i from 2 through 8 {
+    &.columns-#{$i} > * { width: calc(math.div(1, $i) * 100% - (variables.$gap - math.div(variables.$gap, $i))); }
+  }
+}

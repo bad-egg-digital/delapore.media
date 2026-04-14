@@ -1,3 +1,5 @@
+import './Image.scss'
+
 export default function Image(attributes) {
   const { name } = attributes;
 

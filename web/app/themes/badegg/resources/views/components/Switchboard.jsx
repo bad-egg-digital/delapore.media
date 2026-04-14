@@ -62,7 +62,7 @@ export default function Switchboard( props ) {
       return <Heading key={index} name={ name } {...attributes} />;
 
     case "core/paragraph":
-      return <Paragraph key={index} content={ content } {...attributes} />;
+      return <Paragraph key={index} name={ name } content={ content } {...attributes} />;
 
     case 'core/verse':
       return <Verse key={index} name={ name } { ...attributes } />

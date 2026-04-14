@@ -1,3 +1,5 @@
+import './Verse.scss'
+
 export default function Verse(attributes) {
   const { name } = attributes;
 

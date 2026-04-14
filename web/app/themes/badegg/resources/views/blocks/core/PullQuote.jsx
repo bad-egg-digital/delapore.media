@@ -1,3 +1,5 @@
+import './Quote.scss'
+
 export default function PullQuote(attributes) {
   const { name } = attributes;
 

@@ -1,3 +1,5 @@
+import './Embed.scss'
+
 export default function Video(attributes) {
   const { name } = attributes;
 

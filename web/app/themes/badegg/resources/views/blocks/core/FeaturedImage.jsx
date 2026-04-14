@@ -1,3 +1,5 @@
+import './FeaturedImage.scss'
+
 export default function FeaturedImage(attributes) {
   const { name } = attributes;
 

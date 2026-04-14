@@ -1,3 +1,5 @@
+import './MediaText.scss'
+
 export default function MediaText(attributes) {
   const { name, innerBlocks } = attributes;
 

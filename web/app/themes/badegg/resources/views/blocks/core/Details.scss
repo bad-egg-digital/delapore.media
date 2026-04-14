@@ -1,0 +1,8 @@
+@use "@styles/global/variables";
+
+.core-details {
+  summary {
+    font-family: variables.$font;
+    font-weight: bold;
+  }
+}
