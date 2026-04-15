@@ -99,6 +99,7 @@ class GraphQL
                 'name'          => [ 'type' => 'String' ],
                 'attributes'    => [ 'type' => 'JSON' ],
                 'content'       => [ 'type' => 'string' ],
+                'rawContent'    => [ 'type' => 'string' ],
                 'innerBlocks'   => [ 'type' => ['list_of' => 'Block'] ],
             ],
         ]);
@@ -141,6 +142,7 @@ class GraphQL
                     'name'        => $block['blockName'] ?? null,
                     'attributes'  => $block['attrs'] ?? [],
                     'content'     => $this->unwrapBlock($block['innerHTML']),
+                    'rawContent'  => trim($block['innerHTML']),
                     'innerBlocks' => $inner,
                 ];
             }
@@ -166,14 +168,14 @@ class GraphQL
 
         register_graphql_object_type( $this->prefix . 'Address', [
             'fields' => [
-                'line1' => [ 'type' => 'string' ],
-                'line2' => [ 'type' => 'string' ],
-                'line3' => [ 'type' => 'string' ],
-                'line4' => [ 'type' => 'string' ],
-                'city' => [ 'type' => 'string' ],
-                'county' => [ 'type' => 'string' ],
+                'line1'    => [ 'type' => 'string' ],
+                'line2'    => [ 'type' => 'string' ],
+                'line3'    => [ 'type' => 'string' ],
+                'line4'    => [ 'type' => 'string' ],
+                'city'     => [ 'type' => 'string' ],
+                'county'   => [ 'type' => 'string' ],
                 'postCode' => [ 'type' => 'string' ],
-                'country' => [ 'type' => 'string' ],
+                'country'  => [ 'type' => 'string' ],
             ],
         ]);
 
