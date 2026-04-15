@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { useEffect, useState } from 'react'
 
-import BlockSwitchboard from '@views/components/Switchboard'
+import BlockList from '@views/components/BlockList/BlockList'
 import Error from '@views/templates/Error'
 
 export default function Single({ postType = 'page' }) {
@@ -23,28 +23,34 @@ export default function Single({ postType = 'page' }) {
             blocks {
               name
               content
+              rawContent
               attributes
               innerBlocks {
-                attributes
                 name
                 content
+                rawContent
+                attributes
                 innerBlocks {
-                  attributes
                   name
                   content
+                  rawContent
+                  attributes
                   innerBlocks {
-                    attributes
                     name
                     content
+                    rawContent
+                    attributes
                     innerBlocks {
-                      attributes
                       name
                       content
+                      rawContent
+                      attributes
                       innerBlocks {
                         innerBlocks {
-                          attributes
                           name
                           content
+                          rawContent
+                          attributes
                         }
                       }
                     }
@@ -74,16 +80,10 @@ export default function Single({ postType = 'page' }) {
           <meta property="og:description" content="Dynamic page content" />
         </Helmet>
 
-
         <h1>{ post.title }</h1>
 
-        { post.blocks ? (
-          <div className="block-list">
-            { post.blocks.map((block, index) => <BlockSwitchboard key={index} { ...block } />) }
-          </div>
-        )
-          : null
-        }
+        <BlockList wrapper={ true } blocks={ post.blocks } />
+
       </>
 
     )

@@ -7,6 +7,18 @@ $success: #39b54a;
 $error: #be1e2d;
 $alert: #eed202;
 
+//== Wordpress
+$cyan-bluish-gray: #abb8c3;
+$pale-pink: #f78da7;
+$vivid-red: #cf2e2e;
+$luminous-vivid-orange: #ff6900;
+$luminous-vivid-amber: #fcb900;
+$light-green-cyan: #7bdcb5;
+$vivid-green-cyan: #00d084;
+$pale-cyan-blue: #8ed1fc;
+$vivid-cyan-blue: #0693e3;
+$vivid-purple: #9b51e0;
+
 //== Brand Colours
 $primary:     #ffc15d;
 $secondary:   #5f0000;
@@ -91,3 +103,28 @@ $colors: (
   "tertiary-lighter":  $tertiary-lighter,
   "tertiary-lightest": $tertiary-lightest,
 );
+
+$wpCoreColours: (
+  "black": $black,
+  "cyan-bluish-gray": $cyan-bluish-gray,
+  "white": $white,
+  "pale-pink": $pale-pink,
+  "vivid-red": $vivid-red,
+  "luminous-vivid-orange": $luminous-vivid-orange,
+  "luminous-vivid-amber": $luminous-vivid-amber,
+  "light-green-cyan": $light-green-cyan,
+  "pale-cyan-blue": $pale-cyan-blue,
+  "vivid-cyan-blue": $vivid-cyan-blue,
+  "vivid-purple": $vivid-purple,
+);
+
+$cyan-bluish-gray: #abb8c3;
+$pale-pink: #f78da7;
+$vivid-red: #cf2e2e;
+$luminous-vivid-orange: #ff6900;
+$luminous-vivid-amber: #fcb900;
+$light-green-cyan: #7bdcb5;
+$vivid-green-cyan: #00d084;
+$pale-cyan-blue: #8ed1fc;
+$vivid-cyan-blue: #0693e3;
+$vivid-purple: #9b51e0;

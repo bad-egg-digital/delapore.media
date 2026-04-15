@@ -32,3 +32,9 @@
   @include mixins.generate_button_colors($color, $hex);
 }
 
+
+@each $color, $hex in variables.$wpCoreColours {
+  .has-#{$color}-color {
+    color: $hex;
+  }
+}
