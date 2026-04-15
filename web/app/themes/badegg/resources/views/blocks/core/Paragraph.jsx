@@ -1,25 +1,12 @@
-import clsx from 'clsx';
-import parseHtml from "@scripts/lib/parser";
+import parse from "html-react-parser"
+import parseHtml from "@scripts/lib/parser"
 
-export default function Paragraph( attributes ) {
-  const {
-    name,
-    content,
-    dropCap,
-    align,
-  } = attributes;
+export default function Paragraph({ content,rawContent, attributes }) {
 
-  let htmlAttributes = {
-    className: clsx(
-      align && `align-${ align }`,
-      name && name.replace('/', '-'),
-      {
-        'has-drop-cap': (dropCap && align !== 'right' && align !== 'center'),
-      }
-    ),
-  }
+  const Content = parse(rawContent)
+  const contentProps = Content.props
 
 	return (
-    <p { ...htmlAttributes }>{ parseHtml(content) }</p>
+    <p { ...contentProps }>{ parseHtml(content) }</p>
 	)
 }
