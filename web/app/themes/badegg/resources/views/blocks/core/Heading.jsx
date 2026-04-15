@@ -1,24 +1,25 @@
-import clsx from 'clsx';
-import parseHtml from "@scripts/lib/parser";
+import parse from "html-react-parser"
+import clsx from 'clsx'
+import parseHtml from "@scripts/lib/parser"
 
-export default function Heading( attributes ) {
-  const {
-    name,
-    level,
-    content,
-    textAlign,
-  } = attributes;
+export default function Heading({ content, rawContent, attributes }) {
 
-  let htmlAttributes = {
-    className: clsx(
+  const { level, textAlign } = attributes
+
+  const Content = parse(rawContent)
+  let contentProps = Content.props
+
+  contentProps = {
+    ...contentProps,
+      className: clsx(
+      contentProps.className,
       textAlign && `align-${ textAlign }`,
-      name && name.replace('/', '-'),
-    ),
+    )
   }
 
   const H = `h${ level || 2 }`
 
   return (
-    <H { ...htmlAttributes }>{ parseHtml(content) }</H>
+    <H { ...contentProps }>{ parseHtml(content) }</H>
   )
 }
