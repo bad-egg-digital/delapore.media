@@ -82,6 +82,11 @@ class RestAPI
                 'permission_callback' => '__return_true',
             ]);
 
+            register_rest_route('wp/v2', "/{$postType}/(?P<id>\d+)/blocks/(?P<index>\d+)", [
+                'methods'  => 'GET',
+                'callback' => [$this, 'getPostBlockData'],
+                'permission_callback' => '__return_true',
+            ]);
         }
     }
 
@@ -90,16 +95,25 @@ class RestAPI
         $postID = $request['id'];
         $post = get_post($postID);
 
+        $data = [];
+
         if($post && $post->post_content) {
             $Blocks = new Blocks;
             $content = $post->post_content;
-            $blocksMap = $Blocks->blocksMap(parse_blocks($content));
-
-            return rest_ensure_response($blocksMap);
-
-        } else {
-            return rest_ensure_response([]);
+            $data = $Blocks->blocksMap(parse_blocks($content));
         }
+
+        if(isset($request['index'])) {
+            $index = $request['index'];
+
+            if($index < count($data)) {
+                $data = $data[$index];
+            } else {
+                $data = [];
+            }
+        }
+
+        return rest_ensure_response($data);
     }
 
     public function blockConfig( )
