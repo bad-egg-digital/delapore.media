@@ -1,5 +1,5 @@
 import './style.scss'
-import BlockList from '@views/components/BlockList/BlockList'
+import Switchboard from '@views/components/Switchboard/Switchboard'
 
 export default function Article({ name, attributes, innerBlocks }) {
 
@@ -8,7 +8,11 @@ export default function Article({ name, attributes, innerBlocks }) {
       <div className="container">
         <h2>{ name }</h2>
 
-        <BlockList blocks={ innerBlocks } />
+      { Array.isArray(innerBlocks) && innerBlocks.length > 0 &&
+        innerBlocks.map((block, index) => (
+          <Switchboard key={ index } index={ index } {...block} />
+        )
+      )}
       </div>
     </section>
   )

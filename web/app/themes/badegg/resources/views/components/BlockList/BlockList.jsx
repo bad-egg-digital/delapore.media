@@ -1,22 +1,37 @@
 import './BlockList.scss'
+import { useEffect, useState } from 'react'
 import Switchboard from '@views/components/Switchboard/Switchboard'
 
-export default function BlockList({ blocks, wrapper = false }) {
-  const Wrapper = (props) => {
-    if(wrapper) {
-      return <div className="badegg-block-list">{ props.children }</div>
-    } else {
-      return <>{ props.children }</>
-    }
-  }
+export default function BlockList({ id, postType }) {
+  const [ blocks, setBlocks ] = useState([])
+  const [ isLoaded, setIsLoaded ] = useState(false)
 
-  if(blocks) {
+  const type = (['page', 'post'].includes(postType)) ? postType + 's' : postType
+  const endpoint = `/wp-json/wp/v2/${type}/${id}/blocks`
+
+  useEffect( () => {
+    fetch( endpoint )
+      .then( res => {
+        if(!res.ok) throw new Error('Network error')
+        return res.json()
+      })
+      .then( data => {
+        setBlocks( Array.isArray(data) ? data : [] );
+        setIsLoaded( true );
+      } )
+      .catch(() => {
+        setBlocks([]);
+        setIsLoaded( true );
+      } );
+  }, [ endpoint, type ] )
+
+  if(Array.isArray(blocks) && blocks.length > 0) {
     return (
-      <Wrapper>
+       <div className="badegg-block-list">
         { blocks.map((block, index) => (
           <Switchboard  key={ index } index={ index } { ...block } />
         )) }
-      </Wrapper>
+      </div>
     )
   }
 }

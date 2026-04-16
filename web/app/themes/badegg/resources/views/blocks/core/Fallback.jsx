@@ -1,4 +1,5 @@
 import parse from "html-react-parser"
+import parseHtml from "@scripts/lib/parser"
 
 export default function Fallback( props ) {
   const {
@@ -7,22 +8,9 @@ export default function Fallback( props ) {
     innerBlocks,
   } = props
 
+  const Content = (rawContent) ? parse(rawContent.trim()) : null
 
-  const Content = parse(rawContent)
-  let contentProps = Content.props
-
-  const Tag = Content.type
-
-  const Wrapper = ( wrapperProps ) => {
-    if(innerBlocks) {
-      <Tag { ...contentProps }>
-        { parseHtml(content) }
-        { wrapperProps.children }
-      </Tag>
-    } else {
-      <>{ wrapperProps.children }</>
-    }
+  if(Content) {
+    return <>{ parseHtml(rawContent) }</>
   }
-
-  return <>{ parse(rawContent.trim()) }</>
 }

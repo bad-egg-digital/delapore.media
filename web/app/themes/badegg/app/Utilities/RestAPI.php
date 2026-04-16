@@ -8,9 +8,39 @@ class RestAPI
 {
     public function __construct()
     {
+        add_action( 'wp_enqueue_scripts', [$this, 'localize']);
         add_filter( 'wp_prepare_attachment_for_js', [$this, 'image_sizes'], 10, 3 );
         add_action( 'rest_api_init', [$this, 'blockConfig']);
         add_action( 'rest_api_init', [$this, 'postBlockData']);
+    }
+
+    public function localize()
+    {
+        $siteURL = site_url();
+        $homeURL = get_home_url();
+
+        $graphqlSettings = get_option('graphql_general_settings');
+
+        $graphqlEndpoint = ($graphqlSettings) ? $graphqlSettings['graphql_endpoint'] : '/graphql';
+
+        $graphqlEndpointPrefix = ltrim(str_replace($homeURL, '', $siteURL), '/');
+
+        if($graphqlEndpointPrefix) $graphqlEndpoint = $graphqlEndpointPrefix . '/' . $graphqlEndpoint;
+
+        $data = [
+            'siteURL' => $siteURL,
+            'homeURL' => $homeURL,
+            'graphql' => '/' . $graphqlEndpoint,
+            'rest'      => str_replace($homeURL, '', get_rest_url()),
+        ];
+
+        ?>
+
+<script>
+    const badEggAPI = <?= json_encode($data) ?>;
+</script>
+
+        <?php
     }
 
     public function image_sizes( $response, $attachment, $meta )

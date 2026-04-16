@@ -20,56 +20,7 @@ export default function Single({ postType = 'page' }) {
             id
             slug
             title
-            blocks {
-              name
-              content
-              rawContent
-              attributes
-              innerBlocks {
-                name
-                content
-                rawContent
-                attributes
-                innerBlocks {
-                  name
-                  content
-                  rawContent
-                  attributes
-                  innerBlocks {
-                    name
-                    content
-                    rawContent
-                    attributes
-                    innerBlocks {
-                      name
-                      content
-                      rawContent
-                      attributes
-                      innerBlocks {
-                        innerBlocks {
-                          name
-                          content
-                          rawContent
-                          attributes
-                          innerBlocks {
-                            name
-                            content
-                            rawContent
-                            attributes
-                            innerBlocks {
-                              name
-                              content
-                              rawContent
-                              attributes
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            databaseId
           }
         }
       ` }),
@@ -94,7 +45,7 @@ export default function Single({ postType = 'page' }) {
 
         <h1>{ post.title }</h1>
 
-        <BlockList wrapper={ true } blocks={ post.blocks } />
+        <BlockList id={ post.databaseId } postType={ postType } />
 
       </>
 

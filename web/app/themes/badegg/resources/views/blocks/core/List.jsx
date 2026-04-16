@@ -1,16 +1,17 @@
 import parse from "html-react-parser"
-import ListItem from '@blocks/core/ListItem'
+import Switchboard from '@views/components/Switchboard/Switchboard'
+import { useMemo } from "react"
 
 export default function List({ rawContent, innerBlocks }) {
-  const Content = (rawContent) ? parse(rawContent) : null
+  const Content = useMemo(() => (rawContent ? parse(rawContent) : null), [rawContent])
   const contentProps = (Content) ? Content.props : {}
   const TagName = (Content) ? Content.type : 'ul'
 
-  if(innerBlocks) {
+  if(Array.isArray(innerBlocks) && innerBlocks.length > 0) {
     return (
       <TagName { ...contentProps }>
         { innerBlocks
-          .map((block, index) => <ListItem index={ index} { ...block } />
+          .map((block, index) => <Switchboard key={index} index={index} {...block} />
         )}
       </TagName>
     )
