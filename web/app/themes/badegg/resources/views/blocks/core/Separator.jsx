@@ -1,7 +1,17 @@
-export default function Separator(attributes) {
-  const { name } = attributes;
+import './Separator.scss'
+import clsx from 'clsx'
+
+export default function Separator({ attributes }) {
+
+  attributes = {
+    ...attributes,
+    className: clsx(
+      'wp-block-separator',
+      attributes.className,
+    )
+  }
 
   return (
-    <h3>{ name }</h3>
+    <hr { ...attributes } />
   )
 }
