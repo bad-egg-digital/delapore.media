@@ -132,16 +132,21 @@ class GraphQL
 
         if($blocks) {
             foreach ($blocks as $block) {
+                $name = $block['blockName'];
+
+                if(!$name) continue;
+
                 $inner = [];
+
 
                 if (!empty($block['innerBlocks']) && is_array($block['innerBlocks'])) {
                     $inner = $this->blocksMap($block['innerBlocks']);
                 }
 
                 $data[] =  [
-                    'name'        => $block['blockName'] ?? null,
+                    'name'        => $name,
                     'attributes'  => $block['attrs'] ?? [],
-                    'content'     => $this->unwrapBlock($block['innerHTML']),
+                    'content'     => trim($this->unwrapBlock($block['innerHTML'])),
                     'rawContent'  => trim($block['innerHTML']),
                     'innerBlocks' => $inner,
                 ];

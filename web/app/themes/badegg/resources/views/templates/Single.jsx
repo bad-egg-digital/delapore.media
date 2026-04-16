@@ -51,6 +51,18 @@ export default function Single({ postType = 'page' }) {
                           content
                           rawContent
                           attributes
+                          innerBlocks {
+                            name
+                            content
+                            rawContent
+                            attributes
+                            innerBlocks {
+                              name
+                              content
+                              rawContent
+                              attributes
+                            }
+                          }
                         }
                       }
                     }
