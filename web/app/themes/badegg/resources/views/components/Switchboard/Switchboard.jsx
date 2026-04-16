@@ -13,7 +13,7 @@ import Heading        from '@blocks/core/Heading'
 import List           from '@blocks/core/List'
 import Details        from '@blocks/core/Details'
 import ListItem       from '@blocks/core/ListItem'
-import Missing        from '@blocks/core/Missing'
+import Unsupported    from '@blocks/core/Unsupported'
 import Paragraph      from '@blocks/core/Paragraph'
 import Quote          from '@blocks/core/Quote'
 import PullQuote      from '@blocks/core/PullQuote'
@@ -61,8 +61,7 @@ export default function Switchboard( props ) {
       if(whitelist.includes(name)) {
         return <Fallback      { ...props } />
       } else {
-        return <Missing       { ...props } />
+        return <Unsupported   { ...props } />
       }
-
   }
 }
