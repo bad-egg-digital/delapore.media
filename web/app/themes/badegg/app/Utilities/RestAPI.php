@@ -9,7 +9,8 @@ class RestAPI
     public function __construct()
     {
         add_filter( 'wp_prepare_attachment_for_js', [$this, 'image_sizes'], 10, 3 );
-        add_action( 'rest_api_init', [$this, 'blocks']);
+        add_action( 'rest_api_init', [$this, 'blockConfig']);
+        add_action( 'rest_api_init', [$this, 'postBlockData']);
     }
 
     public function image_sizes( $response, $attachment, $meta )
@@ -37,7 +38,41 @@ class RestAPI
         return $response;
     }
 
-    public function blocks( )
+    public function postBlockData()
+    {
+        $postTypes = [
+            'pages',
+            'posts',
+        ];
+
+        foreach($postTypes as $postType) {
+            register_rest_route('wp/v2', "/{$postType}/(?P<id>\d+)/blocks", [
+                'methods'  => 'GET',
+                'callback' => [$this, 'getPostBlockData'],
+                'permission_callback' => '__return_true',
+            ]);
+
+        }
+    }
+
+    public function getPostBlockData($request)
+    {
+        $postID = $request['id'];
+        $post = get_post($postID);
+
+        if($post && $post->post_content) {
+            $Blocks = new Blocks;
+            $content = $post->post_content;
+            $blocksMap = $Blocks->blocksMap(parse_blocks($content));
+
+            return rest_ensure_response($blocksMap);
+
+        } else {
+            return rest_ensure_response([]);
+        }
+    }
+
+    public function blockConfig( )
     {
         $restBase = 'badegg/v1';
 

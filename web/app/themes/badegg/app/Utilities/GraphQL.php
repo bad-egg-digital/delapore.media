@@ -1,6 +1,6 @@
 <?php
 
-namespace App\FrontEnd;
+namespace App\Utilities;
 use BadEggCup\Tools;
 
 class GraphQL
@@ -110,13 +110,14 @@ class GraphQL
         ];
 
         $resolver = function ($post){
+            $Blocks = new Blocks;
             $content = $post->contentRaw ?? get_post_field('post_content', $post->databaseId);
 
             if (!$content)  return [];
 
             $parsed = parse_blocks($content);
 
-            return $this->blocksMap($parsed);
+            return $Blocks->blocksMap($parsed);
         };
 
         foreach($postTypes as $postType) {
@@ -125,46 +126,6 @@ class GraphQL
                 'resolve' => $resolver,
             ]);
         }
-    }
-
-    public function blocksMap($blocks = []) {
-        $data = [];
-
-        if($blocks) {
-            foreach ($blocks as $block) {
-                $name = $block['blockName'];
-
-                if(!$name) continue;
-
-                $inner = [];
-
-
-                if (!empty($block['innerBlocks']) && is_array($block['innerBlocks'])) {
-                    $inner = $this->blocksMap($block['innerBlocks']);
-                }
-
-                $data[] =  [
-                    'name'        => $name,
-                    'attributes'  => $block['attrs'] ?? [],
-                    'content'     => trim($this->unwrapBlock($block['innerHTML'])),
-                    'rawContent'  => trim($block['innerHTML']),
-                    'innerBlocks' => $inner,
-                ];
-            }
-        }
-
-        return $data;
-    }
-
-    public function unwrapBlock($html) {
-        $html = trim($html);
-
-        // Matches a single outer HTML tag wrapper
-        if (preg_match('#^<([a-z0-9]+)([^>]*)>(.*)</\1>$#is', $html, $m)) {
-            return $m[3];
-        }
-
-        return $html;
     }
 
     public function badeggcup()
