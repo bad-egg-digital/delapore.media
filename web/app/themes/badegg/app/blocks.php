@@ -25,6 +25,11 @@ add_action( 'admin_init', __NAMESPACE__ . '\\admin_block_cleanup' );
 add_filter( 'block_type_metadata', __NAMESPACE__ . '\\unset_core_supports' );
 
 /**
+ * Restrict Embed Variations
+ */
+add_filter( 'allowed_block_embeds', __NAMESPACE__ . '\\core_embed_variations' );
+
+/**
  * Custom blocks
  */
 add_filter( 'block_categories_all' , __NAMESPACE__ . '\\add_categories' );
@@ -81,6 +86,15 @@ function unset_core_supports($metadata){
     return $metadata;
 }
 
+function core_embed_variations($providers){
+    $whitelist = [
+        'youtube',
+        'vimeo',
+    ];
+
+    return $whitelist;
+}
+
 
 function allowed_list($allowed){
     return array_merge($allowed, [
@@ -133,6 +147,7 @@ function auto_register() {
             );
         }
 
+        /*
         // script
         if(file_exists(get_theme_file_path($script))) {
             wp_register_script(
@@ -164,6 +179,7 @@ function auto_register() {
                 true
             );
         }
+        */
 
         $props = [
             'editor_style'      => "{$slug}-editor-style",
