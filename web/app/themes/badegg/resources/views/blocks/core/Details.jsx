@@ -1,9 +1,15 @@
 import './Details.scss'
+import parse from "html-react-parser"
+import Switchboard from '@views/components/Switchboard/Switchboard'
 
-export default function Details(attributes) {
-  const { name } = attributes;
+export default function Details({ index, name, content, rawContent, innerBlocks, attributes }) {
+  const Content = parse(rawContent)
+  let contentProps = Content.props
 
   return (
-    <h3>{ name }</h3>
+    <details { ...contentProps  }>
+      { content && parse(content) }
+      { innerBlocks.map((block, index) => <Switchboard key={index} index={index} {...block} /> )}
+    </details>
   )
 }
