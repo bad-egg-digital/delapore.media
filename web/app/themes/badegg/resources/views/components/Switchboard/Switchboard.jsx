@@ -45,7 +45,7 @@ export default function Switchboard( props ) {
     // case "core/heading":              return <Heading       { ...props } />
     // case "core/paragraph":            return <Paragraph     { ...props } />
     // case 'core/verse':                return <Verse         { ...props } />
-    // case 'core/post-featured-image':  return <FeaturedImage { ...props } />
+    case 'core/post-featured-image':  return <FeaturedImage { ...props } />
 
     // Core blocks with innerBlocks
     case 'core/list':                 return <List          { ...props } />

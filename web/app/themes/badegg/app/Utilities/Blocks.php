@@ -11,7 +11,7 @@ class Blocks
 
     }
 
-    public function blocksMap($blocks = []) {
+    public function blocksMap($blocks = [], $postID = null) {
         $data = [];
 
         if($blocks && is_array($blocks)) {
@@ -24,16 +24,45 @@ class Blocks
 
 
                 if (!empty($block['innerBlocks']) && is_array($block['innerBlocks'])) {
-                    $inner = $this->blocksMap($block['innerBlocks']);
+                    $inner = $this->blocksMap($block['innerBlocks'], $postID);
                 }
 
-                $data[] =  [
+                $props = [
                     'name'        => $name,
                     'attributes'  => $block['attrs'] ?? [],
                     'content'     => trim($this->unwrapBlock($block['innerHTML'])),
                     'rawContent'  => trim($block['innerHTML']),
                     'innerBlocks' => $inner,
                 ];
+
+                if($name == 'core/post-featured-image') {
+                    $feat = get_post_thumbnail_id($postID);
+
+                    if($feat) {
+                        $metadata = wp_get_attachment_metadata($feat);
+                        $size = @$block['attrs']['sizeSlug'];
+
+                        $img = wp_get_attachment_image_src($feat, $size);
+
+                        $imgAttributes =  [
+                            'alt'           => get_post_meta( $feat, '_wp_attachment_image_alt', true ),
+                            'title'         => get_post_field( 'post_title',   $feat ),
+                            'class'         => 'wp-image-' . $feat,
+                            'src'           => $img[0],
+                            'width'         => $img[1],
+                            'height'        => $img[2],
+                        ];
+
+                        $props['attributes']['thumbnail'] = [
+                            'attributes'    => $imgAttributes,
+                            'caption'       => get_post_field( 'post_excerpt', $feat ),
+                            'description'   => get_post_field( 'post_content', $feat ),
+                            'sizes'         => $metadata['sizes'],
+                        ];
+                    }
+                }
+
+                $data[] =  $props;
             }
         }
 

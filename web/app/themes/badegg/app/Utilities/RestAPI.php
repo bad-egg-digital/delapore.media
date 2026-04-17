@@ -100,7 +100,7 @@ class RestAPI
         if($post && $post->post_content) {
             $Blocks = new Blocks;
             $content = $post->post_content;
-            $data = $Blocks->blocksMap(parse_blocks($content));
+            $data = $Blocks->blocksMap(parse_blocks($content), $postID);
         }
 
         if(isset($request['index'])) {
