@@ -47,7 +47,7 @@ class Blocks
                         $imgAttributes =  [
                             'alt'           => get_post_meta( $feat, '_wp_attachment_image_alt', true ),
                             'title'         => get_post_field( 'post_title',   $feat ),
-                            'class'         => 'wp-image-' . $feat,
+                            'className'     => 'wp-image-' . $feat,
                             'src'           => $img[0],
                             'width'         => $img[1],
                             'height'        => $img[2],

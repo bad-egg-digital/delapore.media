@@ -4,7 +4,7 @@ export default function FeaturedImage({ attributes }) {
   const { thumbnail } = attributes
 
   return (
-    <figure class={ `wp-block-image wp-block-post-featured-image ${ attributes?.sizeSlug && 'size-' + attributes.sizeSlug }` }>
+    <figure className={ `wp-block-image wp-block-post-featured-image ${ attributes?.sizeSlug && 'size-' + attributes.sizeSlug }` }>
       <img { ...thumbnail.attributes  } />
     </figure>
   )
