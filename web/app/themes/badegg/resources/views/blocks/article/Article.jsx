@@ -4,7 +4,7 @@ import Switchboard from '@views/components/Switchboard/Switchboard'
 export default function Article({ name, attributes, innerBlocks }) {
 
   return (
-    <section className="block-badegg-article">
+    <section className="wp-block-badegg-article">
       <div className="container">
         <h2>{ name }</h2>
 
