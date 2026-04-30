@@ -1,9 +1,33 @@
-import './Quote.scss'
+import './Quote'
+import parse, { attributesToProps } from "html-react-parser"
+import Switchboard from '@views/components/Switchboard/Switchboard'
 
-export default function PullQuote(attributes) {
-  const { name } = attributes;
+export default function PullQuote( props ) {
+  const { rawContent, innerBlocks, attributes } = props;
 
-  return (
-    <h3>{ name }</h3>
+  const Inner = () => (
+    <>
+      { innerBlocks.map((block, index) => <Switchboard key={index} index={index} {...block} /> )}
+    </>
   )
+
+  const options = {
+    replace: (domNode) => {
+      if (
+        domNode.type === "tag" &&
+        domNode.name === "blockquote" &&
+        domNode.attribs?.class?.includes("wp-block-pullquote")
+      ) {
+        const componentProps = attributesToProps(domNode.attribs)
+
+        return (
+          <blockquote { ...componentProps }>
+            <Inner />
+          </blockquote>
+        )
+      }
+    },
+  }
+
+  return parse( rawContent, options )
 }
