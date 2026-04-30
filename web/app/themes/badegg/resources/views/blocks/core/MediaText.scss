@@ -4,7 +4,7 @@
 .wp-block-media-text {
   display: grid;
   grid-template-columns: 50% auto;
-  gap: variables.$innerLarge;
+  gap: variables.$innerSmall;
   align-items: center;
 
   &__content {
@@ -39,6 +39,14 @@
         }
       }
     }
+  }
+
+  @container wpBlockList (min-width: #{variables.$screen-md}) {
+    gap: variables.$innerMedium;
+  }
+
+  @container wpBlockList (min-width: #{variables.$screen-lg}) {
+    gap: variables.$innerLarge;
   }
 }
 
