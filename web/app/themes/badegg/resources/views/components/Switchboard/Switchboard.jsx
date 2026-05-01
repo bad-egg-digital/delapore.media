@@ -19,6 +19,8 @@ import Quote          from '@blocks/core/Quote'
 import PullQuote      from '@blocks/core/PullQuote'
 import Verse          from '@blocks/core/Verse'
 import FeaturedImage  from '@blocks/core/FeaturedImage'
+import Columns        from '@blocks/core/Columns'
+import Column         from '@blocks/core/Column'
 import Fallback       from '@blocks/core/Fallback'
 
 // Theme-specific blocks
@@ -55,6 +57,8 @@ export default function Switchboard( props ) {
     case 'core/details':              return <Details       { ...props } />
     case 'core/quote':                return <Quote         { ...props } />
     case 'core/pullquote':            return <PullQuote     { ...props } />
+    case 'core/columns':              return <Columns       { ...props } />
+    case 'core/column':               return <Column        { ...props } />
 
     // Fallback
     default:

@@ -14,12 +14,18 @@ domReady(() => {
   }
 
   const coreInnerBlocks = (settings, name) => {
-    if (['core/media-text', 'core/details', 'core/quote'].includes(name)) {
+    if (['core/media-text', 'core/details', 'core/quote', 'core/column'].includes(name)) {
 
       settings.allowedBlocks = [
         'core/paragraph',
         'core/heading',
         'core/list',
+        'core/image',
+        'core/spacer',
+        'core/separator',
+        'core/quote',
+        'core/pullquote',
+        'core/verse',
       ];
     }
 
