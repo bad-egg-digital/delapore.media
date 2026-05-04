@@ -1,0 +1,43 @@
+@use "@styles/global/variables";
+
+.core-image {
+  &.is-style-rounded {
+    img {
+      border-radius: 9999px;
+    }
+  }
+
+  &.is-image-fill-element,
+  &.is-cropped {
+    figure {
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+
+      img {
+        flex: 1 0 0%;
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+        aspect-ratio: 1;
+      }
+    }
+  }
+
+  @container BadEggArticle (min-width: #{variables.$screen-sm}) {
+    .alignleft,
+    .alignright {
+      margin-bottom: variables.$innerSmall;
+    }
+
+    .alignleft {
+      float: left;
+      margin-right: variables.$innerLarge;
+    }
+
+    .alignright {
+      float: right;
+      margin-left: variables.$innerLarge;
+    }
+  }
+}

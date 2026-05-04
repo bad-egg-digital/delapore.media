@@ -1,0 +1,10 @@
+@use "@styles/global/variables";
+
+.wp-block-details {
+	box-sizing: border-box;
+
+  summary {
+    cursor: pointer;
+    font-family: variables.$font;
+  }
+}

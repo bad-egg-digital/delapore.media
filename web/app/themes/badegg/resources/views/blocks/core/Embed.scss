@@ -1,0 +1,10 @@
+.wp-block-embed {
+	overflow-wrap: break-word; // Break long strings of text without spaces so they don't overflow the block.
+
+	// Don't allow iframe to overflow it's container.
+	iframe {
+		max-width: 100%;
+    aspect-ratio: 16/9;
+    height: auto;
+	}
+}

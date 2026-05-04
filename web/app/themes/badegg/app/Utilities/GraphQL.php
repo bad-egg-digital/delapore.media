@@ -1,6 +1,6 @@
 <?php
 
-namespace App\FrontEnd;
+namespace App\Utilities;
 use BadEggCup\Tools;
 
 class GraphQL
@@ -99,6 +99,7 @@ class GraphQL
                 'name'          => [ 'type' => 'String' ],
                 'attributes'    => [ 'type' => 'JSON' ],
                 'content'       => [ 'type' => 'string' ],
+                'rawContent'    => [ 'type' => 'string' ],
                 'innerBlocks'   => [ 'type' => ['list_of' => 'Block'] ],
             ],
         ]);
@@ -109,13 +110,14 @@ class GraphQL
         ];
 
         $resolver = function ($post){
+            $Blocks = new Blocks;
             $content = $post->contentRaw ?? get_post_field('post_content', $post->databaseId);
 
             if (!$content)  return [];
 
             $parsed = parse_blocks($content);
 
-            return $this->blocksMap($parsed);
+            return $Blocks->blocksMap($parsed);
         };
 
         foreach($postTypes as $postType) {
@@ -126,54 +128,20 @@ class GraphQL
         }
     }
 
-    public function blocksMap($blocks = []) {
-        $data = [];
-
-        if($blocks) {
-            foreach ($blocks as $block) {
-                $inner = [];
-
-                if (!empty($block['innerBlocks']) && is_array($block['innerBlocks'])) {
-                    $inner = $this->blocksMap($block['innerBlocks']);
-                }
-
-                $data[] =  [
-                    'name'        => $block['blockName'] ?? null,
-                    'attributes'  => $block['attrs'] ?? [],
-                    'content'     => $this->unwrapBlock($block['innerHTML']),
-                    'innerBlocks' => $inner,
-                ];
-            }
-        }
-
-        return $data;
-    }
-
-    public function unwrapBlock($html) {
-        $html = trim($html);
-
-        // Matches a single outer HTML tag wrapper
-        if (preg_match('#^<([a-z0-9]+)([^>]*)>(.*)</\1>$#is', $html, $m)) {
-            return $m[3];
-        }
-
-        return $html;
-    }
-
     public function badeggcup()
     {
         $Settings = new Tools\Settings;
 
         register_graphql_object_type( $this->prefix . 'Address', [
             'fields' => [
-                'line1' => [ 'type' => 'string' ],
-                'line2' => [ 'type' => 'string' ],
-                'line3' => [ 'type' => 'string' ],
-                'line4' => [ 'type' => 'string' ],
-                'city' => [ 'type' => 'string' ],
-                'county' => [ 'type' => 'string' ],
+                'line1'    => [ 'type' => 'string' ],
+                'line2'    => [ 'type' => 'string' ],
+                'line3'    => [ 'type' => 'string' ],
+                'line4'    => [ 'type' => 'string' ],
+                'city'     => [ 'type' => 'string' ],
+                'county'   => [ 'type' => 'string' ],
                 'postCode' => [ 'type' => 'string' ],
-                'country' => [ 'type' => 'string' ],
+                'country'  => [ 'type' => 'string' ],
             ],
         ]);
 

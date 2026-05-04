@@ -1,7 +1,10 @@
-export default function Audio(attributes) {
-  const { name } = attributes;
+import parse from "html-react-parser"
+
+export default function Audio({ rawContent }) {
+
+  const Content = parse(rawContent)
 
   return (
-    <h3>{ name }</h3>
+    <>{ Content }</>
   )
 }

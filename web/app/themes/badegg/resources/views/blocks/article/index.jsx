@@ -1,4 +1,5 @@
 // block.json's editorScript, loaded only in the block editor
+import './style.scss'
 
 import metadata from './block.json';
 import { __ } from '@wordpress/i18n';
@@ -20,8 +21,8 @@ import {
 
 import allowedBlocks from '@json/block-core-whitelist.json';
 import { containerClassNames, sectionClassNames } from '@scripts/lib/classNames';
-import BackgroundImage from '@blocks/partials/BackgroundImage';
-import BlockSettings from '@blocks/partials/BlockSettings';
+import BackgroundImage from '@blocks/-editor/BackgroundImage';
+import BlockSettings from '@blocks/-editor/BlockSettings';
 
 registerBlockType(metadata.name, {
   edit({ attributes, setAttributes, clientId }) {

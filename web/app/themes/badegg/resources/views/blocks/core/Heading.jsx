@@ -1,7 +1,25 @@
-export default function Heading(attributes) {
-  const { name } = attributes;
+import parse from "html-react-parser"
+import clsx from 'clsx'
+import parseHtml from "@scripts/lib/parser"
+
+export default function Heading({ content, rawContent, attributes }) {
+
+  const { level, textAlign } = attributes
+
+  const Content = parse(rawContent)
+  let contentProps = Content.props
+
+  contentProps = {
+    ...contentProps,
+      className: clsx(
+      contentProps.className,
+      textAlign && `align-${ textAlign }`,
+    )
+  }
+
+  const H = `h${ level || 2 }`
 
   return (
-    <h3>{ name }</h3>
+    <H { ...contentProps }>{ parseHtml(content) }</H>
   )
 }

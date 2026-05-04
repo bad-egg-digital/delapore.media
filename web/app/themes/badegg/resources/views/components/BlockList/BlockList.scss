@@ -1,0 +1,52 @@
+@use "@styles/global/variables";
+
+.badegg-block-list {
+  container-name: wpBlockList;
+  container-type: inline-size;
+}
+
+.badegg-block-background {
+  position: absolute;
+  inset: 0;
+}
+
+.block-footer,
+.block-intro {
+  display: flex;
+
+  &.section {
+    @extend .section-small !optional;
+  }
+
+  &.align-left { justify-content: flex-start; }
+  &.align-right { justify-content: flex-end; }
+  &.align-centre { justify-content: center; }
+
+  > .container {
+    width: auto;
+    margin: 0;
+
+    .align-left &,
+    .align-right & {
+      margin: 0;
+    }
+  }
+}
+
+.has-drop-cap {
+  &::first-letter {
+    float: left;
+    font-size: 8.4em;
+    line-height: 0.68;
+    font-weight: 100;
+    margin: 0.05em 0.1em 0 0;
+    text-transform: uppercase;
+    font-style: normal;
+  }
+}
+
+.has-text-align {
+  &-left { text-align: left; }
+  &-center { text-align: center; }
+  &-right { text-align: right; }
+}

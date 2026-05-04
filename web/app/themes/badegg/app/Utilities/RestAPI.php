@@ -8,8 +8,39 @@ class RestAPI
 {
     public function __construct()
     {
+        add_action( 'wp_enqueue_scripts', [$this, 'localize']);
         add_filter( 'wp_prepare_attachment_for_js', [$this, 'image_sizes'], 10, 3 );
-        add_action( 'rest_api_init', [$this, 'blocks']);
+        add_action( 'rest_api_init', [$this, 'blockConfig']);
+        add_action( 'rest_api_init', [$this, 'postBlockData']);
+    }
+
+    public function localize()
+    {
+        $siteURL = site_url();
+        $homeURL = get_home_url();
+
+        $graphqlSettings = get_option('graphql_general_settings');
+
+        $graphqlEndpoint = ($graphqlSettings) ? $graphqlSettings['graphql_endpoint'] : '/graphql';
+
+        $graphqlEndpointPrefix = ltrim(str_replace($homeURL, '', $siteURL), '/');
+
+        if($graphqlEndpointPrefix) $graphqlEndpoint = $graphqlEndpointPrefix . '/' . $graphqlEndpoint;
+
+        $data = [
+            'siteURL' => $siteURL,
+            'homeURL' => $homeURL,
+            'graphql' => '/' . $graphqlEndpoint,
+            'rest'      => str_replace($homeURL, '', get_rest_url()),
+        ];
+
+        ?>
+
+<script>
+    const badEggAPI = <?= json_encode($data) ?>;
+</script>
+
+        <?php
     }
 
     public function image_sizes( $response, $attachment, $meta )
@@ -37,7 +68,55 @@ class RestAPI
         return $response;
     }
 
-    public function blocks( )
+    public function postBlockData()
+    {
+        $postTypes = [
+            'pages',
+            'posts',
+        ];
+
+        foreach($postTypes as $postType) {
+            register_rest_route('wp/v2', "/{$postType}/(?P<id>\d+)/blocks", [
+                'methods'  => 'GET',
+                'callback' => [$this, 'getPostBlockData'],
+                'permission_callback' => '__return_true',
+            ]);
+
+            register_rest_route('wp/v2', "/{$postType}/(?P<id>\d+)/blocks/(?P<index>\d+)", [
+                'methods'  => 'GET',
+                'callback' => [$this, 'getPostBlockData'],
+                'permission_callback' => '__return_true',
+            ]);
+        }
+    }
+
+    public function getPostBlockData($request)
+    {
+        $postID = $request['id'];
+        $post = get_post($postID);
+
+        $data = [];
+
+        if($post && $post->post_content) {
+            $Blocks = new Blocks;
+            $content = $post->post_content;
+            $data = $Blocks->blocksMap(parse_blocks($content), $postID);
+        }
+
+        if(isset($request['index'])) {
+            $index = $request['index'];
+
+            if($index < count($data)) {
+                $data = $data[$index];
+            } else {
+                $data = [];
+            }
+        }
+
+        return rest_ensure_response($data);
+    }
+
+    public function blockConfig( )
     {
         $restBase = 'badegg/v1';
 

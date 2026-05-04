@@ -4,7 +4,7 @@
 @forward "global/fonts";
 @forward "global/typography";
 @forward "global/framework";
-
+@use "@blocks/core/Quote";
 
 html :where(.wp-block) {
   max-width: none;
@@ -75,4 +75,8 @@ html :where(.wp-block) {
 .is-root-container > .wp-block:not(.block-list-appender) {
   max-width: none;
   margin: 0;
+}
+
+.wp-block-gallery.has-nested-images figure.wp-block-image {
+  flex-grow: 0;
 }

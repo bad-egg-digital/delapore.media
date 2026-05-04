@@ -1,17 +1,19 @@
 import './style.scss'
-import BlockSwitchboard from '@blocks/Switchboard'
+import Switchboard from '@views/components/Switchboard/Switchboard'
 
-export default function Article({ name, innerBlocks }) {
+export default function Article({ name, attributes, innerBlocks }) {
 
   return (
-    <>
-      <h2>{ name }</h2>
+    <section className="wp-block-badegg-article">
+      <div className="container">
+        <h2>{ name }</h2>
 
-      { innerBlocks
-        ? innerBlocks.map((block, index) => <BlockSwitchboard  key={ index } name={ name } { ...block } />)
-        : null
-      }
-
-    </>
+      { Array.isArray(innerBlocks) && innerBlocks.length > 0 &&
+        innerBlocks.map((block, index) => (
+          <Switchboard key={ index } index={ index } {...block} />
+        )
+      )}
+      </div>
+    </section>
   )
 }

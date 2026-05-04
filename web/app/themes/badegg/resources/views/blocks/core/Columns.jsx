@@ -1,8 +1,8 @@
-import './Quote.scss'
+import './Columns.scss'
 import parse, { attributesToProps } from "html-react-parser"
 import Switchboard from '@views/components/Switchboard/Switchboard'
 
-export default function Quote( props ) {
+export default function Columns( props ) {
   const { rawContent, innerBlocks, attributes } = props;
 
   const Inner = () => (
@@ -15,15 +15,15 @@ export default function Quote( props ) {
     replace: (domNode) => {
       if (
         domNode.type === "tag" &&
-        domNode.name === "blockquote" &&
-        domNode.attribs?.class?.includes("wp-block-quote")
+        domNode.name === "div" &&
+        domNode.attribs?.class?.includes("wp-block-columns")
       ) {
         const componentProps = attributesToProps(domNode.attribs)
 
         return (
-          <blockquote { ...componentProps }>
+          <div { ...componentProps }>
             <Inner />
-          </blockquote>
+          </div>
         )
       }
     },

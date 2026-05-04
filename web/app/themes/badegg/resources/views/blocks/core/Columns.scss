@@ -1,0 +1,52 @@
+@use "@styles/global/variables";
+@use "@styles/global/typography";
+
+.wp-block-columns {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: variables.$innerSmall;
+
+  @container wpBlockList (min-width: #{variables.$screen-sm}) {
+    display: flex;
+  }
+
+  @container wpBlockList (min-width: #{variables.$screen-md}) {
+    gap: variables.$innerMedium;
+  }
+
+  @container wpBlockList (min-width: #{variables.$screen-md}) {
+    gap: variables.$innerMedium;
+  }
+
+  @container wpBlockList (min-width: #{variables.$screen-lg}) {
+    gap: variables.$innerLarge;
+  }
+
+  &.are-vertically-aligned {
+    &-top    { align-items: flex-start; }
+    &-center { align-items: center; }
+    &-bottom { align-items: flex-end; }
+  }
+}
+
+.wp-block-column {
+  @extend .wysiwyg;
+  flex-grow: 1;
+  min-width: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
+
+  &.is-vertically-aligned {
+    &-top     { align-self: flex-start; }
+    &-center  { align-self: center; }
+    &-bottom  { align-self: flex-end; }
+    &-stretch { align-self: stretch; }
+
+    &-top,
+    &-center,
+    &-bottom {
+      width: 100%;
+    }
+  }
+}

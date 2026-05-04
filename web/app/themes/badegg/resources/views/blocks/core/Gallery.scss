@@ -1,0 +1,55 @@
+@use "sass:math";
+@use "@styles/global/variables";
+
+.wp-block-gallery {
+  display: grid;
+  gap: variables.$innerSmall;
+  grid-template-columns: repeat(2, 1fr);
+
+  @for $i from 2 through 8 {
+    &.columns-#{$i} {
+      grid-template-columns: repeat(#{$i}, 1fr);
+    }
+  }
+
+  img {
+    display: block;
+  }
+
+  &.is-cropped {
+    img {
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+    }
+  }
+
+  @container wpBlockList (max-width: #{variables.$screen-xs-max}) {
+    &.columns-3,
+    &.columns-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    &.columns-5,
+    &.columns-6,
+    &.columns-7 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    &.columns-8,
+    &.columns-9 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    &.columns-10 {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  @container wpBlockList (min-width: #{variables.$screen-md}) {
+    gap: variables.$innerMedium;
+  }
+
+  @container wpBlockList (min-width: #{variables.$screen-lg}) {
+    gap: variables.$innerLarge;
+  }
+}

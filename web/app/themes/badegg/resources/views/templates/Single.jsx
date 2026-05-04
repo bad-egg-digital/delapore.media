@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { useEffect, useState } from 'react'
 
-import BlockSwitchboard from '@blocks/Switchboard'
+import BlockList from '@views/components/BlockList/BlockList'
 import Error from '@views/templates/Error'
 
 export default function Single({ postType = 'page' }) {
@@ -20,38 +20,7 @@ export default function Single({ postType = 'page' }) {
             id
             slug
             title
-            blocks {
-              name
-              content
-              attributes
-              innerBlocks {
-                attributes
-                name
-                content
-                innerBlocks {
-                  attributes
-                  name
-                  content
-                  innerBlocks {
-                    attributes
-                    name
-                    content
-                    innerBlocks {
-                      attributes
-                      name
-                      content
-                      innerBlocks {
-                        innerBlocks {
-                          attributes
-                          name
-                          content
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            databaseId
           }
         }
       ` }),
@@ -74,20 +43,10 @@ export default function Single({ postType = 'page' }) {
           <meta property="og:description" content="Dynamic page content" />
         </Helmet>
 
-        <>
+        <h1>{ post.title }</h1>
 
-          <h1>{ post.title }</h1>
+        <BlockList id={ post.databaseId } postType={ postType } />
 
-          { !post ?
-            `${ postType } not found ...`
-          : null }
-
-          { post?.blocks
-            ? post.blocks.map((block, index) => <BlockSwitchboard key={index} { ...block } />)
-            : null
-          }
-
-        </>
       </>
 
     )
