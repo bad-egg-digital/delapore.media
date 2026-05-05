@@ -16,7 +16,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: variables.$secondary-darkest;
+  color: variables.$primary;
   font-weight: 700;
   font-family: variables.$font;
   line-height: 1.1em;
@@ -40,12 +40,6 @@ h6 {
 
     &-big {
       @extend h1;
-    }
-  }
-
-  @media screen {
-    .knockout & {
-      color: variables.$white;
     }
   }
 }
@@ -76,18 +70,11 @@ p,
 li,
 td,
 label {
-  color: variables.$grey-darker;
   font-family: variables.$font;
   font-weight: 400;
   line-height: 1.5em;
   margin: 0 0 0.8em;
   padding: 0;
-
-  @media screen {
-    .knockout & {
-      color: variables.$white;
-    }
-  }
 }
 
 p {
@@ -101,27 +88,15 @@ p {
 }
 
 a {
-  color: variables.$tertiary;
+  color: variables.$primary;
   text-decoration: none;
   outline: none;
   transition: color 300ms ease;
 
   &:hover,
   &:focus {
-    color: variables.$tertiary;
+    color: variables.$secondary;
     text-decoration: underline;
-  }
-
-  @media screen {
-    .knockout & {
-      color: variables.$tertiary-lighter;
-
-      &:hover,
-      &:focus {
-        color: variables.$tertiary-lighter;
-        text-decoration: underline;
-      }
-    }
   }
 }
 
@@ -156,12 +131,6 @@ hr {
   height: 0;
   border: 0 solid variables.$grey-light;
   border-width: variables.$borderThin 0 0;
-
-  @media screen {
-    .knockout & {
-      border-color: variables.$white;
-    }
-  }
 }
 
 .align {

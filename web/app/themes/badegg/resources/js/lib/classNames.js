@@ -50,9 +50,6 @@ export function sectionClassNames(attributes, defaultClasses = '', extraClasses 
   if('background_image' in attributes && attributes.background_image != '0')
     classNames.push('has-bg-image');
 
-  if('background_contrast' in attributes && attributes.background_contrast)
-    classNames.push('knockout');
-
   // combine arrays
   classNames = classNames.concat(defaultClasses).concat(extraClasses);
 

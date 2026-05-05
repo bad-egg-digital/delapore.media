@@ -1,5 +1,5 @@
 <div {!! get_block_wrapper_attributes([
-  'class' => 'section bg-success knockout',
+  'class' => 'section bg-success',
 ]) !!}>
   <div class="container wysiwyg align-center">
     <h2>Bad Egg Example Block (Blade)</h2>

@@ -11,18 +11,6 @@
     width: variables.$brandWidth;
     // height: variables.$brandHeight;
   }
-
-  .knockout & {
-    @media screen {
-      .fill-primary {
-        fill: variables.$white;
-      }
-
-      .fill-grey {
-        fill: rgba(variables.$white, 0.8);
-      }
-    }
-  }
 }
 
 figure {

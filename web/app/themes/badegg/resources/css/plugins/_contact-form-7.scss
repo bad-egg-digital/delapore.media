@@ -13,10 +13,6 @@
   margin-top: 2em;
   border: 1px solid variables.$grey-light;
   border-width: 1px 0 0;
-
-  .knockout & {
-    border-color: rgba(variables.$white, 0.3);
-  }
 }
 
 .wpcf7-display-none {

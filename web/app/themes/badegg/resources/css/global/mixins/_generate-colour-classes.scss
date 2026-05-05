@@ -41,25 +41,9 @@
         }
       }
 
-      &.has-gradient {
-        background: linear-gradient(0deg, $hex 0%, variables.$white 100%);
-
-        &.knockout {
-          background: linear-gradient(0deg, $hex 0%, variables.$black 100%);
-        }
-      }
-
       h1,h2,h3,h4,h5,h6 {
         &.#{$name} {
           color: variables.$black;
-        }
-      }
-
-      &.knockout {
-        h1,h2,h3,h4,h5,h6 {
-          &.#{$name} {
-            color: variables.$white;
-          }
         }
       }
     }

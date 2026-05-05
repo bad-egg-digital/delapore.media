@@ -25,7 +25,6 @@ export default function BackgroundImage({
   background_fixed = false,
   background_filter = false,
   background_opacity = 70,
-  background_contrast = false,
   disableLazyBG = false,
 }) {
 
@@ -48,15 +47,7 @@ export default function BackgroundImage({
     };
 
     if(background_filter) {
-      let bgFilter = ' bg-filter-';
-
-      if(background_contrast) {
-        bgFilter += 'screen';
-      } else {
-        bgFilter += 'multiply';
-      }
-
-      attributes.className += bgFilter;
+      attributes.className += ' bg-filter-screen';
     }
 
     if(background_lazy && !disableLazyBG) {

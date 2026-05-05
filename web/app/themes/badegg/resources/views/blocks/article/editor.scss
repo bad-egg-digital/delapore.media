@@ -49,24 +49,6 @@
     }
   }
 
-  &.knockout {
-    .badegg-article-select-parent {
-      &:hover {
-        background: rgba(variables.$white, 0.1);
-      }
-    }
-
-    &:hover {
-      > .container {
-        background-color: rgba(variables.$black, 0.3);
-
-        &:hover {
-          background: transparent;
-        }
-      }
-    }
-  }
-
   .block-editor-block-list {
     &__layout {
       > *:first-child {

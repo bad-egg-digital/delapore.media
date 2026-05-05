@@ -9,7 +9,7 @@ registerBlockType(metadata.name, {
   edit({ attributes }) {
     const blockProps = useBlockProps();
 
-    blockProps.className = sectionClassNames(attributes, blockProps.className, ['bg-success', 'knockout']).join(' ');
+    blockProps.className = sectionClassNames(attributes, blockProps.className, ['bg-success']).join(' ');
 
     return (
       <div { ...blockProps }>

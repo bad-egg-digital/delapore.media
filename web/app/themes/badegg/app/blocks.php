@@ -277,7 +277,7 @@ function render_acf($block, $content = '', $is_preview = false, $post_id = 0, $w
     } else {
         ob_start(); ?>
 
-        <section class="section bg-error knockout">
+        <section class="section bg-error">
             <div class="container container-small align-centre wysiwyg">
                 <h2>Missing Blade Template</h2>
                 <p>(resources/views/blocks/<?= $slug ?>/render.blade.php)</p>

@@ -34,25 +34,11 @@ input[type="submit"] {
   transition: none 300ms ease;
   transition-property: background-color, color, border-color;
 
-  .knockout & {
-    background-color: colours.$white;
-    border-color: colours.$white;
-    color: currentcolor;
-    text-decoration: none;
-  }
-
   &:hover {
     color: colours.$white;
     text-decoration: none;
     background-color: rgba(colours.$black, 0.5);
     border-color: rgba(colours.$black, 0.5);
-
-    .knockout & {
-      background-color: rgba(colours.$white, 0.5);
-      border-color: rgba(colours.$white, 0.5);
-      color: currentcolor;
-      text-decoration: none;
-    }
   }
 
   &.outline {
@@ -64,19 +50,6 @@ input[type="submit"] {
     &:focus {
       background-color: colours.$black;
       color: colours.$white;
-    }
-
-    .knockout & {
-      @media screen {
-        border-color: colours.$white;
-        color: colours.$white;
-
-        &:hover,
-        &:focus {
-          background-color: colours.$white;
-          color: colours.$black;
-        }
-      }
     }
   }
 

@@ -10,10 +10,10 @@
     @vite(['resources/css/app.scss', 'resources/js/index.jsx'])
   </head>
 
-  <body @php(body_class())>
+  <body {{--@php(body_class())--}}>
     @php(wp_body_open())
 
-    <div id="app"> </div>
+    <div id="app"></div>
 
     @php(do_action('get_footer'))
     @php(wp_footer())

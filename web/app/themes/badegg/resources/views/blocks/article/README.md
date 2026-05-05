@@ -21,5 +21,4 @@ Designed as a full width component, Article Builder bundles core wordpress block
   - Tint
   - Image
   - Image opacity
-  - Text contrast toggle
   - Fixed position toggle

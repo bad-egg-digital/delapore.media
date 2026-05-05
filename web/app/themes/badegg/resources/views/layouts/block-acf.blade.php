@@ -2,7 +2,7 @@
   $settings = get_field('settings');
 
   $sectionProps = [
-    'class' => implode(' ', $CssClasses->section(get_field('settings'), @$block['name'], @$knockout)),
+    'class' => implode(' ', $CssClasses->section( get_field('settings'), @$block['name'] )),
   ];
 
   $containerProps = [

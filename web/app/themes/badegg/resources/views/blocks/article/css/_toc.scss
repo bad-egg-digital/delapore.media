@@ -24,17 +24,4 @@
       color: variables.$tertiary;
     }
   }
-
-  @media screen {
-    .knockout & {
-      a {
-        color: variables.$white;
-
-        &.active,
-        &:hover {
-          color: variables.$tertiary-lighter;
-        }
-      }
-    }
-  }
 }

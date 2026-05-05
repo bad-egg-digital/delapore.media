@@ -3,14 +3,13 @@
 namespace App\Utilities;
 
 class CssClasses {
-    public function section($props = [], $name = 'unnamed', $knockout = false)
+    public function section($props = [], $name = 'unnamed')
     {
         $defaults = [
             'padding_top' => null,
             'padding_bottom' => null,
             'bg_colour' => null,
             'bg_tint' => null,
-            'contrast' => null,
             'bg_image' => null,
             'section_size' => 2,
         ];
@@ -33,9 +32,6 @@ class CssClasses {
                 'colour' => $props['bg_colour'],
                 'tint' => $props['bg_tint'],
             ]);
-
-        if(($props['contrast'] && $knockout))
-            $classes[] = 'knockout';
 
         if(!$props['padding_top'])
             $classes[] = 'section-zero-top';
@@ -65,7 +61,6 @@ class CssClasses {
         $bg_props = wp_parse_args($bg_props, [
             'bg_colour' => null,
             'bg_tint' => null,
-            'contrast' => null,
         ]);
 
         $classes = [
@@ -92,9 +87,6 @@ class CssClasses {
 
         if($args['align'])
             $classes[] = 'align-' . $args['align'];
-
-        if(($bg_props['contrast']))
-            $classes[] = 'knockout';
 
         return $classes;
     }
@@ -133,19 +125,6 @@ class CssClasses {
         return $colour;
     }
 
-    public function is_knockout_block($name = null)
-    {
-        $blacklist = [
-            'badegg/acfdemo',
-        ];
-
-        if(in_array($name, $blacklist)):
-            return false;
-        else:
-            return true;
-        endif;
-    }
-
     public function backgroundAtts($props = [])
     {
         $default_props = [
@@ -157,7 +136,6 @@ class CssClasses {
             'bg_fixed' => false,
             'bg_lazy' => true,
             'bg_width' => 100,
-            'contrast' => false,
         ];
 
         $props = wp_parse_args($props, $default_props);
@@ -180,15 +158,7 @@ class CssClasses {
         ];
 
         if($props['bg_filter']) {
-            $filter = ' bg-filter';
-
-            if($props['contrast']) {
-                $filter .= '-multiply';
-            } else {
-                $filter .= '-screen';
-            }
-
-            $atts['class'] .= $filter;
+            $atts['class'] .= ' bg-filter-screen';
         }
 
         if($props['bg_fit'])
