@@ -56,9 +56,5 @@
   "background_fixed": {
       "type": "boolean",
       "default": false
-  },
-  "background_contrast": {
-      "type": "boolean",
-      "default": false
   }
 }

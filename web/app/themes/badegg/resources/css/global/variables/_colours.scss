@@ -21,8 +21,8 @@ $vivid-purple: #9b51e0;
 
 //== Brand Colours
 $primary:     #ffc15d;
-$secondary:   #5f0000;
-$tertiary:    color.invert($primary);
+$secondary:   #F90205;
+$tertiary:    #00cefc;
 
 //== Shades
 $white:               #FFFFFF;
@@ -30,28 +30,34 @@ $grey:                #717171;
 $black:               #000000;
 
 //== Primary Tints
-$primary-darkest: #060E21;
-$primary-darker: #19293f;
-$primary-dark: #2f4976;
-$primary-light: #426494;
-$primary-lighter: #4B70A1;
-$primary-lightest: #648EBD;
+$primary-offBlack:  color.adjust($primary, $lightness: -50%, $space: oklch);
+$primary-darkest:   color.adjust($primary, $lightness: -30%, $space: oklch);
+$primary-darker:    color.adjust($primary, $lightness: -20%, $space: oklch);
+$primary-dark:      color.adjust($primary, $lightness: -10%, $space: oklch);
+$primary-light:     color.adjust($primary, $lightness:  05%, $space: oklch);
+$primary-lighter:   color.adjust($primary, $lightness:  10%, $space: oklch);
+$primary-lightest:  color.adjust($primary, $lightness:  20%, $space: oklch);
+$primary-offWhite:  color.adjust($primary, $lightness:  50%, $space: oklch);
 
 //== Secondary Tints
-$secondary-darkest: #796B8D;
-$secondary-darker: #857798;
-$secondary-dark: #9285A4;
-$secondary-light: #B3A7C9;
-$secondary-lighter: #C3BAD8;
-$secondary-lightest: #EBE9F2;
+$secondary-offBlack:  color.adjust($secondary, $lightness: -50%, $space: oklch);
+$secondary-darkest:   color.adjust($secondary, $lightness: -30%, $space: oklch);
+$secondary-darker:    color.adjust($secondary, $lightness: -20%, $space: oklch);
+$secondary-dark:      color.adjust($secondary, $lightness: -10%, $space: oklch);
+$secondary-light:     color.adjust($secondary, $lightness:  05%, $space: oklch);
+$secondary-lighter:   color.adjust($secondary, $lightness:  10%, $space: oklch);
+$secondary-lightest:  color.adjust($secondary, $lightness:  20%, $space: oklch);
+$secondary-offWhite:  color.adjust($secondary, $lightness:  50%, $space: oklch);
 
 //== Tertiary Tints
-$tertiary-darkest: #6b1d08;
-$tertiary-darker: #b2300d;
-$tertiary-dark: #ef4a1d;
-$tertiary-light: #f58762;
-$tertiary-lighter: #f6a380;
-$tertiary-lightest: #f8b79b;
+$tertiary-offBlack:  color.adjust($tertiary, $lightness: -70%, $space: oklch);
+$tertiary-darkest:   color.adjust($tertiary, $lightness: -30%, $space: oklch);
+$tertiary-darker:    color.adjust($tertiary, $lightness: -20%, $space: oklch);
+$tertiary-dark:      color.adjust($tertiary, $lightness: -10%, $space: oklch);
+$tertiary-light:     color.adjust($tertiary, $lightness:  05%, $space: oklch);
+$tertiary-lighter:   color.adjust($tertiary, $lightness:  10%, $space: oklch);
+$tertiary-lightest:  color.adjust($tertiary, $lightness:  20%, $space: oklch);
+$tertiary-offWhite:  color.adjust($tertiary, $lightness:  50%, $space: oklch);
 
 //== six shades of grey
 $grey-darkest:        color.adjust(grey, $lightness: -40%);
@@ -64,44 +70,55 @@ $grey-lightest:       color.adjust(grey, $lightness: 40%);
 //## Colour Array (used in generating colour classes).
 $colors: (
   // shades
-  "black":     $black,
-  "grey-darkest": $grey-darkest,
-  "grey-darker": $grey-darker,
-  "grey-dark": $grey-dark,
-  "grey": $grey,
-  "grey-light": $grey-light,
-  "grey-lighter": $grey-lighter,
-  "grey-lightest": $grey-lightest,
-  "white":     $white,
+  "black":          $black,
+  "grey-darkest":   $grey-darkest,
+  "grey-darker":    $grey-darker,
+  "grey-dark":      $grey-dark,
+  "grey":           $grey,
+  "grey-light":     $grey-light,
+  "grey-lighter":   $grey-lighter,
+  "grey-lightest":  $grey-lightest,
+  "white":          $white,
+
   // status
   "error":      $error,
   "success":    $success,
   "alert":      $alert,
+
   // brand
   "primary":    $primary,
   "secondary":  $secondary,
   "tertiary":   $tertiary,
+
   // primary tints
+  "primary-offBlack": $primary-offBlack,
   "primary-darkest":  $primary-darkest,
   "primary-darker":   $primary-darker,
   "primary-dark":     $primary-dark,
   "primary-light":    $primary-light,
   "primary-lighter":  $primary-lighter,
   "primary-lightest": $primary-lightest,
+  "primary-offWhite": $primary-offWhite,
+
   // secondary tints
+  "secondary-offBlack": $secondary-offBlack,
   "secondary-darkest":  $secondary-darkest,
   "secondary-darker":   $secondary-darker,
   "secondary-dark":     $secondary-dark,
   "secondary-light":    $secondary-light,
   "secondary-lighter":  $secondary-lighter,
   "secondary-lightest": $secondary-lightest,
+  "secondary-offWhite": $secondary-offWhite,
+
   // tertiary tints
+  "tertiary-offBlack": $tertiary-offBlack,
   "tertiary-darkest":  $tertiary-darkest,
   "tertiary-darker":   $tertiary-darker,
   "tertiary-dark":     $tertiary-dark,
   "tertiary-light":    $tertiary-light,
   "tertiary-lighter":  $tertiary-lighter,
   "tertiary-lightest": $tertiary-lightest,
+  "tertiary-offWhite": $tertiary-offWhite,
 );
 
 $wpCoreColours: (

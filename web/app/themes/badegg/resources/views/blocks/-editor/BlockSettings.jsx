@@ -85,7 +85,6 @@ export default function BlockSettings({ attributes, setAttributes }) {
     background_lazy,
     background_position,
 		background_opacity,
-		background_contrast,
 		background_fixed,
     background_filter,
 		background_gradient,
@@ -176,13 +175,6 @@ export default function BlockSettings({ attributes, setAttributes }) {
             __nextHasNoMarginBottom
           />
         ) : null }
-
-        <ToggleControl
-          label={ __('Text Contrast', 'badegg') }
-          checked={ background_contrast }
-          onChange={(value) => setAttributes({ background_contrast: value }) }
-          __nextHasNoMarginBottom
-        />
 
         { background_image != 0 && (
           <>

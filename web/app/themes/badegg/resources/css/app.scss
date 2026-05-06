@@ -1,25 +1,29 @@
 // Global Variables, Mixins, and Framework
-@forward "global/variables";
-@forward "global/mixins";
-@forward "global/fonts";
-@forward "global/typography";
-@forward "global/framework";
+@use "global/variables";
+@use "global/mixins";
+@use "global/fonts";
+@use "global/typography";
+@use "global/framework";
 
-// Third Party Plugins
-@forward "plugins/contact-form-7";
-@forward "plugins/mce";
+// // Third Party Plugins
+// @forward "plugins/contact-form-7";
+// @forward "plugins/mce";
 
-// Components
-@forward "components/forms";
-@forward "components/button";
-@forward "components/card";
-@forward "components/socials";
-@forward "components/BadEggLightbox";
+// // Components
+// @forward "components/forms";
+// @forward "components/button";
+// @forward "components/card";
+// @forward "components/socials";
+// @forward "components/BadEggLightbox";
 
-// Sections
-@forward "../views/sections/header/header";
-@forward "../views/sections/footer/footer";
+// // Sections
+// @forward "../views/sections/header/header";
+// @forward "../views/sections/footer/footer";
 
-// Page Styles
-@forward "views/page";
+// // Page Styles
+// @forward "views/page";
 
+body {
+  background: variables.$black;
+  color: variables.$white;
+}
