@@ -1,0 +1,75 @@
+@use "@styles/global/variables";
+
+.menu-primary {
+
+  li {
+    a {
+      display: block;
+      text-decoration: none;
+      color: variables.$white;
+    }
+  }
+
+  .menu-fixed & {
+    ul {
+      display: flex;
+      gap: 1em;
+    }
+
+    li {
+      a {
+        position: relative;
+        padding: 1em 0.5em;
+        font-size: 1.25em;
+
+        &::after {
+          content: '';
+          position: absolute;
+          left: calc(50% - 1.54166666em);
+          bottom: 0;
+          width: 3.08333333em;
+          height: 0.3333em;
+          background: variables.$primary;
+          mask-image: url("@images/embellish-centre-bottom.svg");
+          mask-size: contain;
+          opacity: 0;
+          transition: all 300ms ease;
+          transform: translateY(200%) scale(0.5);
+        }
+      }
+
+      &:hover {
+        a {
+          color: variables.$primary-lighter;
+        }
+      }
+
+      &.active {
+        a {
+          &::after {
+            opacity: 1;
+            transform: none;
+          }
+        }
+      }
+    }
+
+    @container MenuFixed (min-width: #{variables.$screen-md}) {
+      ul {
+        gap: 1.5em;
+      }
+    }
+
+    @container MenuFixed (min-width: #{variables.$screen-lg}) {
+      ul {
+        gap: 2em;
+      }
+
+      li {
+        a {
+          font-size: 1.5em;
+        }
+      }
+    }
+  }
+}

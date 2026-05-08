@@ -15,15 +15,13 @@
   }
 
   p {
-    font-family: variables.$blockquote;
+    font-family: variables.$displayFont;
     font-style: italic;
     margin: 0 0 0.25em;
-    color: variables.$primary;
   }
 
   cite {
     font-size: 0.6em;
-    font-family: variables.$font;
     font-style: normal;
     color: variables.$grey;
   }

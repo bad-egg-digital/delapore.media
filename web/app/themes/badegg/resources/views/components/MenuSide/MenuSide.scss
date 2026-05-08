@@ -1,0 +1,95 @@
+@use "@styles/global/variables";
+
+.menu-side {
+  position: fixed;
+  inset: 0;
+  left: auto;
+  z-index: 2;
+  width: variables.$offCanvasWidth;
+  transform: translateX(100%);
+  transition: all 300ms ease;
+  background: linear-gradient(75deg, rgba(variables.$white, 0.1), rgba(variables.$white, 0));
+  // backdrop-filter: blur(0.25em);
+  border-left: 1px solid variables.$primary-lightest;
+  overflow-y: auto;
+
+  &-closer {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    backdrop-filter: blur(0.25em);
+    background: rgba(variables.$black, 0.3);
+  }
+
+  .menu-open & {
+    transform: none;
+  }
+
+  .admin-bar & {
+    top: 32px;
+
+    @media (max-width: 782px) {
+      top: 46px;
+    }
+
+    @media (max-width: 600px) {
+      top: 0;
+    }
+  }
+
+  .brand {
+    display: block;
+    text-align: center;
+    font-size: 0.8em;
+
+    &-icon {
+      margin: auto;
+    }
+
+    span {
+      text-wrap: wrap;
+    }
+  }
+
+  .menu-primary {
+    text-align: center;
+    margin: 3em 0 0;
+
+    li {
+      a {
+        display: block;
+        padding: 0.5em 0;
+        font-size: 1.25em;
+
+        span,
+        &::before,
+        &::after {
+          display: inline-block;
+          vertical-align: middle;
+        }
+
+        &::before,
+        &::after {
+          content: '';
+          width: 2em;
+          height: 1px;
+          transition: all 200ms ease;
+          margin: 0 0.5em;
+        }
+
+        &::before { transform: translateX(-100%); }
+        &::after { transform: translateX(100%); }
+      }
+
+      &.active {
+        a {
+          &::before,
+          &::after {
+            background: variables.$primary;
+            transform: none;
+          }
+        }
+      }
+    }
+  }
+}

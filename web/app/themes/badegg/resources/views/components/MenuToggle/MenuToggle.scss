@@ -1,0 +1,73 @@
+@use "@styles/global/variables";
+
+button.block.menu-toggle {
+  margin: 0;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.5em;
+  color: variables.$white;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.menu-toggle {
+  span {
+    display: block;
+  }
+
+  &-hamburger {
+    width: 1em;
+    height: 1em;
+  }
+
+  &-label {
+    font-size: 0.8em;
+  }
+
+  i {
+    background: variables.$primary;
+    border-radius: 0.5em;
+    display: block;
+    height: 0.125em;
+    margin-bottom: 0.25em;
+    transition: all 300ms ease;
+
+    &:last-of-type {
+      margin: 0;
+    }
+
+    &:nth-child(1) { margin-left: 50%; }
+    &:nth-child(3) { margin-right: 50%; }
+  }
+
+  &:hover {
+    i {
+      background: variables.$primary;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  // &.menu-close,
+  // .menu-open & {
+  //   i {
+  //     background: variables.$white;
+  //     margin-left: 0;
+  //     margin-right: 0;
+
+  //     &:nth-child(2) {
+  //       opacity: 0;
+  //       transform: rotateY(90deg);
+  //     }
+
+  //     &:nth-child(1) {
+  //       transform: rotate(45deg) translate(0.2em, 0.45em);
+  //     }
+
+  //     &:nth-child(3) {
+  //       transform: rotate(-45deg) translate(0.1em, -0.3em);
+  //     }
+  //   }
+  // }
+}

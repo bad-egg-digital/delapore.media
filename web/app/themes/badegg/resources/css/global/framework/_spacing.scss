@@ -1,18 +1,5 @@
 @use "../variables";
 
-.brand {
-  display: block;
-  width: variables.$brandWidth;
-  // height: variables.$brandHeight;
-
-  svg,
-  img {
-    display: block;
-    width: variables.$brandWidth;
-    // height: variables.$brandHeight;
-  }
-}
-
 figure {
   margin: 0;
   padding: 0;

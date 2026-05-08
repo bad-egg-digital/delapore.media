@@ -22,29 +22,27 @@
     }
   }
 
-  @media screen {
-    .bg-#{$name} {
-      background-color: $hex;
+  .bg-#{$name} {
+    background-color: $hex;
 
-      ::selection {
+    ::selection {
+      @include text-contrast.text_contrast(color.invert($hex));
+      background: color.invert($hex);
+      @if($name == "white") {
+        color: variables.$white;
+        background: variables.$tertiary;
+      } @else if($name == "black") {
+        color: variables.$white;
+        background: variables.$tertiary-lighter;
+      } @else {
         @include text-contrast.text_contrast(color.invert($hex));
         background: color.invert($hex);
-        @if($name == "white") {
-          color: variables.$white;
-          background: variables.$tertiary;
-        } @else if($name == "black") {
-          color: variables.$white;
-          background: variables.$tertiary-lighter;
-        } @else {
-          @include text-contrast.text_contrast(color.invert($hex));
-          background: color.invert($hex);
-        }
       }
+    }
 
-      h1,h2,h3,h4,h5,h6 {
-        &.#{$name} {
-          color: variables.$black;
-        }
+    h1,h2,h3,h4,h5,h6 {
+      &.#{$name} {
+        color: variables.$black;
       }
     }
   }

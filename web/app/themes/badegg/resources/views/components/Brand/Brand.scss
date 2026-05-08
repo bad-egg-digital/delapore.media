@@ -1,0 +1,43 @@
+@use "@styles/global/variables";
+
+.brand {
+  container-name: Brand;
+  container-type: inline-size;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  text-decoration: none;
+  color: variables.$white;
+
+  span {
+    font-family: variables.$displayFont;
+    font-weight: 700;
+    font-size: 3em;
+    white-space: nowrap;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  &-icon {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: 50%;
+    width: variables.$brandHeight;
+    flex-shrink: 0;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      display: block;
+      border: 0.125rem solid variables.$white;
+      border-radius: 50%;
+    }
+  }
+}
