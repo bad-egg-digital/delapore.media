@@ -7,11 +7,11 @@ export default function MenuPrimary({ items }) {
   const { appContext, setAppContext } = useContext( AppContext )
   const location = useLocation()
 
-  const toggleMenu = () => {
+  const closeMenu = () => {
     setTimeout( () => {
       setAppContext(prevState => ({
         ...prevState,
-        menuOpen: !prevState.menuOpen,
+        menuOpen: false,
       }));
     }, 300 )
   }
@@ -24,7 +24,7 @@ export default function MenuPrimary({ items }) {
 
           return (
             <li key={ index } className={ `menu-item ${ isActive ? 'active' : '' }` }>
-              <Link to={item.path} rel="preload" onClick={ toggleMenu }>
+              <Link to={item.path} rel="preload" onClick={ closeMenu }>
                 <span>{item.label}</span>
               </Link>
             </li>

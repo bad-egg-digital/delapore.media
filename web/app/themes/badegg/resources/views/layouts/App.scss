@@ -5,9 +5,3 @@
   z-index: 1;
   transition: all 300ms ease;
 }
-
-.menu-open {
-  .wrapper {
-    transform: translateX(-1 * variables.$offCanvasWidth);
-  }
-}

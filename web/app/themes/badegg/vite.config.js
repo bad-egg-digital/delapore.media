@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import laravel from 'laravel-vite-plugin'
 import react from '@vitejs/plugin-react'
+import svgr from "vite-plugin-svgr"
 import { wordpressPlugin, wordpressThemeJson } from '@roots/vite-plugin';
 import fg from 'fast-glob';
 import path from 'path';
@@ -57,6 +58,7 @@ export default defineConfig({
       disableTailwindFontSizes: true,
     }),
 
+    svgr(),
     react(),
   ],
   resolve: {

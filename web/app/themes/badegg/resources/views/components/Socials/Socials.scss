@@ -1,0 +1,16 @@
+.socials {
+  li {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  a {
+    display: block;
+    padding: 0.25em;
+  }
+
+  svg {
+    display: block;
+    width: 1em;
+  }
+}

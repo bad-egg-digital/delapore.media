@@ -35,6 +35,11 @@ export default function App() {
           badEggCup {
             company {
               name
+              socials {
+                icon
+                link
+                svg
+              }
             }
           }
           menuItems(where: { location: PRIMARY_NAVIGATION }) {
