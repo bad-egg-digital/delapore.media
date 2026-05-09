@@ -1,12 +1,57 @@
 @use "@styles/global/variables";
 
 .content-info {
+  position: relative;
+  z-index: 100;
+  backdrop-filter: blur(0.25em);
+  background: linear-gradient(0deg, rgba(variables.$black, 0.1), rgba(variables.$black, 0.3));
+
+  &::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: calc(100% - 0.35em);
+    height: 1em;
+    font-size: 2.25em;
+    mask-image: url("@images/embelish-footer.svg");
+    mask-position: center;
+    mask-size: auto 100%;
+    background: variables.$white;
+    pointer-events: none;
+  }
+
   .brand {
     justify-content: center;
+
+    @media (max-width: variables.$screen-sm-max) {
+      font-size: 0.66em;
+    }
   }
 
   .socials {
     font-size: 1.5em;
+    margin: 1.5em 0;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      width: 9.22891566em;
+      height: 1em;
+      font-size: 0.5em;
+      background: variables.$primary;
+      margin: 0.5em auto;
+      mask-size: contain;
+    }
+
+    &::before {
+      mask-image: url("@images/embellish-centre-top.svg");
+    }
+
+    &::after {
+      mask-image: url("@images/embellish-centre-bottom.svg");
+    }
 
     a {
       color: variables.$white;
@@ -14,6 +59,15 @@
       &:hover {
         color: variables.$primary;
       }
+    }
+  }
+
+  .copyright {
+    font-size: 0.75em;
+
+    span {
+      display: inline-block;
+      margin: 0.25em;
     }
   }
 }
