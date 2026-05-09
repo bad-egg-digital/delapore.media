@@ -8,11 +8,13 @@ export default function Brand({ tagline, icon }) {
   const { appContext, setAppContext } = useContext( AppContext )
 
   return (
-    <Link to="/" className="brand">
-      { icon && <i className="brand-icon"><img src={ Icon } alt="Delapore Rat" /></i> }
-      <div>
-        <span>{ appContext.companyName || 'Delapore Media' }</span>
-        { tagline && <small>Toward Verisimilitude in Tabletop Role-Playing</small> }
+    <Link to="/" className={ `brand ${ (icon) ? 'has-icon' : '' }` }>
+      <div className="brand-inner">
+        { icon && <i className="brand-icon"><img src={ Icon } alt="Delapore Rat" /></i> }
+        <div className="brand-wordmark">
+          <span>{ appContext.companyName || 'Delapore Media' }</span>
+          { tagline && <small>Toward Verisimilitude in Tabletop Role-Playing</small> }
+        </div>
       </div>
     </Link>
   )

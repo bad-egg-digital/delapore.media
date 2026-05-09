@@ -23,6 +23,7 @@
 
   .brand {
     justify-content: center;
+    margin: auto;
 
     @media (max-width: variables.$screen-sm-max) {
       font-size: 0.66em;

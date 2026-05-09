@@ -11,7 +11,7 @@ export default function Footer() {
 
   return (
     <footer className="content-info section">
-      <div className="container container-small align-centre">
+      <div className="container container-narrow align-centre">
         <Brand name={ appContext.companyName } tagline={ true } />
         <Socials />
         <p className="copyright">

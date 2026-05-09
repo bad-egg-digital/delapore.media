@@ -3,11 +3,18 @@
 .brand {
   container-name: Brand;
   container-type: inline-size;
-  display: flex;
-  align-items: center;
-  gap: 1em;
+  display: block;
+  width: variables.$brandWidth;
   text-decoration: none;
   color: variables.$white;
+
+  &-inner {
+    .has-icon & {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+    }
+  }
 
   span,
   small {
@@ -18,11 +25,12 @@
     font-family: variables.$displayFont;
     font-weight: 700;
     font-size: 3em;
+    letter-spacing: -0.025em;
     white-space: nowrap;
   }
 
   small {
-    font-size: 0.7em;
+    font-size: 0.65em;
   }
 
   img {
