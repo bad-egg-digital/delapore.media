@@ -1,0 +1,19 @@
+@use "@styles/global/variables";
+
+.content-info {
+  .brand {
+    justify-content: center;
+  }
+
+  .socials {
+    font-size: 1.5em;
+
+    a {
+      color: variables.$white;
+
+      &:hover {
+        color: variables.$primary;
+      }
+    }
+  }
+}

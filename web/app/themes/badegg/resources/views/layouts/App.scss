@@ -1,7 +1,37 @@
 @use "@styles/global/variables";
 
+#app,
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  min-height: 100dvh;
+
+
+  &.admin-bar {
+    min-height: calc(100dvh - 32px);
+
+    @media (max-width: 782px) {
+      min-height: calc(100dvh - 46px);
+    }
+  }
+}
+
+#app {
+  flex-grow: 1;
+}
+
 .wrapper {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
   transition: all 300ms ease;
+}
+
+.main {
+  flex-grow: 1;
 }

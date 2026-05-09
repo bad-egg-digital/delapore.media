@@ -7,7 +7,8 @@ import { useEffect, useState, useContext } from 'react'
 import { AppContext } from '@views/layouts/AppContext'
 import BgTexture from '@views/components/BgTexture/BgTexture'
 import MenuSide from '@views/components/MenuSide/MenuSide'
-import Header from '@views/sections/header/Header'
+import Header from '@views/sections/Header/Header'
+import Footer from '@views/sections/Footer/Footer'
 import Archive from '@views/templates/Archive'
 import Single from '@views/templates/Single'
 
@@ -35,6 +36,7 @@ export default function App() {
           badEggCup {
             company {
               name
+              nameLegal
               socials {
                 icon
                 link
@@ -54,8 +56,13 @@ export default function App() {
       .then(res => res.json())
       .then(res => {
         setPageForPosts(res.data.badEgg.archiveObjects.post.slug);
-        setCompanyName(res.data.badEggCup.company.name)
-        setPrimaryMenu(res.data.menuItems.nodes)
+
+        setAppContext(prevState => ({
+          ...prevState,
+          company: res.data.badEggCup.company,
+          menuPrimaryData: res.data.menuItems.nodes,
+        }));
+
         setIsLoaded(true);
       })
   }, [])
@@ -75,13 +82,16 @@ export default function App() {
         { isLoaded && (
           <BrowserRouter>
             <div className="wrapper">
-              <Header items={ primaryMenu } companyName={ companyName } />
-              <Routes>
-                <Route path="/" element={ <Single postType="page" /> } />
-                <Route path="/:slug" element={ <Single postType="page" /> } />
-                <Route path={ `/${pageForPosts}` } element={ <Archive postType="post" /> } />
-                <Route path={ `/${pageForPosts}/:slug` } element={ <Single postType="post" /> } />
-              </Routes>
+              <Header />
+              <main className="main">
+                <Routes>
+                  <Route path="/" element={ <Single postType="page" /> } />
+                  <Route path="/:slug" element={ <Single postType="page" /> } />
+                  <Route path={ `/${pageForPosts}` } element={ <Archive postType="post" /> } />
+                  <Route path={ `/${pageForPosts}/:slug` } element={ <Single postType="post" /> } />
+                </Routes>
+              </main>
+              <Footer />
             </div>
 
             <MenuSide open={ appContext.menuOpen } items={ primaryMenu } />

@@ -43,8 +43,6 @@ export default function Single({ postType = 'page' }) {
           <meta property="og:description" content="Dynamic page content" />
         </Helmet>
 
-        <h1>{ post.title }</h1>
-
         <BlockList id={ post.databaseId } postType={ postType } />
 
       </>

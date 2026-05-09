@@ -38,8 +38,8 @@ export default function Header({ items, companyName }) {
   return (
     <header className={ `menu-fixed ${ (isScrolled ? 'scrolled' : '') }` }>
       <div className="container container-large inner inner-small inner-zero-x">
-        <Brand name={ companyName } />
-        <MenuPrimary items={ items } />
+        <Brand icon={ true } />
+        <MenuPrimary />
         <MenuToggle />
       </div>
     </header>

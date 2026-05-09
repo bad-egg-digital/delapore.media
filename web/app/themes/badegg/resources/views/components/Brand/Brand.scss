@@ -5,15 +5,24 @@
   container-type: inline-size;
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 1em;
   text-decoration: none;
   color: variables.$white;
+
+  span,
+  small {
+    display: block;
+  }
 
   span {
     font-family: variables.$displayFont;
     font-weight: 700;
     font-size: 3em;
     white-space: nowrap;
+  }
+
+  small {
+    font-size: 0.7em;
   }
 
   img {

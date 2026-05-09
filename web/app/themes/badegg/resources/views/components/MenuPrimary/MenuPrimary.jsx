@@ -19,7 +19,7 @@ export default function MenuPrimary({ items }) {
   return (
     <nav className="menu-primary">
       <ul className="nolist">
-        {items.map((item, index) => {
+        { appContext.menuPrimaryData.map((item, index) => {
           const isActive = location.pathname.startsWith(item.path);
 
           return (
