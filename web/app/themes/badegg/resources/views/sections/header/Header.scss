@@ -69,4 +69,12 @@
       display: block;
     }
   }
+
+  @media (max-width: variables.$screen-xxs) {
+    .menu-toggle {
+      &-label {
+        visibility: hidden;
+      }
+    }
+  }
 }
