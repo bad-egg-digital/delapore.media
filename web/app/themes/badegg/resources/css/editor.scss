@@ -25,7 +25,6 @@ html :where(.wp-block) {
 
 .editor-styles-wrapper {
   padding: 0;
-  background: transparent;
 }
 
 .editor-visual-editor {
@@ -41,7 +40,24 @@ html :where(.wp-block) {
 }
 
 .editor-styles-wrapper {
-  background: variables.$grey-lightest;
+  background: variables.$black;
+  color: variables.$white;
+  background-attachment: fixed;
+  background: linear-gradient(
+    30deg,
+    variables.$tertiary-offBlack 0%,
+    variables.$secondary-offBlack 100%,
+  );
+
+  &::before {
+    content: '';
+    display: block;
+    position: fixed;
+    inset: 0;
+    background-image: url("@images/bg-texture.jpg");
+    background-size: cover;
+    mix-blend-mode: screen;
+  }
 
   .block-list-appender {
     width: 350px;
