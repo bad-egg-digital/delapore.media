@@ -1,7 +1,10 @@
 @use "@styles/global/variables";
 
-.wrapper {
-  .menu-open & {
+.menu-open {
+  max-height: 100dvh;
+  overflow: hidden;
+
+  .wrapper {
     transform: translateX(-1 * variables.$offCanvasWidth);
   }
 }
@@ -71,6 +74,13 @@
     display: block;
     text-align: center;
     font-size: 0.8em;
+    margin: auto;
+
+    &.has-icon {
+    .brand-inner {
+        display: block;
+      }
+    }
 
     &-icon {
       margin: auto;

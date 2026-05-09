@@ -24,7 +24,7 @@ export default function MenuSide({ items, companyName }) {
           <IconClose />
         </button>
         <div onClick={ closeMenu } >
-          <Brand name={ companyName } />
+          <Brand name={ companyName } icon={ true } />
         </div>
         <MenuPrimary items={ items } />
         <Socials />
