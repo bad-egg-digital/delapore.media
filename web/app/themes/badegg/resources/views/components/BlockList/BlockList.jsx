@@ -2,7 +2,7 @@ import './BlockList.scss'
 import { useEffect, useState } from 'react'
 import Switchboard from '@views/components/Switchboard/Switchboard'
 
-export default function BlockList({ id, postType }) {
+export default function BlockList({ id, postType, post }) {
   const [ blocks, setBlocks ] = useState([])
   const [ isLoaded, setIsLoaded ] = useState(false)
 
@@ -29,7 +29,7 @@ export default function BlockList({ id, postType }) {
     return (
        <div className="badegg-block-list">
         { blocks.map((block, index) => (
-          <Switchboard  key={ index } index={ index } { ...block } />
+          <Switchboard  key={ index } index={ index } post={ post } postType={ postType } { ...block } />
         )) }
       </div>
     )

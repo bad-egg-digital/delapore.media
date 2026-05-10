@@ -1,2 +1,78 @@
-@use 'css/base';
-@use 'css/toc';
+@use "sass:math";
+@use "@styles/global/variables";
+
+.wp-block-badegg-article {
+  container-name: BadEggArticle;
+  container-type: inline-size;
+
+  &.has-sidebar {
+    .article {
+      &-layout {
+        display: flex;
+        flex-wrap: wrap;
+        gap: variables.$gapLarge;
+      }
+
+      &-main {
+        flex: 0 0 100%;
+      }
+
+      @container BadEggArticle (max-width: #{variables.$screen-sm-max}) {
+        &-sidebar {
+          display: none;
+        }
+      }
+
+      @container BadEggArticle (min-width: #{variables.$screen-sm}) {
+        &-layout { flex-wrap: nowrap; }
+        &-main { flex: 1 1 auto; }
+
+        &-sidebar {
+          flex: 0 0 30%;
+          min-width: 15em;
+          order: -1;
+        }
+      }
+
+      @container BadEggArticle (min-width: #{variables.$screen-lg}) {
+        &-layout { gap: (variables.$gapLarge * 1.5); }
+      }
+
+      @container BadEggArticle (min-width: #{variables.$screen-xl}) {
+        &-layout { gap: (variables.$gapLarge * 2); }
+      }
+    }
+  }
+
+  .toc-anchor {
+    display: block;
+    position: relative;
+    visibility: hidden;
+  }
+}
+
+.article-toc {
+  position: sticky;
+  top: 0;
+
+  h3 {
+    font-size: 1em;
+    margin: 0 0 1em;
+    padding: 0 0 1em;
+    border: 0 solid variables.$grey-lightest;
+    border-width: 0 0 1px;
+  }
+
+  a {
+    display: block;
+    color: variables.$grey-light;
+    font-weight: 700;
+    padding: 0.5em 0;
+    font-size: 1.25em;
+
+    &.active,
+    &:hover {
+      color: variables.$tertiary;
+    }
+  }
+}

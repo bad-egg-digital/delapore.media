@@ -1,5 +1,6 @@
-// Core blocks
 import whitelist      from '@json/block-core-whitelist.json'
+
+// Core blocks
 import Separator      from '@blocks/core/Separator'
 import Spacer         from '@blocks/core/Spacer'
 import Gallery        from '@blocks/core/Gallery'
@@ -23,18 +24,24 @@ import Columns        from '@blocks/core/Columns'
 import Column         from '@blocks/core/Column'
 import Fallback       from '@blocks/core/Fallback'
 
-// Theme-specific blocks
+// Full-width blocks
 import Example        from '@blocks/example/Example'
 import Article        from '@blocks/article/Article'
+
+// Custom inner blocks
+import Masthead       from '@blocks/masthead/Masthead'
 
 export default function Switchboard( props ) {
   const { name } = props;
 
   switch (name) {
 
-    // Theme blocks
+    // Full-width blocks
     case "badegg/article":            return <Article       { ...props } />
     case "badegg/example":            return <Example       { ...props } />
+
+    // Custom inner blocks
+    case "badegg/masthead":           return <Masthead      { ...props } />
 
     // Core blocks
     case 'core/separator':            return <Separator     { ...props } />

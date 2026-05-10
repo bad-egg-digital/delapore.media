@@ -1,0 +1,30 @@
+{
+  "apiVersion": 3,
+  "name": "badegg/masthead",
+  "title": "Masthead",
+  "category": "text",
+  "icon": {
+    "src": "edit",
+    "foreground": "#f58762"
+  },
+  "description": "Display the title, first category, and author name.",
+  "keywords": ["title", "author", "category", "meta"],
+  "supports": {
+    "html": true,
+    "multiple": false,
+    "color": {
+      "background": false,
+      "text": false
+    }
+  },
+  "attributes": {
+    "showCategories": {
+      "type": "boolean",
+      "default": true
+    },
+    "showDate": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

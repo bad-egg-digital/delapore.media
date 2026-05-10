@@ -6,16 +6,12 @@ import React, {
 } from 'react';
 
 export const AppContext = createContext({
-  appContext: {
-    menuOpen: false,
-  },
+  appContext: {},
   setAppContext: () => {},
 });
 
 const AppContextProvider = ({ children }) => {
-  const [ appContext, setAppContext] = useState({
-    menuOpen: false,
-  });
+  const [ appContext, setAppContext] = useState({});
 
   useEffect( () => {
     if(appContext.menuOpen) {

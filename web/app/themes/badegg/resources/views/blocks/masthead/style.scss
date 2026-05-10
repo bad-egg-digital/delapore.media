@@ -1,0 +1,55 @@
+@use "@styles/global/variables";
+
+.wp-block-badegg-masthead {
+  container-name: BlockMasthead;
+  container-type: inline-size;
+
+  time,
+  .masthead-categories,
+  .entry-meta {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .entry-meta {
+    margin: 0 0 1em;
+  }
+
+  time {
+    line-height: 1;
+
+    &::before {
+      content: '\2022';
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0.5em;
+    }
+  }
+
+  h1 {
+    color: variables.$white;
+    margin: 0;
+
+    @container BlockMasthead (min-width: #{variables.$screen-md}) {
+      font-size: 2.25em;
+    }
+  }
+}
+
+ul.masthead-categories {
+  margin: -0.25em;
+
+  li {
+    display: inline-block;
+    margin: 0.25em;
+  }
+
+  a {
+    display: block;
+    padding: 0.125em 0.5em;
+    background: variables.$primary;
+    color: variables.$black;
+    font-weight: bold;
+    text-decoration: none;
+  }
+}

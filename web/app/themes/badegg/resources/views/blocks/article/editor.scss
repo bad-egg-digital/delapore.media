@@ -1,4 +1,5 @@
-@use "../../../css/global/variables";
+@use "@styles/global/variables";
+@use "./style.scss";
 
 .wp-block-badegg-article {
   position: relative;

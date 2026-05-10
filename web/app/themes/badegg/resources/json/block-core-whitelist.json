@@ -20,5 +20,7 @@
   "core/pullquote",
   "core/verse",
   "core/post-featured-image",
-  "core/columns"
+  "core/columns",
+
+  "badegg/masthead"
 ]
