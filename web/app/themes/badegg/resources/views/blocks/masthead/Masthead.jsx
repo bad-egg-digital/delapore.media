@@ -3,25 +3,18 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function Masthead( props ) {
-  const { post, postType } = props
-
+  const { post, postType, attributes } = props
   const [ title, setTitle ] = useState('')
   const [ date, setDate ] = useState('')
   const [ categories, setCategories ] = useState({})
+  const { hideCategories, hideDate } = attributes;
 
   useEffect(() => {
     if(postType === 'post') {
       const terms = post.terms.nodes
       const cats = terms.filter( node => node.taxonomyName === 'category')
-      const published = new Date(post.date)
 
-      const dateOptions = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      }
-
-      setDate( published.toLocaleDateString('en-US', dateOptions))
+      setDate( post.date )
       setCategories( cats )
       setTitle( post.title )
     }
@@ -29,21 +22,32 @@ export default function Masthead( props ) {
 
   return (
     <div className="wp-block-badegg-masthead">
-      <div className="entry-meta">
-        { categories.length > 0 && (
-          <ul className="masthead-categories nolist">
-            { categories.map((item, index) =>  (
-              <li key={ index } className={ `category-${ item.slug }` }>
-                <Link to={ item.uri } rel="preload">
-                  <span>{ item.name }</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
+      { (!hideCategories || !hideDate) &&
+        <div className={ `entry-meta ${ (!hideCategories && categories.length > 0) ? 'has-categories' : '' }` }>
+          { (!hideCategories && categories.length > 0) && (
+            <ul className="masthead-categories nolist">
+              { categories.map((item, index) =>  (
+                <li key={ index } className={ `category-${ item.slug }` }>
+                  <Link to={ item.uri } rel="preload">
+                    <span>{ item.name }</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
 
-        <time>{ date }</time>
-      </div>
+          { !hideDate &&
+            <time dateTime={ date }>
+              {
+                new Date(date).toLocaleDateString(
+                  'en-US',
+                  { year: 'numeric', month: 'long', day: 'numeric' }
+                )
+              }
+            </time>
+          }
+        </div>
+      }
 
       <h1>{ title }</h1>
     </div>

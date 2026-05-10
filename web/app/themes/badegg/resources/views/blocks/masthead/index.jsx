@@ -36,13 +36,13 @@ registerBlockType(metadata.name, {
     const { formats } = getSettings();
     const { editPost } = useDispatch('core/editor');
 
-    const currentPostType = wp.data.select( 'core/editor' ).getCurrentPostType();
+    const postType = wp.data.select( 'core/editor' ).getCurrentPostType();
     const postDate = useSelect((select) => select('core/editor').getEditedPostAttribute('date'), []);
     const postTitle = useSelect((select) => select('core/editor').getEditedPostAttribute('title'), []);
 
-    const selectedCategories = useSelect( (select) => select('core/editor').getEditedPostAttribute('categories'), [] );
+    const selectedCategories = (postType === 'post') ? useSelect( (select) => select('core/editor').getEditedPostAttribute('categories'), [] ) : {};
 
-    const allCategories = useSelect(
+    const allCategories = (postType === 'post') ? useSelect(
       (select) => select('core').getEntityRecords(
         'taxonomy',
         'category',
@@ -53,7 +53,7 @@ registerBlockType(metadata.name, {
         }
       ),
       []
-    );
+    ) : {};
 
     const toggleCategory = (categoryId, checked) => {
       let updatedCategories;
@@ -76,10 +76,8 @@ registerBlockType(metadata.name, {
 
 
     const {
-      showCategories,
-      showDate,
-      customTitle,
-      title,
+      hideCategories,
+      hideDate,
     } = attributes;
 
     return (
@@ -87,20 +85,22 @@ registerBlockType(metadata.name, {
         <InspectorControls>
           <Panel className="badegg-components-panel">
             <PanelBody>
+              { (postType === 'post') &&
+                <ToggleControl
+                  label={ __('Hide Categories', 'badegg') }
+                  checked={ hideCategories }
+                  onChange={(value) => setAttributes({ hideCategories: value }) }
+                  __nextHasNoMarginBottom
+                />
+              }
               <ToggleControl
-                label={ __('Show Categories', 'badegg') }
-                checked={ showCategories }
-                onChange={(value) => setAttributes({ showCategories: value }) }
-                __nextHasNoMarginBottom
-              />
-              <ToggleControl
-                label={ __('Show Date', 'badegg') }
-                checked={ showDate }
-                onChange={(value) => setAttributes({ showDate: value }) }
+                label={ __('Hide Date', 'badegg') }
+                checked={ hideDate }
+                onChange={(value) => setAttributes({ hideDate: value }) }
                 __nextHasNoMarginBottom
               />
             </PanelBody>
-            { showCategories &&
+            { postType === 'post' && !hideCategories &&
               <PanelBody title={ __('Categories', 'badegg') }>
                 { allCategories?.map((category) => (
                   <CheckboxControl
@@ -116,8 +116,8 @@ registerBlockType(metadata.name, {
               </PanelBody>
             }
 
-            { showDate &&
-              <PanelBody title={ __('Categories', 'badegg') }>
+            { !hideDate &&
+              <PanelBody title={ __('Publish Date', 'badegg') }>
                 <DateTimePicker
                   currentDate={ postDate }
                   onChange={ (date) => {
@@ -129,25 +129,27 @@ registerBlockType(metadata.name, {
           </Panel>
         </InspectorControls>
 
-        <div className="entry-meta">
-          { showCategories &&
-            <ul className="masthead-categories nolist">
-              { allCategories?.filter( (cat) => selectedCategories.includes(cat.id) )
-                .map((cat) => (
-                  <li key={ cat.id } className={ `category-${ cat.slug }` }>
-                    <a href="#"><span>{ cat.name }</span></a>
-                  </li>
-                ))}
-            </ul>
-          }
+        { (!hideCategories || !hideDate) &&
+          <div className={ `entry-meta ${ (postType === 'post' && !hideCategories) ? 'has-categories' : '' }` }>
+            { postType === 'post' && !hideCategories &&
+              <ul className="masthead-categories nolist">
+                { allCategories?.filter( (cat) => selectedCategories.includes(cat.id) )
+                  .map((cat) => (
+                    <li key={ cat.id } className={ `category-${ cat.slug }` }>
+                      <a href="#"><span>{ cat.name }</span></a>
+                    </li>
+                  ))}
+              </ul>
+            }
 
-          { showDate &&
-            <time dateTime={ postDate }>
-              { dateI18n( formats.date, postDate ) }
-            </time>
-          }
+            { !hideDate &&
+              <time dateTime={ postDate }>
+                { dateI18n( formats.date, postDate ) }
+              </time>
+            }
 
-        </div>
+          </div>
+        }
 
         <RichText
           tagName="h1"
@@ -162,7 +164,4 @@ registerBlockType(metadata.name, {
       </div>
     );
   },
-  save() {
-    return  null;
-  }
 });

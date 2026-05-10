@@ -1,13 +1,13 @@
 {
   "apiVersion": 3,
   "name": "badegg/masthead",
-  "title": "Masthead",
+  "title": "Article Masthead",
   "category": "text",
   "icon": {
     "src": "edit",
     "foreground": "#f58762"
   },
-  "description": "Display the title, first category, and author name.",
+  "description": "Display the title, categories, and date.",
   "keywords": ["title", "author", "category", "meta"],
   "supports": {
     "html": true,
@@ -18,13 +18,13 @@
     }
   },
   "attributes": {
-    "showCategories": {
+    "hideCategories": {
       "type": "boolean",
-      "default": true
+      "default": false
     },
-    "showDate": {
+    "hideDate": {
       "type": "boolean",
-      "default": true
+      "default": false
     }
   }
 }

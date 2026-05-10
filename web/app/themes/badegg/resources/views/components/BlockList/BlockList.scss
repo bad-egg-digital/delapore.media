@@ -3,10 +3,6 @@
 .badegg-block-list {
   container-name: wpBlockList;
   container-type: inline-size;
-
-  &.wysiwyg > * {
-    margin: variables.$gap 0;
-  }
 }
 
 .badegg-block-background {

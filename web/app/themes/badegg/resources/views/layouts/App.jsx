@@ -1,8 +1,15 @@
 import './App.scss'
-import { Helmet } from 'react-helmet-async'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { HelmetProvider } from 'react-helmet-async'
-import { useEffect, useState, useContext } from 'react'
+
+import {
+  useEffect,
+  useState,
+  useContext,
+  useLayoutEffect,
+  Suspense,
+} from 'react'
+
+import { Routes, Route, BrowserRouter as Router, useLocation } from 'react-router-dom'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 import { AppContext } from '@views/layouts/AppContext'
 import BgTexture from '@views/components/BgTexture/BgTexture'
@@ -11,6 +18,17 @@ import Header from '@views/sections/Header/Header'
 import Footer from '@views/sections/Footer/Footer'
 import Archive from '@views/templates/Archive'
 import Single from '@views/templates/Single'
+
+const Wrapper = ({ children }) => {
+  const location = useLocation();
+
+  useLayoutEffect(() => {
+    // Scroll to the top of the page when the route changes
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [location.pathname]);
+
+  return children;
+};
 
 export default function App() {
   const { appContext, setAppContext } = useContext( AppContext )
@@ -80,23 +98,25 @@ export default function App() {
       )}
 
         { isLoaded && (
-          <BrowserRouter>
+          <Router>
             <div className="wrapper">
-              <Header />
               <main className="main">
-                <Routes>
-                  <Route path="/" element={ <Single postType="page" /> } />
-                  <Route path="/:slug" element={ <Single postType="page" /> } />
-                  <Route path={ `/${pageForPosts}` } element={ <Archive postType="post" /> } />
-                  <Route path={ `/${pageForPosts}/:slug` } element={ <Single postType="post" /> } />
-                </Routes>
+                <Header />
+                <Wrapper>
+                  <Routes>
+                    <Route path="/" element={ <Single postType="page" /> } />
+                    <Route path="/:slug" element={ <Single postType="page" /> } />
+                    <Route path={ `/${pageForPosts}` } element={ <Archive postType="post" /> } />
+                    <Route path={ `/${pageForPosts}/:slug` } element={ <Single postType="post" /> } />
+                  </Routes>
+                </Wrapper>
               </main>
               <Footer />
             </div>
 
             <MenuSide open={ appContext.menuOpen } items={ primaryMenu } />
 
-          </BrowserRouter>
+          </Router>
         )}
 
       <BgTexture className="global fixed" />

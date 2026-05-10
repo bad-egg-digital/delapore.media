@@ -23,8 +23,8 @@
 }
 
 ::selection {
-  color: variables.$white;
-  background: variables.$tertiary;
+  color: variables.$black;
+  background: variables.$primary;
 }
 
 @each $color, $hex in variables.$colors {

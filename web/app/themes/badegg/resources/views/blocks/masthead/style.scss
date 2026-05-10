@@ -13,22 +13,25 @@
 
   .entry-meta {
     margin: 0 0 1em;
+
+    &.has-categories {
+      time::before {
+        content: '\2022';
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0.5em;
+        opacity: 0.7;
+      }
+    }
   }
 
   time {
     line-height: 1;
-
-    &::before {
-      content: '\2022';
-      display: inline-block;
-      vertical-align: middle;
-      margin: 0.5em;
-    }
+    word-wrap: nowrap;
   }
 
   h1 {
     color: variables.$white;
-    margin: 0;
 
     @container BlockMasthead (min-width: #{variables.$screen-md}) {
       font-size: 2.25em;
