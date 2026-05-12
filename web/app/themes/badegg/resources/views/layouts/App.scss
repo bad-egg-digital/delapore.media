@@ -1,5 +1,32 @@
 @use "@styles/global/variables";
 
+::view-transition-old(root) {
+  animation: fade-out 150ms forwards;
+}
+
+::view-transition-new(root) {
+  animation: fade-in 250ms forwards;
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .wrapper {
   position: relative;
   z-index: 1;

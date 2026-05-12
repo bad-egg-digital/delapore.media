@@ -13,6 +13,10 @@
     "sidebar": {
       "type": "boolean",
       "default": false
+    },
+    "tocLabel": {
+      "type": "string",
+      "default": "In this article"
     }
   },
   "supports": {

@@ -38,6 +38,8 @@ export default function App() {
   const [ pageForPosts, setPageForPosts ] = useState('Loading...')
   const [ primaryMenu, setPrimaryMenu ] = useState('Loading...')
 
+  // console.log(document.startViewTransition)
+
   useEffect(() => {
     fetch( badEggAPI.graphql, {
       method: 'POST',
@@ -102,14 +104,16 @@ export default function App() {
             <div className="wrapper">
               <main className="main">
                 <Header />
-                <Wrapper>
-                  <Routes>
-                    <Route path="/" element={ <Single postType="page" /> } />
-                    <Route path="/:slug" element={ <Single postType="page" /> } />
-                    <Route path={ `/${pageForPosts}` } element={ <Archive postType="post" /> } />
-                    <Route path={ `/${pageForPosts}/:slug` } element={ <Single postType="post" /> } />
-                  </Routes>
-                </Wrapper>
+                <Suspense fallback={ <h2>LOADING</h2> }>
+                  <Wrapper>
+                    <Routes>
+                      <Route path="/" element={ <Single postType="page" /> } />
+                      <Route path="/:slug" element={ <Single postType="page" /> } />
+                      <Route path={ `/${pageForPosts}` } element={ <Archive postType="post" /> } />
+                      <Route path={ `/${pageForPosts}/:slug` } element={ <Single postType="post" /> } />
+                    </Routes>
+                  </Wrapper>
+                </Suspense>
               </main>
               <Footer />
             </div>

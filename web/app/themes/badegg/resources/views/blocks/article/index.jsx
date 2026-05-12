@@ -17,6 +17,7 @@ import {
 	Panel,
 	PanelBody,
 	ToggleControl,
+  TextControl,
 } from '@wordpress/components';
 
 import allowedBlocks from '@json/block-core-whitelist.json';
@@ -33,6 +34,7 @@ registerBlockType(metadata.name, {
     const {
       alignment,
       sidebar,
+      tocLabel,
     } = attributes;
 
     return (
@@ -45,13 +47,22 @@ registerBlockType(metadata.name, {
         </BlockControls>
         <InspectorControls>
           <Panel className="badegg-components-panel">
-            <PanelBody title={ __("Hello", "badegg") }>
+            <PanelBody>
               <ToggleControl
                 label={ __('Show Sidebar', 'badegg') }
                 checked={ sidebar }
                 onChange={(value) => setAttributes({ sidebar: value }) }
                 __nextHasNoMarginBottom
               />
+
+              { sidebar &&
+                <TextControl
+                  label={ __('Table of Contents Heading', 'badegg') }
+                  value={ tocLabel }
+                  onChange={(value) => setAttributes({ tocLabel: value }) }
+                />
+              }
+
             </PanelBody>
 
             <BlockSettings
@@ -74,7 +85,7 @@ registerBlockType(metadata.name, {
         <div className={ containerClassNames(attributes, []).join(' ') }>
           <div className="article-layout">
 
-            <div className="article-main wysiwyg">
+            <div className="article-main badegg-block-list wysiwyg">
               <InnerBlocks
                 allowedBlocks={ allowedBlocks }
                 defaultBlock={

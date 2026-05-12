@@ -24,7 +24,7 @@ export default function MenuPrimary({ items }) {
 
           return (
             <li key={ index } className={ `menu-item ${ isActive ? 'active' : '' }` }>
-              <Link to={item.path} rel="preload" onClick={ closeMenu } >
+              <Link viewTransition to={item.path} rel="preload" onClick={ closeMenu } >
                 <span>{item.label}</span>
               </Link>
             </li>

@@ -1,7 +1,7 @@
 {
   "container_width": {
       "type": "string",
-      "default": ""
+      "default": "large"
   },
   "alignment": {
       "type": "string"

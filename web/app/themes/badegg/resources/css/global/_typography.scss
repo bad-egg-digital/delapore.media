@@ -55,6 +55,10 @@ h3 { font-size: 1.25em; }
 h4,
 h5 { font-size: 1.15em; }
 
+@media (min-width: variables.$screen-md) {
+  h1 { font-size: 2.25em; }
+}
+
 p,
 li,
 td,
