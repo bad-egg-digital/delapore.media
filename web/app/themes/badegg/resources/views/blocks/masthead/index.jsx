@@ -28,8 +28,6 @@ import {
   useDispatch,
 } from '@wordpress/data';
 
-import "@blocks/masthead/Masthead"
-
 registerBlockType(metadata.name, {
   edit({ attributes, setAttributes, clientId }) {
     const blockProps = useBlockProps();

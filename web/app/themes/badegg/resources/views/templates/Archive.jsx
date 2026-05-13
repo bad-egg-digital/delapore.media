@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
+import BlockList from '@views/components/BlockList/BlockList'
 import Error from '@views/templates/Error'
 
 export default function Archive({ postType = 'post' }) {
@@ -21,6 +22,14 @@ export default function Archive({ postType = 'post' }) {
                 slug
                 title
                 content
+                excerpt
+                databaseId
+                blocks {
+                  attributes
+                  content
+                  name
+                  rawContent
+                }
               }
             }
           }
@@ -47,6 +56,8 @@ export default function Archive({ postType = 'post' }) {
   }, [])
 
   if(isLoaded && archivePage) {
+    console.log(archivePage)
+
     return (
       <>
         <Helmet>
@@ -57,16 +68,20 @@ export default function Archive({ postType = 'post' }) {
           <meta property="og:description" content="Dynamic page content" />
         </Helmet>
 
-        <div>
-          <h1>{ archivePage.title }</h1>
+        { archivePage && (
+          <>
+            <BlockList id={ archivePage.databaseId } postType={ postType } post={ archivePage } />
 
-          {posts.map(post => (
-            <article key={post.node.id}>
-              <h2>{ post.node.title }</h2>
-              <Link to={ `${ post.node.uri }` }>Read more</Link>
-            </article>
-          ))}
-        </div>
+            <section className="section container container-large">
+              {posts.map(post => (
+                <article key={post.node.id}>
+                  <h2>{ post.node.title || '&nbsp;' }</h2>
+                  <Link to={ `${ post.node.uri }` }>Read more</Link>
+                </article>
+              ))}
+            </section>
+          </>
+        )}
 
       </>
     )

@@ -27,6 +27,7 @@ import Fallback       from '@blocks/core/Fallback'
 // Full-width blocks
 import Example        from '@blocks/example/Example'
 import Article        from '@blocks/article/Article'
+import Title        from '@blocks/title/Title'
 
 // Custom inner blocks
 import Masthead       from '@blocks/masthead/Masthead'
@@ -37,6 +38,7 @@ export default function Switchboard( props ) {
   switch (name) {
 
     // Full-width blocks
+    case "badegg/title":              return <Title         { ...props } />
     case "badegg/article":            return <Article       { ...props } />
     case "badegg/example":            return <Example       { ...props } />
 

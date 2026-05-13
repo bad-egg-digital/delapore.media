@@ -2,7 +2,7 @@ import './style.scss'
 import { useEffect, useState, useRef } from 'react'
 import parse, { attributesToProps } from "html-react-parser"
 import Switchboard from '@views/components/Switchboard/Switchboard'
-import { containerClassNames, sectionClassNames } from '@scripts/lib/classNames'
+import Block from '@views/layouts/Block'
 import ArticleTOC from '@blocks/article/ArticleTOC'
 import Delibird from '@views/components/Delibird/Delibird'
 
@@ -68,37 +68,25 @@ export default function Article( props ) {
 
   }, [ tocOffset, windowHeight]);
 
-  let atts = {
-    className: sectionClassNames(
-      attributes,
-      attributes?.className,
-      [
-        'wp-block-badegg-article',
-      ],
-    ).join(' ')
-  }
-
   return (
-    <section { ...atts } ref={ refArticle }>
-      <div className={ containerClassNames(attributes, []).join(' ') }>
-        <div className="article-layout">
-          <div className="article-main badegg-block-list wysiwyg" ref={ refArticleMain }>
-            { Array.isArray(innerBlocks) && innerBlocks.length > 0 &&
-              innerBlocks.map((block, index) => (
-                <Switchboard key={ index } index={ index } post={ post } postType={ postType } {...block} />
-              )
-            )}
-          </div>
-
-          { attributes?.sidebar && Array.isArray(hTwos) && hTwos.length > 2 && (
-            <aside className="article-sidebar" ref={ refArticleSidebar }>
-              <ArticleTOC label={ attributes?.tocLabel } headings={ hTwos } stickyTop={ tocOffset } />
-              <Delibird />
-            </aside>
+    <Block className="wp-block-badegg-article" attributes={ attributes } innerRef={ refArticle }>
+      <div className="article-layout">
+        <div className="article-main badegg-block-list wysiwyg" ref={ refArticleMain }>
+          { Array.isArray(innerBlocks) && innerBlocks.length > 0 &&
+            innerBlocks.map((block, index) => (
+              <Switchboard key={ index } index={ index } post={ post } postType={ postType } {...block} />
+            )
           )}
-
         </div>
+
+        { attributes?.sidebar && Array.isArray(hTwos) && hTwos.length > 2 && (
+          <aside className="article-sidebar" ref={ refArticleSidebar }>
+            <ArticleTOC label={ attributes?.tocLabel } headings={ hTwos } stickyTop={ tocOffset } />
+            <Delibird />
+          </aside>
+        )}
+
       </div>
-    </section>
+    </Block>
   )
 }

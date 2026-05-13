@@ -15,7 +15,7 @@ class Blocks
         $data = [];
 
         if($blocks && is_array($blocks)) {
-            foreach ($blocks as $block) {
+            foreach ($blocks as $key => $block) {
                 $name = $block['blockName'];
 
                 if(!$name) continue;
@@ -28,6 +28,7 @@ class Blocks
                 }
 
                 $props = [
+                    'index'       => $key,
                     'name'        => $name,
                     'attributes'  => $block['attrs'] ?? [],
                     'content'     => trim($this->unwrapBlock($block['innerHTML'])),

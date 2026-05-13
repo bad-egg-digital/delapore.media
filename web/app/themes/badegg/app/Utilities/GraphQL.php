@@ -96,8 +96,9 @@ class GraphQL
         register_graphql_object_type('Block', [
             'description' => 'Gutenberg block node',
             'fields' => [
+                'index'         => [ 'type' => 'Number' ],
                 'name'          => [ 'type' => 'String' ],
-                'attributes'    => [ 'type' => 'JSON' ],
+                'attributes'    => [ 'type' => 'JSON'   ],
                 'content'       => [ 'type' => 'string' ],
                 'rawContent'    => [ 'type' => 'string' ],
                 'innerBlocks'   => [ 'type' => ['list_of' => 'Block'] ],

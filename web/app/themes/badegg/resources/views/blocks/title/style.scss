@@ -1,0 +1,79 @@
+@use "@styles/global/variables";
+
+.wp-block-badegg-title {
+  container-name: BlockTitle;
+  container-type: inline-size;
+
+  h1 {
+    position: relative;
+    color: variables.$white;
+    margin: 0;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0.5em;
+      left: -1.25em;
+      display: block;
+      width: 1em;
+      height: 1em;
+      font-size: 0.5em;
+      background: variables.$primary;
+      mask-image: url("@images/embellish-centre.svg");
+      mask-size: contain;
+      mask-repeat: no-repeat;
+    }
+
+    @container BlockTitle (min-width: #{ variables.$screen-sm }) {
+      font-size: 3em;
+    }
+
+    @container BlockTitle (min-width: #{ variables.$screen-md }) {
+      font-size: 4em;
+    }
+  }
+
+  &-subtitle {
+    color: variables.$primary-lightest;
+    font-size: 0.8em;
+    margin: 0;
+
+    @container BlockTitle (min-width: #{ variables.$screen-sm }) {
+      font-size: 1em;
+    }
+  }
+
+  &-excerpt {
+    margin: 0.5em 0 0;
+
+    @container BlockTitle (min-width: #{ variables.$screen-sm }) {
+      font-size: 1.25em;
+    }
+  }
+
+  &-layout {
+    &.has-delibird {
+      @container BlockTitle (min-width: #{ variables.$screen-sm }) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: variables.$gapLarge;
+      }
+    }
+  }
+
+  &-text {
+    max-width: variables.$containerSmall;
+    flex-grow: 1;
+  }
+
+  &-image {
+    display: none;
+    flex-shrink: 0;
+
+    @container BlockTitle (min-width: #{ variables.$screen-sm }) {
+      display: block;
+    }
+  }
+
+}

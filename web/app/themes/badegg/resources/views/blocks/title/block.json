@@ -1,0 +1,33 @@
+{
+  "apiVersion": 3,
+  "name": "badegg/title",
+  "title": "Page Title",
+  "category": "badegg",
+  "icon": {
+    "src": "editor-paste-text",
+    "foreground": "#f58762"
+  },
+  "description": "Display the page title and intro.",
+  "keywords": [ "title", "heading" ],
+  "supports": {
+    "html": true,
+    "multiple": false,
+    "color": {
+      "background": false,
+      "text": false
+    }
+  },
+  "attributes": {
+    "hideDelibird": {
+      "type": "boolean",
+      "default": false
+    },
+    "enableSubtitle": {
+      "type": "boolean",
+      "default": false
+    },
+    "subtitle": {
+      "type": "string"
+    }
+  }
+}

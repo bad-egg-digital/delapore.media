@@ -32,6 +32,14 @@ export default function Single({ postType = 'page' }) {
           title
           date
           databaseId
+          blocks {
+            index
+            name
+            attributes
+            content
+            rawContent
+            innerBlocks
+          }
           ${ queryTerms }
         }
       }
