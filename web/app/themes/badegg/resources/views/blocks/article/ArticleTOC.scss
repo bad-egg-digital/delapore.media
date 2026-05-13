@@ -3,6 +3,7 @@
 .article-toc {
   position: sticky;
   top: 0;
+  z-index: 2;
 
   .inner {
     border-color: rgba(variables.$white, 0.3);
@@ -40,7 +41,7 @@
     font-size: 1.25em;
     line-height: 1.1;
     font-family: variables.$displayFont;
-    font-weight: bold;
+    font-weight: 700;
     text-decoration: none;
 
     &.active,

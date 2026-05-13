@@ -1,5 +1,14 @@
 @use "@styles/global/variables";
-@use "./style.scss";
+@use "./style";
+@use "@views/components/Blocklist/Blocklist";
+@use "@blocks/core/Columns";
+@use "@blocks/core/Details";
+@use "@blocks/core/Embed";
+@use "@blocks/core/Gallery";
+@use "@blocks/core/Image";
+@use "@blocks/core/Quote";
+@use "@blocks/core/Separator";
+@use "@blocks/core/Verse";
 
 .wp-block-badegg-article {
   position: relative;

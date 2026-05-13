@@ -4,8 +4,14 @@
 .wp-block-media-text {
   display: grid;
   grid-template-columns: 50% auto;
-  gap: variables.$innerSmall;
+  margin: variables.$gapMedium 0;
+  gap: variables.$gapMedium;
   align-items: center;
+
+  @container wpBlockList (min-width: #{variables.$screen-xs}) {
+    margin: variables.$gapLarge 0;
+    gap: variables.$gapLarge;
+  }
 
   &__content {
     @extend .wysiwyg;

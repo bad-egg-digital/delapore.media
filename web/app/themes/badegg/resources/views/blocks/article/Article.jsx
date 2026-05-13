@@ -4,6 +4,7 @@ import parse, { attributesToProps } from "html-react-parser"
 import Switchboard from '@views/components/Switchboard/Switchboard'
 import { containerClassNames, sectionClassNames } from '@scripts/lib/classNames'
 import ArticleTOC from '@blocks/article/ArticleTOC'
+import Delibird from '@views/components/Delibird/Delibird'
 
 export default function Article( props ) {
   const refArticle = useRef(null)
@@ -92,6 +93,7 @@ export default function Article( props ) {
           { attributes?.sidebar && Array.isArray(hTwos) && hTwos.length > 2 && (
             <aside className="article-sidebar" ref={ refArticleSidebar }>
               <ArticleTOC label={ attributes?.tocLabel } headings={ hTwos } stickyTop={ tocOffset } />
+              <Delibird />
             </aside>
           )}
 

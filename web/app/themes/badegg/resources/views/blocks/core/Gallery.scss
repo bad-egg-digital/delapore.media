@@ -3,8 +3,18 @@
 
 .wp-block-gallery {
   display: grid;
-  gap: variables.$innerSmall;
   grid-template-columns: repeat(2, 1fr);
+  gap: variables.$gapSmall;
+  margin: variables.$gapMedium 0;
+
+  @container wpBlockList (min-width: #{variables.$screen-xs}) {
+    gap: variables.$gapMedium;
+    margin: variables.$gapLarge 0;
+  }
+
+  .wp-block-image {
+    margin: 0;
+  }
 
   @for $i from 2 through 8 {
     &.columns-#{$i} {
@@ -43,13 +53,5 @@
     &.columns-10 {
       grid-template-columns: repeat(5, 1fr);
     }
-  }
-
-  @container wpBlockList (min-width: #{variables.$screen-md}) {
-    gap: variables.$innerMedium;
-  }
-
-  @container wpBlockList (min-width: #{variables.$screen-lg}) {
-    gap: variables.$innerLarge;
   }
 }

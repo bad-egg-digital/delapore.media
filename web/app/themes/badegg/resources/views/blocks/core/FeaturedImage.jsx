@@ -1,4 +1,4 @@
-import './FeaturedImage.scss'
+import './Image.scss'
 
 export default function FeaturedImage({ attributes }) {
   const { thumbnail } = attributes

@@ -130,7 +130,7 @@ registerBlockType(metadata.name, {
         </InspectorControls>
 
         { (!hideCategories || !hideDate) &&
-          <div className={ `entry-meta ${ (postType === 'post' && !hideCategories) ? 'has-categories' : '' }` }>
+          <div className={ `entry-meta ${ (!hideCategories) ? 'has-categories' : '' }` }>
             { postType === 'post' && !hideCategories &&
               <ul className="masthead-categories nolist">
                 { allCategories?.filter( (cat) => selectedCategories.includes(cat.id) )

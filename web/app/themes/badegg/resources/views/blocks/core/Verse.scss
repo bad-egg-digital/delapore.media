@@ -1,6 +1,11 @@
 @use "@styles/global/variables";
 
-.core-verse {
+.wp-block-verse {
   line-height: 2;
   word-wrap: normal;
+  margin: variables.$gapMedium 0;
+
+  @container wpBlockList (min-width: #{variables.$screen-xs}) {
+    margin: variables.$gapLarge 0;
+  }
 }

@@ -6,17 +6,12 @@
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: variables.$innerSmall;
+  margin: variables.$gapMedium 0;
+
 
   @container wpBlockList (min-width: #{variables.$screen-xs}) {
     display: flex;
-  }
-
-  @container wpBlockList (min-width: #{variables.$screen-md}) {
-    gap: variables.$innerMedium;
-  }
-
-  @container wpBlockList (min-width: #{variables.$screen-lg}) {
-    gap: variables.$innerLarge;
+    margin: variables.$gapLarge 0;
   }
 
   &.are-vertically-aligned {

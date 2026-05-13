@@ -1,9 +1,8 @@
 import './Image.scss'
+import parse, { attributesToProps } from "html-react-parser"
 
-export default function Image(attributes) {
-  const { name } = attributes;
+export default function Image({ rawContent }) {
 
-  return (
-    <h3>{ name }</h3>
-  )
+  return parse( rawContent )
+
 }

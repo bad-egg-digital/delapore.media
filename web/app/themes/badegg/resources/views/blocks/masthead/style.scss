@@ -27,13 +27,13 @@
 
   time {
     line-height: 1;
-    word-wrap: nowrap;
+    white-space: nowrap;
   }
 
   h1 {
     color: variables.$white;
 
-    @container BlockMasthead (min-width: #{variables.$screen-md}) {
+    @container BlockMasthead (min-width: #{variables.$screen-xs}) {
       font-size: 2.25em;
     }
   }
@@ -50,9 +50,14 @@ ul.masthead-categories {
   a {
     display: block;
     padding: 0.125em 0.5em;
-    background: variables.$primary;
-    color: variables.$black;
+    background: variables.$secondary-lighter;
+    color: variables.$white;
     font-weight: bold;
     text-decoration: none;
+    transition: all 300ms ease;
+
+    &:hover {
+      background: variables.$secondary;
+    }
   }
 }

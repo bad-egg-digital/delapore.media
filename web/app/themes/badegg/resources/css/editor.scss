@@ -4,7 +4,6 @@
 @forward "global/fonts";
 @forward "global/typography";
 @forward "global/framework";
-@use "@blocks/core/Quote";
 
 html :where(.wp-block) {
   max-width: none;
@@ -54,7 +53,7 @@ html :where(.wp-block) {
     display: block;
     position: fixed;
     inset: 0;
-    background-image: url("@images/bg-texture.jpg");
+    background-image: url("@images/bg-texture-1920.jpg");
     background-size: cover;
     mix-blend-mode: screen;
   }

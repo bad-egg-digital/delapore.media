@@ -50,3 +50,21 @@
     visibility: hidden;
   }
 }
+
+.article-sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .delibird {
+    position: sticky;
+    bottom: 2em;
+  }
+}
+
+.article-main {
+  @container wpBlockList (min-width: #{variables.$screen-xs}) {
+    h2 { font-size: 1.75em; }
+    h3 { font-size: 1.5em; }
+  }
+}

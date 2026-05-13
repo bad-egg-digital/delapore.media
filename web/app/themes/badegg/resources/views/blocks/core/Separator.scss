@@ -1,11 +1,35 @@
+@use "@styles/global/variables";
+
 .wp-block-separator {
-  border-top: 2px solid currentColor;
+  border-top: 2px solid variables.$primary;
 	// Default, thin style, is stored in theme.scss so it can be opted out of
 
 	// Unset the left, right and bottom borders by default, otherwise some browsers will render them as "inset".
 	border-left: none;
 	border-right: none;
 	border-bottom: none;
+
+  // The following overrides should be enforced regardless of global styles.
+  // The dots block style uses a pseudo element to render the dots. Background
+  // color and borders would break this aesthetic.
+  &.is-style-dots {
+    // Override any background themes often set on the hr tag for this style.
+    // also override the color set in the editor since it's intended for normal HR
+    background: none !important;
+    // Important required to ensure dots does not get a border.
+    border: none !important;
+  }
+
+  &.is-style-wide {
+    border: none;
+    height: 0.75em;
+    mask-image: url("@images/hr-centre-repeat.svg");
+    mask-size: auto 100%;
+    mask-repeat: repeat-x;
+    mask-position: center;
+    background: variables.$primary;
+  }
+
 }
 
 // Dots block style variation
@@ -23,15 +47,4 @@
 		padding-left: 2em;
 		font-family: serif;
 	}
-}
-
-// The following overrides should be enforced regardless of global styles.
-// The dots block style uses a pseudo element to render the dots. Background
-// color and borders would break this aesthetic.
-.wp-block-separator.is-style-dots {
-	// Override any background themes often set on the hr tag for this style.
-	// also override the color set in the editor since it's intended for normal HR
-	background: none !important;
-	// Important required to ensure dots does not get a border.
-	border: none !important;
 }

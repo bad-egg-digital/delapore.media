@@ -5,81 +5,61 @@
   position: relative;
   text-align: center;
   font-size: 1.25em;
-  padding: 0;
-  padding: 1em 0;
-  margin: variables.$innerLarge auto;
+  margin: variables.$gapMedium auto;
 
   * {
-    position: relative;
-    z-index: 3;
-  }
-
-  p {
     font-family: variables.$displayFont;
-    font-style: italic;
-    margin: 0 0 0.25em;
-  }
-
-  cite {
-    font-size: 0.6em;
-    font-style: normal;
-    color: variables.$grey;
-  }
-
-  &::before {
-    content: '\201C';
-    position: absolute;
-    z-index: 2;
-    top: -0.25em;
-    left: calc(50% - 0.5em);
-    display: block;
-    text-align: center;
-    font-size: 1.5em;
-    width: 1em;
-    color: variables.$secondary;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: auto calc(20% - 1em) 0;
-    border-width: 1px 0 0;
-    border-style: solid;
+    font-weight: 700;
+    line-height: 1.2;
   }
 
   > *:first-child {
+    margin-top: 0;
+  }
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+  cite {
+    font-family: variables.$font;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.25rem;
+    color: variables.$primary-lightest;
+    margin-top: -0.25rem;
+  }
+
+  &::before,
+  &::after {
+    display: block;
+    margin: auto;
+    mask-image: url("@images/hr-centre.svg");
+    mask-size: auto 100%;
+    mask-position: center;
+    height: 0.875rem;
+    width: 21.5rem;
+    max-width: 100%;
+    background: variables.$primary;
+  }
+
+  &::before { margin-bottom: variables.$gapSmall; }
+  &::after { margin-top: variables.$gapSmall; }
+
+  &:not(.is-style-plain) {
     &::before,
     &::after {
       content: '';
-      position: absolute;
-      top: -0.75em;
-      display: block;
-      width: 30%;
-      border-width: 1px 0 0;
-      border-style: solid;
-    }
-
-    &::before {
-      right: calc(50% + 1em);
-    }
-
-    &::after {
-      left: calc(50% + 1em);
     }
   }
 
-  &::after,
-  > *:first-child::before,
-  > *:first-child::after {
-    border-color: variables.$grey-lighter;
-  }
+  @container wpBlockList (min-width: #{variables.$screen-xs}) {
+    font-size: 2.5em;
+    margin: variables.$gapLarge 0;
+    margin-left: 5%;
+    margin-right: 5%;
 
-  &.is-style-plain {
-    &::before,
-    &::after,
-    > *:first-child::before,
-    > *:first-child::after {
-      content: none;
-    }
+    &::before { margin-bottom: variables.$gapMedium; }
+    &::after { margin-top: variables.$gapMedium; }
   }
 }

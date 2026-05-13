@@ -1,5 +1,12 @@
+@use "@styles/global/variables";
+
 .wp-block-embed {
 	overflow-wrap: break-word; // Break long strings of text without spaces so they don't overflow the block.
+  margin: variables.$gapMedium 0;
+
+  @container wpBlockList (min-width: #{variables.$screen-xs}) {
+    margin: variables.$gapLarge 0;
+  }
 
 	// Don't allow iframe to overflow it's container.
 	iframe {
