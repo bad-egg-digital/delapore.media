@@ -12,7 +12,7 @@ export default function Article( props ) {
   const refArticleSidebar = useRef(null)
 
   const { name, attributes, innerBlocks, post, postType } = props
-  const headings = innerBlocks.filter( node => ( node.name === 'core/heading' ))
+  const headings = (innerBlocks) ? innerBlocks.filter( node => ( node.name === 'core/heading' )) : []
   const hTwos = headings.filter( node => ( !node.attributes.level ))
 
   const menuOffset = () => {

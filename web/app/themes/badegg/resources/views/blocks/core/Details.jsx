@@ -3,7 +3,11 @@ import parse from "html-react-parser"
 import Switchboard from '@views/components/Switchboard/Switchboard'
 
 export default function Details({ index, name, content, rawContent, innerBlocks, attributes }) {
+  if(!innerBlocks) return
+
   const Content = parse(rawContent)
+
+
   let contentProps = Content.props
 
   return (

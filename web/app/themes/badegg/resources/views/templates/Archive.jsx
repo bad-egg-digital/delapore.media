@@ -56,7 +56,6 @@ export default function Archive({ postType = 'post' }) {
   }, [])
 
   if(isLoaded && archivePage) {
-    console.log(archivePage)
 
     return (
       <>

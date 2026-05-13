@@ -2,8 +2,8 @@ import './MediaText.scss'
 import parse from "html-react-parser"
 import Switchboard from '@views/components/Switchboard/Switchboard'
 
-export default function MediaText( props ) {
-  const { rawContent, innerBlocks, attributes } = props;
+export default function MediaText({ rawContent, innerBlocks, attributes }) {
+  if(!innerBlocks) return
 
   const TextCol = () => (
     <>

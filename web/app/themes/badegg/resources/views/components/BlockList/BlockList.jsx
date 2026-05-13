@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import Switchboard from '@views/components/Switchboard/Switchboard'
 
 export default function BlockList({ id, postType, post }) {
-  const [ blocks, setBlocks ] = useState([])
+  const [ blocks, setBlocks ] = useState(post.blocks)
   const [ isLoaded, setIsLoaded ] = useState(false)
 
   const type = (['page', 'post'].includes(postType)) ? postType + 's' : postType

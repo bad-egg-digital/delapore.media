@@ -38,7 +38,13 @@ export default function Single({ postType = 'page' }) {
             attributes
             content
             rawContent
-            innerBlocks
+            innerBlocks {
+              index
+              name
+              attributes
+              content
+              rawContent
+            }
           }
           ${ queryTerms }
         }

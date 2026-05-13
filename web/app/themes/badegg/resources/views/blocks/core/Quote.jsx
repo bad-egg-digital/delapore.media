@@ -2,8 +2,8 @@ import './Quote.scss'
 import parse, { attributesToProps } from "html-react-parser"
 import Switchboard from '@views/components/Switchboard/Switchboard'
 
-export default function Quote( props ) {
-  const { rawContent, innerBlocks, attributes } = props;
+export default function Quote({ rawContent, innerBlocks, attributes }) {
+  if(!innerBlocks) return
 
   const Inner = () => (
     <>

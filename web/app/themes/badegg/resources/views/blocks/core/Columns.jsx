@@ -2,8 +2,8 @@ import './Columns.scss'
 import parse, { attributesToProps } from "html-react-parser"
 import Switchboard from '@views/components/Switchboard/Switchboard'
 
-export default function Columns( props ) {
-  const { rawContent, innerBlocks, attributes } = props;
+export default function Columns({ rawContent, innerBlocks, attributes }) {
+  if(!innerBlocks) return
 
   const Inner = () => (
     <>
