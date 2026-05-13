@@ -6,7 +6,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  border: 0 solid variables.$white;
+  border: 0 solid transparent;
   border-width: 0 0 1px;
 
   &::before {
@@ -20,6 +20,8 @@
   }
 
   &.scrolled {
+    border-color: rgba(variables.$white, 0.3);
+
     &::before {
       opacity: 1;
       backdrop-filter: blur(0.25em);
