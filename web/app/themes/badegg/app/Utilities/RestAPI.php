@@ -87,6 +87,12 @@ class RestAPI
                 'callback' => [$this, 'getPostBlockData'],
                 'permission_callback' => '__return_true',
             ]);
+
+            register_rest_route('wp/v2',  "/{$postType}/(?P<id>\d+)/blocks/(?P<index>\d+)/(?P<key>[\w-]+)", [
+                'methods'  => 'GET',
+                'callback' => [$this, 'getPostBlockData'],
+                'permission_callback' => '__return_true',
+            ]);
         }
     }
 
@@ -108,10 +114,20 @@ class RestAPI
 
             if($index < count($data)) {
                 $data = $data[$index];
+
+                if(isset($request['key'])) {
+                    $key = $request['key'];
+
+                    if(isset($data[$key])) {
+                        $data = $data[$key];
+                    }
+                }
+
             } else {
                 $data = [];
             }
         }
+
 
         return rest_ensure_response($data);
     }
