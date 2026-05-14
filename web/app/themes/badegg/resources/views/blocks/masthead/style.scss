@@ -25,6 +25,20 @@
     }
   }
 
+  .masthead-categories {
+    li {
+      a {
+        background: variables.$secondary-lighter;
+        border-color: variables.$secondary-lighter;
+      }
+
+      &:hover a {
+        background: variables.$primary;
+        border-color: variables.$primary;
+      }
+    }
+  }
+
   time {
     line-height: 1;
     white-space: nowrap;
