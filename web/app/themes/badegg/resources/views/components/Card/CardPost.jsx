@@ -17,6 +17,7 @@ export default function CardPost({ postType, slug, terms, title, excerpt, uri, f
       <header className="bg-grey-darker ">
         { featuredImage ? (
           <img
+            loading="lazy"
             className="card-featured"
             src={featuredImage?.node?.sourceUrl }
             srcSet={ featuredImage?.node?.srcSet }

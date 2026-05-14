@@ -22,5 +22,6 @@
   "core/post-featured-image",
   "core/columns",
 
-  "badegg/masthead"
+  "badegg/masthead",
+  "badegg/excerpt"
 ]

@@ -26,10 +26,11 @@ import Fallback       from '@blocks/core/Fallback'
 
 // Full-width blocks
 import Article        from '@blocks/article/Article'
-import Title        from '@blocks/title/Title'
+import Title          from '@blocks/title/Title'
 
 // Custom inner blocks
 import Masthead       from '@blocks/masthead/Masthead'
+import Excerpt        from '@blocks/excerpt/Excerpt'
 
 export default function Switchboard( props ) {
   const { name } = props;
@@ -42,6 +43,7 @@ export default function Switchboard( props ) {
 
     // Custom inner blocks
     case "badegg/masthead":           return <Masthead      { ...props } />
+    case "badegg/excerpt":            return <Excerpt       { ...props } />
 
     // Core blocks
     case 'core/separator':            return <Separator     { ...props } />

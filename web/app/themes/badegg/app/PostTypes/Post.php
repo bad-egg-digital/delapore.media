@@ -51,8 +51,8 @@ class Post
                         'badegg/masthead',
                         [
                             'lock' => [
-                                'move' => true,
-                                'remove' => true,
+                                'move' => false,
+                                'remove' => false,
                             ]
                         ],
                     ],
@@ -73,6 +73,16 @@ class Post
                             'placeholder' => $this->paragraphPlaceholders[rand(0,9)],
                         ],
                     ],
+                    [
+                        'badegg/excerpt',
+                        [
+                            'lock' => [
+                                'move' => true,
+                                'remove' => true,
+                            ],
+                        ]
+                    ],
+
                 ],
             ],
         ];

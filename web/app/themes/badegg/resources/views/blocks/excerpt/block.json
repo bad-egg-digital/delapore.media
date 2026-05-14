@@ -1,0 +1,21 @@
+{
+  "apiVersion": 3,
+  "name": "badegg/excerpt",
+  "title": "Page Excerpt",
+  "category": "badegg",
+  "icon": {
+    "src": "text",
+    "foreground": "#f58762"
+  },
+  "description": "Display the page or post excerpt.",
+  "keywords": [ "excerpt", "blurb", "intro" ],
+  "supports": {
+    "html": true,
+    "multiple": false,
+    "color": {
+      "background": false,
+      "text": false
+    }
+  },
+  "attributes": {}
+}

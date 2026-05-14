@@ -30,6 +30,7 @@ export default function Single({ postType = 'page' }) {
           id
           slug
           title
+          excerpt
           date
           databaseId
           blocks {
