@@ -1,6 +1,15 @@
 @use "../mixins";
 @use "../variables";
 
+body {
+  background: variables.$black;
+  color: variables.$white;
+}
+
+.bg-white {
+  color: variables.$grey-darker;
+}
+
 /* Works on Firefox */
 * {
   scrollbar-width: thin;

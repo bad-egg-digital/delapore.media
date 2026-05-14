@@ -15,7 +15,7 @@ export default function TermList({ className, items, active, contentType }) {
               (contentType.uri === location.pathname) && `active`,
             )}>
               <Link to={ contentType.uri }>
-                <span>{ contentType.label }</span>
+                <span>All { contentType.label }</span>
               </Link>
             </li>
           }

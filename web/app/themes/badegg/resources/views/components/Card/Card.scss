@@ -1,0 +1,52 @@
+@use "@styles/global/variables";
+
+.card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  &-featured {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+
+    &-placeholder {
+      padding-top: 56.25%;
+    }
+  }
+
+  &-content {
+    flex-grow: 1;
+  }
+
+  &-more {
+    font-weight: bold;
+    text-decoration: none;
+    color: variables.$primary;
+
+    &-overlay {
+      display: block;
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+  }
+
+  .termlist {
+    position: relative;
+    z-index: 2;
+    font-size: 0.8em;
+  }
+
+  &:hover {
+    .card-more {
+      text-decoration: underline;
+    }
+  }
+
+  h2 {
+    color: variables.$secondary-darker;
+    margin-top: 1rem;
+  }
+}

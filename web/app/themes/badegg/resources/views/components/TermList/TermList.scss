@@ -21,14 +21,41 @@
 
       &:hover {
         a {
-          background: variables.$secondary;
+          background: variables.$secondary-lighter;
+          border-color: variables.$secondary-lighter;
+          color: variables.$white;
+
+          .bg-white & {
+            border-color: variables.$secondary-lighter;
+            background: variables.$secondary-lighter;
+          }
         }
       }
 
       &.active {
         a {
           background: variables.$primary;
+          border-color: variables.$primary;
+          color: variables.$white;
         }
+      }
+
+      .bg-white & {
+        a {
+          border-color: variables.$grey-light;
+          background: variables.$grey-light;
+        }
+
+        &:hover a {
+          border-color: variables.$secondary-dark;
+          background: variables.$secondary-dark;
+        }
+
+        &.active a {
+          border-color: variables.$primary;
+          background: variables.$primary;
+        }
+
       }
     }
   }

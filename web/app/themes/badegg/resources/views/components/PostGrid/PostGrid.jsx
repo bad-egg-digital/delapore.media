@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom'
+import './PostGrid.scss'
 import TermList from '@views/components/TermList/TermList'
+import Card from '@views/components/Card/Card'
 
 export default function PostGrid({ postType, posts, terms, activeTerm, contentType }) {
   return (
@@ -7,12 +8,11 @@ export default function PostGrid({ postType, posts, terms, activeTerm, contentTy
       <div className="container container-large">
         <TermList items={ terms } active={ activeTerm } contentType={ contentType } />
 
-        {posts.map(post => (
-          <article key={post.node.id}>
-            <h2>{ post.node.title || '&nbsp;' }</h2>
-            <Link to={ `${ post.node.uri }` }>Read more</Link>
-          </article>
-        ))}
+        { posts.length > 0 && (
+          <div className={ `postgrid postgrid-${ postType } section section-small section-zero-bottom` }>
+            { posts.map( ( post, index ) => <Card key={ index} postType={ postType } { ...post.node } />)}
+          </div>
+        )}
 
       </div>
     </section>

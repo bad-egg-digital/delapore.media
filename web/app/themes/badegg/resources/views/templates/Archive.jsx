@@ -23,7 +23,7 @@ export default function Archive({ postType = 'post' }) {
   }
 
   useEffect(() => {
-    let queryTerms, queryWhere = ''
+    let queryTerms, queryPostTerms, queryWhere = ''
 
     if(queryTaxonomy) {
       queryTerms = `
@@ -37,6 +37,16 @@ export default function Archive({ postType = 'post' }) {
           }
         }
       `
+
+      queryPostTerms = `terms {
+        nodes {
+          ... on ${ queryTaxonomy } {
+            name
+            slug
+            uri
+          }
+        }
+      }`
     }
 
     if(term && queryTaxonomy === 'Category') {
@@ -70,6 +80,19 @@ export default function Archive({ postType = 'post' }) {
               title
               excerpt
               uri
+              featuredImage {
+                node {
+                  altText
+                  sourceUrl
+                  srcSet
+                  title
+                  mediaDetails {
+                    width
+                    height
+                  }
+                }
+              }
+              ${ queryPostTerms }
             }
           }
         }
