@@ -29,6 +29,7 @@ class Post
     {
         $args['rewrite']['slug'] = $this->slug();
         $args['rewrite']['with_front'] = false;
+        $args['menu_icon'] = 'dashicons-align-right';
 
         return $args;
     }
