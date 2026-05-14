@@ -87,7 +87,6 @@ export default function BlockSettings({ attributes, setAttributes }) {
 		background_opacity,
 		background_fixed,
     background_filter,
-		background_gradient,
 	} = attributes;
 
 	return (
@@ -167,15 +166,6 @@ export default function BlockSettings({ attributes, setAttributes }) {
           </>
         ) : null }
 
-        { 'background_colour' in attributes && attributes.background_colour && ![0, '0', 'white'].includes(attributes.background_colour) ? (
-          <ToggleControl
-            label={ __('Gradient', 'badegg') }
-            checked={ background_gradient }
-            onChange={(value) => setAttributes({ background_gradient: value }) }
-            __nextHasNoMarginBottom
-          />
-        ) : null }
-
         { background_image != 0 && (
           <>
             <ToggleControl
@@ -223,11 +213,11 @@ export default function BlockSettings({ attributes, setAttributes }) {
                 console.log(media);
 
                 setAttributes({
-                  background_image: media.id,
-                  background_url: media.sizes.medium.url,
-                  background_url_lazy: media.sizes.lazy.url,
-                  background_image_width: media.width,
-                  background_image_height: media.height,
+                  background_image: media?.id,
+                  background_url: media?.sizes?.medium?.url || media?.url,
+                  background_url_lazy: media?.sizes?.lazy?.url,
+                  background_image_width: media?.width,
+                  background_image_height: media?.height,
                 })
               }}
               allowedTypes={ ['image'] }

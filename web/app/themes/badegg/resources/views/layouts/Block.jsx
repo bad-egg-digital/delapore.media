@@ -1,4 +1,5 @@
 import { containerClassNames, sectionClassNames } from '@scripts/lib/classNames'
+import BackgroundImage from '@views/components/BackgroundImage/BackgroundImage'
 
 export default function Block( { className, attributes, children, innerRef } ) {
 
@@ -15,6 +16,8 @@ export default function Block( { className, attributes, children, innerRef } ) {
       <div className={ containerClassNames( attributes, []).join(' ') }>
         { children }
       </div>
+
+      <BackgroundImage { ...attributes } />
     </section>
   )
 }

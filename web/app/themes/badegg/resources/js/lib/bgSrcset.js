@@ -82,7 +82,7 @@ export async function loadOptimalSrc(el)
 
 export async function get_srcset(id = 0, name = 'hero', sizes = null)
 {
-  const restURL = window.App.restURL;
+  const restURL = badEggAPI.homeURL + badEggAPI.rest;
 
   if(!id || !restURL) return;
 

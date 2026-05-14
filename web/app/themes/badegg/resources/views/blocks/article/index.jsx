@@ -22,8 +22,8 @@ import {
 
 import allowedBlocks from '@json/block-core-whitelist.json';
 import { containerClassNames, sectionClassNames } from '@scripts/lib/classNames';
-import BackgroundImage from '@blocks/-editor/BackgroundImage';
 import BlockSettings from '@blocks/-editor/BlockSettings';
+import BackgroundImage from '@views/components/BackgroundImage/BackgroundImage';
 
 registerBlockType(metadata.name, {
   edit({ attributes, setAttributes, clientId }) {

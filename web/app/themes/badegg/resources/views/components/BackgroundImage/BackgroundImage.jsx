@@ -1,5 +1,3 @@
-import { select } from '@wordpress/data';
-
 /**
  * BackgroundImage
  *
@@ -14,19 +12,27 @@ import { select } from '@wordpress/data';
  * @param {number} props.background_opacity The opacity value applied to the image.
  * @returns {*} React JSX
  */
-export default function BackgroundImage({
-  background_image,
-  background_image_width,
-  background_image_height,
-  background_url,
-  background_url_lazy,
-  background_lazy,
-  background_position = 'center',
-  background_fixed = false,
-  background_filter = false,
-  background_opacity = 70,
-  disableLazyBG = false,
-}) {
+
+import './BackgroundImage.scss'
+import { bgSrcset } from '@scripts/lib/bgSrcset'
+
+export default function BackgroundImage( props ) {
+    const {
+    background_image,
+    background_image_width,
+    background_image_height,
+    background_url,
+    background_url_lazy,
+    background_lazy,
+    background_position = 'center',
+    background_fixed = false,
+    background_filter = false,
+    background_opacity = 70,
+    disableLazyBG = false,
+  } = props;
+
+  // console.log(props)
+
 
   if (background_image) {
     let styles = {
@@ -54,6 +60,8 @@ export default function BackgroundImage({
       attributes.style.backgroundImage = `url(${background_url_lazy})`;
       attributes.className += ' lazy';
     }
+
+    bgSrcset()
 
     return (
       <div { ...attributes } />

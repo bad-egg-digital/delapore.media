@@ -14,7 +14,7 @@
       "type": "boolean",
       "default": true
   },
-  "background_colour": {
+"background_colour": {
       "type": "string",
       "default": ""
   },
@@ -29,6 +29,14 @@
   "background_image": {
       "type": "integer",
       "default": 0
+  },
+  "background_image_width": {
+    "type": "integer",
+    "default": 0
+  },
+  "background_image_height": {
+    "type": "integer",
+    "default": 0
   },
   "background_url": {
     "type": "string",
@@ -54,6 +62,10 @@
       }
   },
   "background_fixed": {
+      "type": "boolean",
+      "default": false
+  },
+  "background_filter": {
       "type": "boolean",
       "default": false
   }

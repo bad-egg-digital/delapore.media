@@ -6,10 +6,13 @@ use ourcodeworld\NameThatColor\ColorInterpreter as NameThatColor;
 
 class RestAPI
 {
+    public $restBase = 'badegg/v1';
+
     public function __construct()
     {
         add_action( 'wp_enqueue_scripts', [$this, 'localize']);
         add_filter( 'wp_prepare_attachment_for_js', [$this, 'image_sizes'], 10, 3 );
+        add_action( 'rest_api_init', [$this, 'image']);
         add_action( 'rest_api_init', [$this, 'blockConfig']);
         add_action( 'rest_api_init', [$this, 'postBlockData']);
     }
@@ -66,6 +69,60 @@ class RestAPI
         }
 
         return $response;
+    }
+
+    public function image()
+    {
+        register_rest_route($this->restBase, '/image/(?P<id>\d+)/size/(?P<size>[a-zA-Z0-9-]+)', [
+            'methods' => 'GET',
+            'callback' => function($request){
+                $image = wp_get_attachment_image_src($request['id'], $request['size']);
+
+                if($image) {
+                    return rest_ensure_response([
+                        'url' => $image[0],
+                        'width' => $image[1],
+                        'height' => $image[2],
+                    ]);
+                } else {
+                    return null;
+                }
+            },
+            'permission_callback' => function(){
+                return true;
+            },
+        ]);
+
+        register_rest_route($this->restBase, '/image/(?P<id>\d+)/srcset/(?P<size>[a-zA-Z0-9-]+)', [
+            'methods' => 'GET',
+            'callback' => function($request){
+                $ImageSrcset = new ImageSrcset;
+                $srcset = $ImageSrcset->srcset(['image' => $request['id'], 'name' => $request['size'], 'sizes' => $request['sizes']]);
+
+                return rest_ensure_response($srcset);
+            },
+            'args' => [
+                'id' => [
+                    'required' => true,
+                    'validate_callback' => function($param) {
+                        return is_numeric($param);
+                    },
+                ],
+                'size' => [
+                    'default' => 'hero',
+                ],
+                'sizes' => [
+                    'required' => false,
+                    'default' => 5,
+                    'validate_callback' => function($param) {
+                        return is_numeric($param);
+                    },
+                ],
+            ],
+            'permission_callback' => function(){
+                return true;
+            },
+        ]);
     }
 
     public function postBlockData()
