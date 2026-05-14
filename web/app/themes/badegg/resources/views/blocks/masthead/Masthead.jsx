@@ -1,6 +1,7 @@
 import './style.scss'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import TermList from '@views/components/TermList/TermList'
 
 export default function Masthead( props ) {
   const { post, postType, attributes } = props
@@ -24,16 +25,8 @@ export default function Masthead( props ) {
     <div className="wp-block-badegg-masthead">
       { (!hideCategories || !hideDate) &&
         <div className={ `entry-meta ${ (!hideCategories && categories.length > 0) ? 'has-categories' : '' }` }>
-          { (!hideCategories && categories.length > 0) && (
-            <ul className="masthead-categories nolist">
-              { categories.map((item, index) =>  (
-                <li key={ index } className={ `category-${ item.slug }` }>
-                  <Link to={ item.uri } rel="preload">
-                    <span>{ item.name }</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          { !hideCategories && (
+            <TermList className="masthead-categories" items={ categories } />
           )}
 
           { !hideDate &&

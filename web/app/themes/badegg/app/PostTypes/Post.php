@@ -89,14 +89,9 @@ class Post
 
     public function labels($labels)
     {
-        $postsPageID = get_option('page_for_posts');
-        $postsPage = ($postsPageID) ? get_post($postsPageID) : null;
-
-        if ( $postsPage ) {
-            $labels->singular_name = $postsPage->post_title . ' ' . $labels->singular_name;
-            $labels->name = $postsPage->post_title . ' ' . $labels->name;
-            $labels->menu_name = $postsPage->post_title;
-        }
+        $labels->singular_name = __('Article', 'badegg');
+        $labels->name = __('Articles', 'badegg');
+        $labels->menu_name = __('Articles', 'badegg');
 
         return $labels;
     }

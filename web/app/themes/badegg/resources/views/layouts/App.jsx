@@ -24,8 +24,12 @@ const Wrapper = ({ children }) => {
 
   useLayoutEffect(() => {
     // Scroll to the top of the page when the route changes
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [location.pathname]);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant'
+    });
+  }, [ location.pathname ]);
 
   return children;
 };
@@ -111,6 +115,7 @@ export default function App() {
                       <Route path="/:slug" element={ <Single postType="page" /> } />
                       <Route path={ `/${pageForPosts}` } element={ <Archive postType="post" /> } />
                       <Route path={ `/${pageForPosts}/:slug` } element={ <Single postType="post" /> } />
+                      <Route path={ `/category/:term` } element={ <Archive postType="post" /> } />
                     </Routes>
                   </Wrapper>
                 </Suspense>

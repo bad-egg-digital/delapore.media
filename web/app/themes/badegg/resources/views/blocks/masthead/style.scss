@@ -38,26 +38,3 @@
     }
   }
 }
-
-ul.masthead-categories {
-  margin: -0.25em;
-
-  li {
-    display: inline-block;
-    margin: 0.25em;
-  }
-
-  a {
-    display: block;
-    padding: 0.125em 0.5em;
-    background: variables.$secondary-lighter;
-    color: variables.$white;
-    font-weight: bold;
-    text-decoration: none;
-    transition: all 300ms ease;
-
-    &:hover {
-      background: variables.$secondary;
-    }
-  }
-}
