@@ -2,12 +2,15 @@ import './TermList.scss'
 import { Link, useLocation } from 'react-router-dom'
 import clsx from 'clsx'
 
-export default function TermList({ className, items, active, contentType }) {
+export default function TermList({ className, items, active, contentType, limit }) {
   const location = useLocation()
+  let itemList = items.filter( value => Object.keys(value).length !== 0)
 
-  if(items.length > 0) {
+  if(limit) itemList = itemList.slice(0, limit)
+
+  if(itemList.length > 0) {
     return (
-      <div className={ `termlist ${ className }` }>
+      <div className={ `termlist ${ className || '' }` }>
         <ul className="nolist">
           { contentType &&
             <li className={ clsx(
@@ -20,7 +23,7 @@ export default function TermList({ className, items, active, contentType }) {
             </li>
           }
 
-          { items.map((item, index) =>  {
+          { itemList.map((item, index) =>  {
             const isActive = location.pathname === item.uri ? true : false;
 
             let termClass = clsx(
@@ -28,15 +31,13 @@ export default function TermList({ className, items, active, contentType }) {
               (isActive) && `active`,
             )
 
-            if('name' in item) {
-              return (
-                <li key={ index } className={ termClass }>
-                  <Link to={ item.uri } rel="preload">
-                    <span>{ item.name }</span>
-                  </Link>
-                </li>
-              )
-            }
+            return (
+              <li key={ index } className={ termClass }>
+                <Link to={ item.uri } rel="preload">
+                  <span>{ item.name }</span>
+                </Link>
+              </li>
+            )
 
           })}
         </ul>

@@ -6,7 +6,7 @@ export default function PostGrid({ postType, posts, terms, activeTerm, contentTy
   return (
     <section className="section section-postgrid">
       <div className="container container-large">
-        <TermList items={ terms } active={ activeTerm } contentType={ contentType } />
+        <TermList className="termlist-archive" items={ terms } active={ activeTerm } contentType={ contentType }/>
 
         { posts.length > 0 && (
           <div className={ `postgrid postgrid-${ postType } section section-small section-zero-bottom` }>

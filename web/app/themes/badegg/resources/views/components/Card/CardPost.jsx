@@ -30,7 +30,7 @@ export default function CardPost({ postType, slug, terms, title, excerpt, uri, f
         }
       </header>
       <div className="card-content inner inner-small">
-        <TermList items={ terms?.nodes } />
+        <TermList items={ terms?.nodes } limit={ 2 } />
         <h2>{ title }</h2>
         { excerpt && <div className="card-excerpt">{ parse(excerpt) }</div> }
       </div>

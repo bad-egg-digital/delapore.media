@@ -59,4 +59,19 @@
       }
     }
   }
+
+  &-archive {
+    overflow-x: auto;
+
+    ul {
+      display: flex;
+      gap: 0.25em;
+      margin: 0;
+
+      li {
+        display: block;
+        white-space: nowrap;
+      }
+    }
+  }
 }
