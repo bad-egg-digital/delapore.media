@@ -1,6 +1,7 @@
 @use "@styles/global/variables";
 
-.wp-block-image {
+.wp-block-image,
+.block-editor-block-list__block.wp-block.wp-block-post-featured-image {
   margin: variables.$gapMedium 0;
 
   @container wpBlockList (min-width: #{variables.$screen-xs}) {
