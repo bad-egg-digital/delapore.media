@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import parse from "html-react-parser"
 
 export default function Excerpt( props ) {
-  console.log(props)
   const { post, attributes } = props
   const [ excerpt, setExcerpt ] = useState('')
 
