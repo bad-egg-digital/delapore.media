@@ -130,14 +130,16 @@ registerBlockType(metadata.name, {
         { (!hideCategories || !hideDate) &&
           <div className={ `entry-meta ${ (!hideCategories) ? 'has-categories' : '' }` }>
             { postType === 'post' && !hideCategories &&
-              <ul className="masthead-categories nolist">
-                { allCategories?.filter( (cat) => selectedCategories.includes(cat.id) )
-                  .map((cat) => (
-                    <li key={ cat.id } className={ `category-${ cat.slug }` }>
-                      <a href="#"><span>{ cat.name }</span></a>
-                    </li>
-                  ))}
-              </ul>
+              <div className="termlist masthead-categories ">
+                <ul className="nolist">
+                  { allCategories?.filter( (cat) => selectedCategories.includes(cat.id) )
+                    .map((cat) => (
+                      <li key={ cat.id } className={ `category-${ cat.slug }` }>
+                        <a href="#"><span>{ cat.name }</span></a>
+                      </li>
+                    ))}
+                </ul>
+              </div>
             }
 
             { !hideDate &&

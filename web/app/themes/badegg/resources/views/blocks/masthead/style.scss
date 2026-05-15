@@ -47,6 +47,7 @@
 
   h1 {
     color: variables.$white;
+    margin: 0;
 
     @container BlockMasthead (min-width: #{variables.$screen-xs}) {
       font-size: 2.25em;
