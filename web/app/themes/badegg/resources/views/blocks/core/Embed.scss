@@ -10,6 +10,8 @@
 
 	// Don't allow iframe to overflow it's container.
 	iframe {
+    display: block;
+    width: 100%;
 		max-width: 100%;
     aspect-ratio: 16/9;
     height: auto;
