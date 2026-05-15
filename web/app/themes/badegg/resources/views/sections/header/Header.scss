@@ -54,6 +54,10 @@
     @media (max-width: variables.$screen-sm-max) {
       font-size: 0.66em;
     }
+
+    @media (min-width: variables.$screen-md) {
+      transform: translateX(-2em);
+    }
   }
 
   button.block.menu-toggle {
