@@ -111,10 +111,14 @@ class GraphQL
             ],
         ]);
 
-        $postTypes = [
-            'page',
-            'post',
+        $builtin = [
+            'pages' => 'pages',
+            'posts' => 'posts',
         ];
+
+        $postTypes = get_post_types(['show_in_rest' => true]);
+
+        $postTypes = array_merge($builtin, $postTypes);
 
         $resolver = function ($post){
             $Blocks = new Blocks;

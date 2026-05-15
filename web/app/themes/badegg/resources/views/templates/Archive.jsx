@@ -23,7 +23,9 @@ export default function Archive({ postType = 'post' }) {
   }
 
   useEffect(() => {
-    let queryTerms, queryPostTerms, queryWhere = ''
+    let queryTerms = ''
+    let queryPostTerms = ''
+    let queryWhere = ''
 
     if(queryTaxonomy) {
       queryTerms = `
@@ -111,10 +113,10 @@ export default function Archive({ postType = 'post' }) {
     })
       .then(res => res.json())
       .then(res => {
-        setContentType(res.data.contentType)
-        setTerms(res.data.terms.nodes)
-        setPosts(res.data.posts.edges)
-        setArchivePage(res.data.badEgg.archiveObjects[postType])
+        setContentType(res?.data?.contentType || {})
+        setTerms(res?.data?.terms?.nodes || [])
+        setPosts(res?.data?.[ postType + 's']?.edges || [])
+        setArchivePage(res?.data?.badEgg?.archiveObjects?.[postType] || {})
         setIsLoaded(true);
       })
   }, [ postType, queryTaxonomy, term ])

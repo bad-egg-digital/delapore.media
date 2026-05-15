@@ -11,14 +11,16 @@ export default function Masthead( props ) {
   const { hideCategories, hideDate } = attributes;
 
   useEffect(() => {
-    if(postType === 'post') {
-      const terms = post.terms.nodes
-      const cats = terms.filter( node => node.taxonomyName === 'category')
+    const terms = post?.terms?.nodes
 
-      setDate( post.date )
+    if(terms && postType === 'post') {
+      const cats = terms.filter( node => node.taxonomyName === 'category')
       setCategories( cats )
-      setTitle( post.title )
     }
+
+    setDate( post.date )
+    setTitle( post.title )
+
   }, [ post, postType ])
 
   return (

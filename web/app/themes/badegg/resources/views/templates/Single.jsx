@@ -12,8 +12,9 @@ export default function Single({ postType = 'page' }) {
 
   useEffect(() => {
     let queryTerms = ''
+    let queryBlocks = ''
 
-    if( postType !== 'page')
+    if( [ 'post' ].includes( postType )) {
       queryTerms = `terms {
         nodes {
           databaseId
@@ -23,6 +24,24 @@ export default function Single({ postType = 'page' }) {
           taxonomyName
         }
       }`
+    }
+
+    if(['page', 'post', 'podcast'].includes(postType)) {
+      queryBlocks = `blocks {
+        index
+        name
+        attributes
+        content
+        rawContent
+        innerBlocks {
+          index
+          name
+          attributes
+          content
+          rawContent
+        }
+      }`
+    }
 
     let query = `
       {
@@ -33,20 +52,7 @@ export default function Single({ postType = 'page' }) {
           excerpt
           date
           databaseId
-          blocks {
-            index
-            name
-            attributes
-            content
-            rawContent
-            innerBlocks {
-              index
-              name
-              attributes
-              content
-              rawContent
-            }
-          }
+          ${ queryBlocks }
           ${ queryTerms }
         }
       }
@@ -59,10 +65,10 @@ export default function Single({ postType = 'page' }) {
     })
       .then(res => res.json())
       .then(res => {
-        setPost(res.data[postType])
+        setPost(res?.data?.[postType])
         setIsLoaded(true)
       })
-  }, [slug])
+  }, [ slug, postType ])
 
   if( isLoaded && post ) {
     return (

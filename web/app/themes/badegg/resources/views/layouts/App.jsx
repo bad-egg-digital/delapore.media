@@ -39,52 +39,57 @@ export default function App() {
   const [ isLoaded, setIsLoaded ] = useState(false)
 
   const [ companyName, setCompanyName ] = useState('Loading...')
-  const [ pageForPosts, setPageForPosts ] = useState('Loading...')
+  const [ pageForPosts, setPageForPosts ] = useState(0)
+  const [ pageForPodcasts, setPageForPodcasts ] = useState(0)
   const [ primaryMenu, setPrimaryMenu ] = useState('Loading...')
 
-  // console.log(document.startViewTransition)
-
   useEffect(() => {
-    fetch( badEggAPI.graphql, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: `
-        {
-          badEgg {
-            archiveObjects {
-              post {
-                slug
-              }
+    let query = `
+      {
+        badEgg {
+          archiveObjects {
+            post {
+              slug
             }
-          }
-          badEggCup {
-            company {
-              name
-              nameLegal
-              socials {
-                icon
-                link
-                svg
-              }
-            }
-          }
-          menuItems(where: { location: PRIMARY_NAVIGATION }) {
-            nodes {
-              label
-              path
+            podcast {
+              slug
             }
           }
         }
-      ` }),
+        badEggCup {
+          company {
+            name
+            nameLegal
+            socials {
+              icon
+              link
+              svg
+            }
+          }
+        }
+        menuItems(where: { location: PRIMARY_NAVIGATION }) {
+          nodes {
+            label
+            path
+          }
+        }
+      }
+    `
+
+    fetch( badEggAPI.graphql, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: query }),
     })
       .then(res => res.json())
       .then(res => {
-        setPageForPosts(res.data.badEgg.archiveObjects.post.slug);
+        setPageForPosts(res?.data?.badEgg?.archiveObjects?.post?.slug);
+        setPageForPodcasts(res?.data?.badEgg?.archiveObjects?.podcast?.slug);
 
         setAppContext(prevState => ({
           ...prevState,
-          company: res.data.badEggCup.company,
-          menuPrimaryData: res.data.menuItems.nodes,
+          company: res?.data?.badEggCup?.company,
+          menuPrimaryData: res?.data?.menuItems?.nodes,
         }));
 
         setIsLoaded(true);
@@ -111,11 +116,16 @@ export default function App() {
                 <Suspense fallback={ <h2>LOADING</h2> }>
                   <Wrapper>
                     <Routes>
-                      <Route path="/" element={ <Single postType="page" /> } />
-                      <Route path="/:slug" element={ <Single postType="page" /> } />
-                      <Route path={ `/${pageForPosts}` } element={ <Archive postType="post" /> } />
-                      <Route path={ `/${pageForPosts}/:slug` } element={ <Single postType="post" /> } />
+                      <Route path="/" element={ <Single /> } />
+                      <Route path="/:slug" element={ <Single /> } />
+                      <Route path={ `/${ pageForPodcasts }` } element={ <Archive postType="podcast" /> } />
+
+                      <Route path={ `/${ pageForPosts }` } element={ <Archive postType="post" /> } />
                       <Route path={ `/category/:term` } element={ <Archive postType="post" /> } />
+
+                      <Route path={ `/${ pageForPosts }/:slug` } element={ <Single postType="post" /> } />
+                      <Route path={ `/${ pageForPodcasts }/:slug` } element={ <Single postType="podcast" /> } />
+
                     </Routes>
                   </Wrapper>
                 </Suspense>
