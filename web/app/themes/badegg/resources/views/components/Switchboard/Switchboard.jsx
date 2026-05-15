@@ -49,7 +49,7 @@ export default function Switchboard( props ) {
     case 'core/separator':            return <Separator     { ...props } />
     // case 'core/spacer':               return <Spacer        { ...props } />
     case 'core/image':                return <Image         { ...props } />
-    // case 'core/audio':                return <Audio         { ...props } />
+    case 'core/audio':                return <Audio         { ...props } />
     // case 'core/video':                return <Video         { ...props } />
     case 'core/embed':                return <Embed         { ...props } />
     // case 'core/footnotes':            return <Footnotes     { ...props } />
