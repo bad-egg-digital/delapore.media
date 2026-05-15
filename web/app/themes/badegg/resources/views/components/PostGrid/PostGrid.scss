@@ -8,14 +8,10 @@
 .postgrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 20em), 1fr));
-  gap: variables.$gapSmall;
+  gap: variables.$gapMedium;
 
   @container PostGrid (min-width: #{variables.$screen-md}) {
-    gap: variables.$gapMedium;
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @container PostGrid (min-width: #{variables.$screen-lg}) {
     gap: variables.$gapLarge;
+    grid-template-columns: repeat(3, 1fr);
   }
 }
