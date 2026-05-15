@@ -55,9 +55,13 @@
 
   @container wpBlockList (min-width: #{variables.$screen-xs}) {
     font-size: 2.5em;
-    margin: variables.$gapLarge 0;
     margin-left: 5%;
     margin-right: 5%;
+
+    &:not(.is-style-plain) {
+      margin-top: variables.$gapLarge;
+      margin-bottom: variables.$gapLarge;
+    }
 
     &::before { margin-bottom: variables.$gapMedium; }
     &::after { margin-top: variables.$gapMedium; }
