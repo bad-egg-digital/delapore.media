@@ -62,7 +62,15 @@ html :where(.wp-block) {
     width: 350px;
     max-width: 90%;
     margin: 1em auto;
-    background: variables.$white;
+    background: transparent;
+    border: 1px solid variables.$black;
+    background: variables.$primary;
+
+    &::after {
+      content: '';
+      clear: both;
+      display: table;
+    }
   }
 }
 
