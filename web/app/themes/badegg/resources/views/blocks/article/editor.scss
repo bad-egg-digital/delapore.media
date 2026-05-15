@@ -9,6 +9,7 @@
 @use "@blocks/core/Quote";
 @use "@blocks/core/Separator";
 @use "@blocks/core/Verse";
+@use "@blocks/core/DropCap";
 
 .wp-block-badegg-article {
   position: relative;
@@ -27,7 +28,7 @@
     background: transparent;
     border: none;
     padding: 0;
-    cursor:e-resize;
+    cursor: context-menu;
 
     &:hover {
       background: rgba(variables.$black, 0.1);

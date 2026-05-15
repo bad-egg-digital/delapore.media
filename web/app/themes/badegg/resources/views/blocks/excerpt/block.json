@@ -17,5 +17,10 @@
       "text": false
     }
   },
-  "attributes": {}
+  "attributes": {
+    "dropCap": {
+      "type": "boolean",
+      "default": false
+    }
+  }
 }

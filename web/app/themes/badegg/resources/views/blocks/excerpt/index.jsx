@@ -16,6 +16,7 @@ import {
 	Panel,
 	PanelBody,
   TextareaControl,
+  ToggleControl,
 } from '@wordpress/components';
 
 import {
@@ -33,6 +34,10 @@ registerBlockType(metadata.name, {
     const { editPost } = useDispatch('core/editor');
     const postExcerpt = useSelect((select) => select('core/editor').getEditedPostAttribute('excerpt'), []);
 
+    const {
+      dropCap,
+    } = attributes;
+
     return (
       <div { ...blockProps }>
         <InspectorControls>
@@ -46,12 +51,20 @@ registerBlockType(metadata.name, {
                 }}
               />
 
+              <ToggleControl
+                label={ __('Drop Cap', 'badegg') }
+                checked={ dropCap }
+                onChange={(value) => setAttributes({ dropCap: value }) }
+                __nextHasNoMarginBottom
+              />
+
             </PanelBody>
           </Panel>
         </InspectorControls>
 
         <div className="wp-block-badegg-title-excerpt">
           <RichText
+            className={ (dropCap) ? 'has-drop-cap' : null }
             tagName="p"
             value={ postExcerpt }
             placeholder={ __('Enter the excerpt/intro', 'badegg') }

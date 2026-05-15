@@ -54,7 +54,7 @@ export default function Switchboard( props ) {
     case 'core/embed':                return <Embed         { ...props } />
     // case 'core/footnotes':            return <Footnotes     { ...props } />
     case "core/heading":              return <Heading       { ...props } />
-    // case "core/paragraph":            return <Paragraph     { ...props } />
+    case "core/paragraph":            return <Paragraph     { ...props } />
     // case 'core/verse':                return <Verse         { ...props } />
     case 'core/post-featured-image':  return <FeaturedImage { ...props } />
 

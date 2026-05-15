@@ -41,8 +41,8 @@ class Post
                 'badegg/article',
                 [
                     'lock' => [
-                        'move' => true,
-                        'remove' => true,
+                        'move' => false,
+                        'remove' => false,
                     ],
                     'sidebar' => true,
                 ],
@@ -62,27 +62,30 @@ class Post
                             'sizeSlug' => 'medium',
                             'className' => 'rounded',
                             'lock' => [
-                                'move' => true,
-                                'remove' => true,
+                                'move' => false,
+                                'remove' => false,
                             ]
-                        ],
-                    ],
-                    [
-                        'core/paragraph',
-                        [
-                            'placeholder' => $this->paragraphPlaceholders[rand(0,9)],
                         ],
                     ],
                     [
                         'badegg/excerpt',
                         [
                             'lock' => [
-                                'move' => true,
+                                'move' => false,
                                 'remove' => true,
                             ],
                         ]
                     ],
-
+                    [
+                        'core/paragraph',
+                        [
+                            'placeholder' => $this->paragraphPlaceholders[rand(0,9)],
+                            'lock' => [
+                                'move' => true,
+                                'remove' => true,
+                            ]
+                        ],
+                    ],
                 ],
             ],
         ];
