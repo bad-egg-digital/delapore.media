@@ -127,10 +127,14 @@ class RestAPI
 
     public function postBlockData()
     {
-        $postTypes = [
-            'pages',
-            'posts',
+        $builtin = [
+            'pages' => 'pages',
+            'posts' => 'posts',
         ];
+
+        $postTypes = get_post_types(['show_in_rest' => true]);
+
+        $postTypes = array_merge($builtin, $postTypes);
 
         foreach($postTypes as $postType) {
             register_rest_route('wp/v2', "/{$postType}/(?P<id>\d+)/blocks", [

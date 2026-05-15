@@ -38,7 +38,7 @@ class GraphQL
 
     public function archives()
     {
-        $postTypes = ['post'];
+        $postTypes = ['post' => 'post'];
 
         $customPostTypes = get_post_types([
             'has_archive' => true,
@@ -78,8 +78,14 @@ class GraphQL
     {
         if(!$postType) return;
 
-        $optionKey = ($postType === 'post') ? 'page_for_posts' : 'page_for_' . $postType;
-        $pageID = get_option($optionKey);
+        $Settings = new Tools\Settings;
+
+        if($postType == 'post') {
+            $pageID = get_option('page_for_posts');
+        } else {
+            $pageID = $Settings->lookup($postType, 'pagesForArchives');
+        }
+
         $page = ($pageID) ? get_post($pageID) : null;
 
         $app_context = \WPGraphQL::get_app_context();
