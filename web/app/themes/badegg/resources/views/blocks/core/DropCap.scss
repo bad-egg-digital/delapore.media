@@ -20,5 +20,13 @@
     font-style: normal;
     text-align: left;
     color: variables.$primary-lightest;
+    color: transparent;
+    background-clip: text;
+    background-image: linear-gradient(
+      300deg,
+      variables.$primary,
+      variables.$primary-lightest,
+      variables.$primary,
+    );
   }
 }
