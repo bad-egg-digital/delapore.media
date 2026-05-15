@@ -40,13 +40,13 @@ figure {
     &-large { padding: (variables.$sectionLarge * 1.5) 0; }
   }
 
-  @container (min-width: #{variables.$screen-lg}) {
-    padding: (variables.$sectionMedium * 2) 0;
+  // @container (min-width: #{variables.$screen-lg}) {
+  //   padding: (variables.$sectionMedium * 2) 0;
 
-    &-small { padding: (variables.$sectionSmall * 2) 0; }
-    &-medium { padding: (variables.$sectionMedium * 2) 0; }
-    &-large { padding: (variables.$sectionLarge * 2) 0; }
-  }
+  //   &-small { padding: (variables.$sectionSmall * 2) 0; }
+  //   &-medium { padding: (variables.$sectionMedium * 2) 0; }
+  //   &-large { padding: (variables.$sectionLarge * 2) 0; }
+  // }
 
   &-zero-top {    padding-top:    unset; }
   &-zero-bottom { padding-bottom: unset; }
