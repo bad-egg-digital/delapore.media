@@ -6,17 +6,19 @@ import parse from "html-react-parser"
 export default function MenuSide() {
   const { appContext, setAppContext } = useContext( AppContext )
 
-  return (
-    <ul className="socials nolist">
-      { appContext.company.socials.map((item, index) => {
-        return (
-          <li key={ index } className={ `social-${ item.icon }` }>
-            <a href={ item.link } target="_blank" rel="noindex nofollow">
-              { parse(item.svg) }
-            </a>
-          </li>
-        )
-      })}
-    </ul>
-  )
+  if(appContext?.company?.socials) {
+    return (
+      <ul className="socials nolist">
+        { appContext.company.socials.map((item, index) => {
+          return (
+            <li key={ index } className={ `social-${ item.icon }` }>
+              <a href={ item.link } target="_blank" rel="noindex nofollow">
+                { parse(item.svg) }
+              </a>
+            </li>
+          )
+        })}
+      </ul>
+    )
+  }
 }

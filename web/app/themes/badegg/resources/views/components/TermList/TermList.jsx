@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 export default function TermList({ className, items, active, contentType, limit }) {
   const location = useLocation()
-  let itemList = (items.length > 0) ? items.filter( value => Object.keys(value).length !== 0) : []
+  let itemList = (items && items.length > 0) ? items.filter( value => Object.keys(value).length !== 0) : []
 
   if(limit) itemList = itemList.slice(0, limit)
 

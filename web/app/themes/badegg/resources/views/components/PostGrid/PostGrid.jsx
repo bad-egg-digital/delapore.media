@@ -8,7 +8,7 @@ export default function PostGrid({ postType, posts, terms, activeTerm, contentTy
       <div className="container container-large">
         <TermList className="termlist-archive" items={ terms } active={ activeTerm } contentType={ contentType }/>
 
-        { posts.length > 0 && (
+        { posts && posts.length > 0 && (
           <div className={ `postgrid postgrid-${ postType } section section-small section-zero-bottom` }>
             { posts.map( ( post, index ) => <Card key={ index} postType={ postType } { ...post.node } />)}
           </div>
