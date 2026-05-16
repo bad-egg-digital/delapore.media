@@ -4,9 +4,12 @@ import './style.scss'
 import metadata from './block.json';
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
+import { useSelect } from '@wordpress/data';
+import { useState, useEffect } from '@wordpress/element';
 
 import {
   useBlockProps,
+  useInnerBlocksProps,
   InnerBlocks,
   InspectorControls,
   BlockControls,
@@ -24,10 +27,13 @@ import allowedBlocks from '@json/block-core-whitelist.json';
 import { containerClassNames, sectionClassNames } from '@scripts/lib/classNames';
 import BlockSettings from '@blocks/-editor/BlockSettings';
 import BackgroundImage from '@views/components/BackgroundImage/BackgroundImage';
+import ArticleTOC from '@blocks/article/ArticleTOC'
+import Delibird from '@views/components/Delibird/Delibird'
 
 registerBlockType(metadata.name, {
   edit({ attributes, setAttributes, clientId }) {
     const blockProps = useBlockProps();
+    const [ h2s, setH2s ] = useState([]);
 
     blockProps.className = sectionClassNames(attributes, blockProps.className).join(' ');
 
@@ -36,6 +42,19 @@ registerBlockType(metadata.name, {
       sidebar,
       tocLabel,
     } = attributes;
+
+    const innerBlocks = useSelect(
+      (select) => select('core/block-editor').getBlocks(clientId),
+      [clientId]
+    );
+
+    useEffect(() => {
+      const filtered = innerBlocks.filter(
+        (block) => block.name === 'core/heading' && block.attributes.level === 2
+      );
+
+      setH2s(filtered);
+    }, [innerBlocks]);
 
     return (
       <section { ...blockProps }>
@@ -99,17 +118,21 @@ registerBlockType(metadata.name, {
               />
             </div>
 
-            { sidebar ? (
-              <div className="article-sidebar">
-                <div className="article-toc js-article-toc"></div>
-              </div>
-            ) : null }
+            { sidebar &&
+              <aside className="article-sidebar">
+                <ArticleTOC
+                  label={ tocLabel }
+                  headings={ h2s }
+                  stickyTop={ 32 }
+                />
+                <Delibird />
+              </aside>
+            }
 
           </div>
         </div>
 
-
-        <BackgroundImage { ...attributes } />
+        <BackgroundImage { ...attributes } isAdmin={ true } />
       </section>
     );
   },

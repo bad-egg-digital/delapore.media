@@ -1,6 +1,8 @@
 @use "@styles/global/variables";
 @use "./style";
+@use "@views/components/BackgroundImage/BackgroundImage";
 @use "@views/components/Blocklist/Blocklist";
+@use "@blocks/article/ArticleTOC";
 @use "@blocks/core/Columns";
 @use "@blocks/core/Details";
 @use "@blocks/core/Embed";

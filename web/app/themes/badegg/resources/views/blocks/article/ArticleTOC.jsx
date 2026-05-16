@@ -7,22 +7,36 @@ export default function ArticleTOC({ label, headings, stickyTop }) {
       <div className="border border-thin rounded bg-black inner inner-small">
         <h3 className="section-title">{ label || 'In this article' }</h3>
         <ul className="nolist">
-          { headings.map((heading, index) => {
-            let content = heading.content.replace(/<[^>]*>/g, '')
-            let slug = content.replace(/\W/g, '-').toLowerCase()
+          { headings && headings.length > 0 &&
+            <>
+              { headings.map((heading, index) => {
+                let content = ''
 
-            return (
-              <li key={ index }>
-                <a
-                  data-slug={ slug }
-                  href={ `#${ slug }` }
-                >
-                  { content }
-                </a>
-              </li>
-            )
+                if( 'content' in heading ) {
+                  content = heading.content
+                } else if ( 'originalContent' in heading ) {
+                  content = heading.attributes.content.text
+                }
 
-          })}
+                if(!content) return
+
+                let cleanContent = content.replace(/<[^>]*>/g, '')
+                let slug = cleanContent.replace(/\W/g, '-').toLowerCase()
+
+                return (
+                  <li key={ index }>
+                    <a
+                      data-slug={ slug }
+                      href={ `#${ slug }` }
+                    >
+                      { cleanContent }
+                    </a>
+                  </li>
+                )
+
+              })}
+            </>
+          }
         </ul>
       </div>
     </div>
