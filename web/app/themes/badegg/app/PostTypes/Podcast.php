@@ -27,6 +27,7 @@ class Podcast
                 ],
                 'menu_icon' => 'dashicons-controls-volumeon',
                 'show_in_rest' => true,
+                'rest_base' => 'podcasts',
                 'archive' => [
                     'nopaging' => true,
                 ],

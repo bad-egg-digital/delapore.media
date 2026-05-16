@@ -6,8 +6,7 @@ export default function BlockList({ id, postType, post }) {
   const [ blocks, setBlocks ] = useState(post.blocks)
   const [ isLoaded, setIsLoaded ] = useState(false)
 
-  const type = (['page', 'post'].includes(postType)) ? postType + 's' : postType
-  const endpoint = `/wp-json/wp/v2/${type}/${id}/blocks`
+  const endpoint = `/wp-json/wp/v2/${ postType }s/${id}/blocks`
 
   useEffect( () => {
     fetch( endpoint )
@@ -23,7 +22,7 @@ export default function BlockList({ id, postType, post }) {
         setBlocks([]);
         setIsLoaded( true );
       } );
-  }, [ endpoint, type ] )
+  }, [ endpoint ] )
 
   if(Array.isArray(blocks) && blocks.length > 0) {
     return (

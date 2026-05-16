@@ -20,9 +20,15 @@ class RestAPI
         $customTypes = get_post_types([
             'show_in_rest' => true,
             '_builtin' => false,
-        ]);
+        ], 'objects');
 
-        $postTypes = array_merge($postTypes, $builtin, $customTypes);
+        $types = [];
+
+        foreach($customTypes as $slug => $type) {
+            $types[] = $type->rest_base;
+        }
+
+        $postTypes = array_merge($postTypes, $builtin, $types);
 
         return $postTypes;
     }
