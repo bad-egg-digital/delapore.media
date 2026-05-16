@@ -1,6 +1,7 @@
 <?php
 
 namespace App\PostTypes;
+use BadEggCup\Tools;
 
 class Podcast
 {
@@ -14,6 +15,10 @@ class Podcast
 
     public function register()
     {
+        $Settings = new Tools\Settings;
+        $archiveID = $Settings->lookup($this->postType, 'pagesForArchives');
+        $rewrite = ($archiveID) ? get_post_field( 'post_name', $archiveID ) : $this->postType;
+
         register_extended_post_type(
             $this->postType,
             [
@@ -32,7 +37,7 @@ class Podcast
                     'nopaging' => true,
                 ],
                 'rewrite' => [
-                    'slug' => 'podcast',
+                    'slug' => $rewrite,
                 ],
                 'labels' => [
                     'menu_name' => __('Podcast', $this->td),
