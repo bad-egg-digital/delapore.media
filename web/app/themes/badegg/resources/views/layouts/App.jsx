@@ -76,7 +76,7 @@ export default function App() {
       }
     `
 
-    fetch( badEggAPI.graphql, {
+    fetch( badEggCupAPI.graphql, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query: query }),

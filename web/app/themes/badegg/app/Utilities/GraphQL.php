@@ -10,12 +10,30 @@ class GraphQL
     public function __construct()
     {
         if(class_exists('WPGraphQL')) {
+            add_filter( 'badeggcup_restapi_localize', [ $this, 'addGraphQL' ]);
             add_action( 'graphql_register_types', [$this, 'rootQuery']);
             add_action( 'graphql_register_types', [$this, 'JSON']);
             add_action( 'graphql_register_types', [$this, 'archives']);
             add_action( 'graphql_register_types', [$this, 'blocks']);
             add_action( 'graphql_register_types', [$this, 'badeggcup']);
         }
+    }
+
+    public function addGraphQL( $data )
+    {
+        $siteURL = $data['siteURL'] ?: site_url();
+        $homeURL = $data['homeURL'] ?: get_home_url();
+
+        $graphqlSettings = get_option('graphql_general_settings');
+        $graphqlEndpoint = ($graphqlSettings) ? $graphqlSettings['graphql_endpoint'] : '/graphql';
+        $graphqlEndpointPrefix = ltrim(str_replace($homeURL, '', $siteURL), '/');
+
+        if($graphqlEndpointPrefix) $graphqlEndpoint = $graphqlEndpointPrefix . '/' . $graphqlEndpoint;
+
+
+        $data['graphql'] = '/' . $graphqlEndpoint;
+
+        return $data;
     }
 
     public function rootQuery()

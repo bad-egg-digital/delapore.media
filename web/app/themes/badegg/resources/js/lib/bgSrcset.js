@@ -82,11 +82,11 @@ export async function loadOptimalSrc(el)
 
 export async function get_srcset(id = 0, name = 'hero', sizes = null)
 {
-  const restURL = badEggAPI.homeURL + badEggAPI.rest;
+  const restURL = badEggCupAPI.homeURL + badEggCupAPI.rest;
 
   if(!id || !restURL) return;
 
-  let path = `${restURL}badegg/v1/image/${id}/srcset/${name}`;
+  let path = `${restURL}badeggcup/v1/image/${id}/srcset/${name}`;
 
   if(sizes) path += `?sizes=${sizes}`;
 

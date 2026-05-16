@@ -24,8 +24,12 @@ class Blocks extends Composer
      */
     public function with()
     {
-        return [
-            'CssClasses' => new Utilities\CssClasses,
-        ];
+        $context = [];
+
+        if(class_exists('\BadEggCup\Tools\CssClasses')) {
+            $context['CssClasses'] = new Utilities\CssClasses;
+        }
+
+        return $context;
     }
 }

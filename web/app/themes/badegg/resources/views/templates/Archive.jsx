@@ -106,7 +106,7 @@ export default function Archive({ postType = 'post' }) {
       }
     `
 
-    fetch( badEggAPI.graphql, {
+    fetch( badEggCupAPI.graphql, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query: query }),

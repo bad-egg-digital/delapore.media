@@ -29,10 +29,8 @@ export default function BackgroundImage( props ) {
     background_filter = false,
     background_opacity = 70,
     disableLazyBG = false,
+    isAdmin = false,
   } = props;
-
-  // console.log(props)
-
 
   if (background_image) {
     let styles = {
@@ -56,7 +54,7 @@ export default function BackgroundImage( props ) {
       attributes.className += ' bg-filter-screen';
     }
 
-    if(background_lazy && !disableLazyBG) {
+    if(background_lazy && !disableLazyBG && !isAdmin) {
       attributes.style.backgroundImage = `url(${background_url_lazy})`;
       attributes.className += ' lazy';
     }

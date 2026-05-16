@@ -58,7 +58,7 @@ export default function Single({ postType = 'page' }) {
       }
     `;
 
-    fetch( badEggAPI.graphql, {
+    fetch( badEggCupAPI.graphql, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query: query }),

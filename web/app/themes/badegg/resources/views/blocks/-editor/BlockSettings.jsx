@@ -38,7 +38,7 @@ export default function BlockSettings({ attributes, setAttributes }) {
   useEffect( () => {
 		let isMounted = true;
 
-		apiFetch( { path: '/badegg/v1/blocks/config' } )
+		apiFetch( { path: '/badeggcup/v1/blocks/config' } )
 			.then( ( data ) => {
 				if ( isMounted ) {
 					setConfigOptions( data );
@@ -210,8 +210,6 @@ export default function BlockSettings({ attributes, setAttributes }) {
           <MediaUploadCheck>
             <MediaUpload
               onSelect={ (media) => {
-                console.log(media);
-
                 setAttributes({
                   background_image: media?.id,
                   background_url: media?.sizes?.medium?.url || media?.url,
