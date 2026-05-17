@@ -35,4 +35,6 @@
 
 .main {
   min-height: calc(100dvh + 3em);
+  display: flex;
+  flex-direction: column;
 }

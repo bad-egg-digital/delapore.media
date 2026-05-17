@@ -2,6 +2,7 @@
 
 namespace App\Utilities;
 use BadEggCup\Tools;
+use BadEggCup\Data;
 
 class GraphQL
 {
@@ -11,7 +12,6 @@ class GraphQL
     {
         if(class_exists('WPGraphQL')) {
             add_filter( 'badeggcup_restapi_localize', [ $this, 'addGraphQL' ]);
-            add_action( 'graphql_register_types', [$this, 'rootQuery']);
             add_action( 'graphql_register_types', [$this, 'JSON']);
             add_action( 'graphql_register_types', [$this, 'archives']);
             add_action( 'graphql_register_types', [$this, 'blocks']);
@@ -36,14 +36,6 @@ class GraphQL
         return $data;
     }
 
-    public function rootQuery()
-    {
-        register_graphql_field('RootQuery', $this->prefix, [
-            'type' => $this->prefix,
-            'resolve' => fn() => true,
-        ]);
-    }
-
     public function JSON()
     {
         register_graphql_scalar('JSON', [
@@ -56,63 +48,28 @@ class GraphQL
 
     public function archives()
     {
-        $postTypes = ['post' => 'post'];
+        $Archives = new Data\Archives;
 
-        $customPostTypes = get_post_types([
-            'has_archive' => true,
-        ], 'names');
-
-        $postTypes = array_merge($postTypes, $customPostTypes);
-
-        $fields = [];
-
-        if($postTypes) {
-            foreach($postTypes as $postType) {
-                $fields[$postType] = [
-                    'type' => 'Page',
-                    'description' => "The page set for the archive.",
-                    'resolve' => fn() => $this->archiveObject($postType),
-                ];
-            }
-        }
-
-        register_graphql_object_type( $this->prefix . 'ArchiveObjects', [
-            'description' => 'Post archive objects',
-            'fields' => $fields,
-        ]);
-
-        register_graphql_object_type( $this->prefix, [
-            'description' => 'Theme-specific data',
+        register_graphql_object_type( 'PageForArchive', [
             'fields' => [
-                'archiveObjects' => [
-                    'type' => $this->prefix . 'ArchiveObjects',
-                    'resolve' => fn() => true,
+                'postType' => [
+                    'type' => 'String',
+                    'description' => 'The post type slug',
+                ],
+                'page' => [
+                    'type' => 'Page',
+                    'description' => 'The WP Post object for the assigned page.',
                 ],
             ],
         ]);
-    }
 
-    public function archiveObject($postType = '')
-    {
-        if(!$postType) return;
-
-        $Settings = new Tools\Settings;
-
-        if($postType == 'post') {
-            $pageID = get_option('page_for_posts');
-        } else {
-            $pageID = $Settings->lookup($postType, 'pagesForArchives');
-        }
-
-        $page = ($pageID) ? get_post($pageID) : null;
-
-        $app_context = \WPGraphQL::get_app_context();
-
-        if($page) {
-            return $app_context->get_loader('post')->load_deferred($pageID);;
-        } else {
-            return;
-        }
+        register_graphql_field( $this->prefix . 'Cup', 'pagesForArchives', [
+            'type' => [ 'list_of' => 'PageForArchive' ],
+            'description' => 'Pages assigned to post type archives.',
+            'resolve' => function() use ($Archives) {
+                return $Archives->pagesForArchives();
+            },
+        ]);
     }
 
     public function blocks()
@@ -139,7 +96,7 @@ class GraphQL
         $postTypes = array_merge($builtin, $postTypes);
 
         $resolver = function ($post){
-            $Blocks = new Blocks;
+            $Blocks = new Data\Blocks;
             $content = $post->contentRaw ?? get_post_field('post_content', $post->databaseId);
 
             if (!$content)  return [];

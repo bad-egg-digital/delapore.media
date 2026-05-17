@@ -1,11 +1,10 @@
 import './App.scss'
 
-import {
+import React, {
   useEffect,
   useState,
   useContext,
   useLayoutEffect,
-  Suspense,
 } from 'react'
 
 import { Routes, Route, BrowserRouter as Router, useLocation } from 'react-router-dom'
@@ -44,53 +43,37 @@ export default function App() {
   const [ primaryMenu, setPrimaryMenu ] = useState('Loading...')
 
   useEffect(() => {
-    let query = `
-      {
-        badEgg {
-          archiveObjects {
-            post {
-              slug
-            }
-            podcast {
-              slug
-            }
-          }
-        }
-        badEggCup {
-          company {
-            name
-            nameLegal
-            socials {
-              icon
-              link
-              svg
-            }
-          }
-        }
-        menuItems(where: { location: PRIMARY_NAVIGATION }) {
-          nodes {
-            label
-            path
-          }
-        }
-      }
-    `
-
     fetch( badEggCupAPI.graphql, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: query }),
+      body: JSON.stringify({ query: buildQuery() }),
     })
       .then(res => res.json())
       .then(res => {
-        setPageForPosts(res?.data?.badEgg?.archiveObjects?.post?.slug);
-        setPageForPodcasts(res?.data?.badEgg?.archiveObjects?.podcast?.slug);
+        const pagesForArchives = res?.data?.badEggCup?.pagesForArchives
 
         setAppContext(prevState => ({
           ...prevState,
           company: res?.data?.badEggCup?.company,
           menuPrimaryData: res?.data?.menuItems?.nodes,
         }));
+
+        if(pagesForArchives && pagesForArchives.length > 0){
+          pagesForArchives.map((archive, index) => {
+
+            let postType = archive.postType
+            let page = archive.page
+
+            setAppContext(prevState => ({
+              ...prevState,
+              pagesForArchives: {
+                ...prevState?.pagesForArchives,
+                [postType]: page,
+              }
+            }));
+
+          })
+        }
 
         setIsLoaded(true);
       })
@@ -113,22 +96,43 @@ export default function App() {
             <div className="wrapper">
               <main className="main">
                 <Header />
-                <Suspense fallback={ <h2>LOADING</h2> }>
                   <Wrapper>
                     <Routes>
-                      <Route path="/" element={ <Single /> } />
-                      <Route path="/:slug" element={ <Single /> } />
-                      <Route path={ `/${ pageForPodcasts }` } element={ <Archive postType="podcast" /> } />
+                      <Route path="/" element={ <Single key={ `route-page` } /> } />
+                      <Route path="/:slug" element={ <Single key={ `route-page` } /> } />
+                      <Route path={ `/category/:term` } element={ <Archive key={ `route-post` } postType="post" /> } />
 
-                      <Route path={ `/${ pageForPosts }` } element={ <Archive postType="post" /> } />
-                      <Route path={ `/category/:term` } element={ <Archive postType="post" /> } />
+                      { (appContext?.pagesForArchives) && (
+                        <>
 
-                      <Route path={ `/${ pageForPosts }/:slug` } element={ <Single postType="post" /> } />
-                      <Route path={ `/${ pageForPodcasts }/:slug` } element={ <Single postType="podcast" /> } />
+                          { Object.keys(appContext.pagesForArchives).map( postType => {
+                            let archive = appContext.pagesForArchives[postType]
+                            let path = `/${ archive.slug }`
+
+                            return (
+                              <React.Fragment key={ `routes-${postType}` }>
+                                <Route  path={ path } element={
+                                  <Archive
+                                    key={ `route-${ postType }` }
+                                    postType={ postType }
+                                    pageForArchive={ archive }
+                                  />
+                                } />
+                                <Route path={ `${ path }/:slug` } element={
+                                  <Single
+                                    key={ `route-${ postType }` }
+                                    postType={ postType }
+                                  />
+                                } />
+                              </React.Fragment>
+                            )
+                          })}
+
+                        </>
+                      )}
 
                     </Routes>
                   </Wrapper>
-                </Suspense>
               </main>
               <Footer />
             </div>
@@ -150,4 +154,54 @@ export default function App() {
   //   )
   // }
 
+}
+
+function buildQuery()
+{
+  let query = `
+    {
+      badEggCup {
+        pagesForArchives {
+          postType
+          page {
+            slug
+            title
+            content
+            excerpt
+            databaseId
+            blocks {
+              attributes
+              content
+              name
+              rawContent
+              innerBlocks {
+                index
+                name
+                attributes
+                content
+                rawContent
+              }
+            }
+          }
+        }
+        company {
+          name
+          nameLegal
+          socials {
+            icon
+            link
+            svg
+          }
+        }
+      }
+      menuItems(where: { location: PRIMARY_NAVIGATION }) {
+        nodes {
+          label
+          path
+        }
+      }
+    }
+  `
+
+  return query;
 }

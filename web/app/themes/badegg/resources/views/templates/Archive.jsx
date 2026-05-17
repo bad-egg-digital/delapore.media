@@ -1,134 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
-import { Link } from 'react-router-dom'
+import { AppContext } from '@views/layouts/AppContext'
 
 import BlockList from '@views/components/BlockList/BlockList'
 import PostGrid from '@views/components/PostGrid/PostGrid'
 import Error from '@views/templates/Error'
 
 export default function Archive({ postType = 'post' }) {
+  const { appContext, setAppContext } = useContext( AppContext )
   const { term } = useParams()
-  const [ archivePage, setArchivePage] = useState({})
-  const [ contentType, setContentType ] = useState({})
-  const [ posts, setPosts ] = useState([])
-  const [ terms, setTerms ] = useState([])
-  const [ isLoaded, setIsLoaded ] = useState(false)
+  const archivePage = appContext?.pagesForArchives?.[postType]
 
-  let queryTaxonomy = ''
-
-  switch( postType ) {
-    case 'post':    queryTaxonomy = 'Category'
-    default:
-  }
-
-  useEffect(() => {
-    let queryTerms = ''
-    let queryPostTerms = ''
-    let queryWhere = ''
-
-    if(queryTaxonomy) {
-      queryTerms = `
-        terms {
-          nodes {
-            ... on ${ queryTaxonomy } {
-              name
-              slug
-              uri
-            }
-          }
-        }
-      `
-
-      queryPostTerms = `terms {
-        nodes {
-          ... on ${ queryTaxonomy } {
-            name
-            slug
-            uri
-          }
-        }
-      }`
-    }
-
-    if(term && queryTaxonomy === 'Category') {
-      queryWhere = `(where: {categoryName: "${ term }"})`
-    }
-
-    let query = `
-      {
-        badEgg {
-          archiveObjects {
-            ${ postType } {
-              slug
-              title
-              content
-              excerpt
-              databaseId
-              blocks {
-                attributes
-                content
-                name
-                rawContent
-                innerBlocks {
-                  index
-                  name
-                  attributes
-                  content
-                  rawContent
-                }
-              }
-            }
-          }
-        }
-        ${ postType }s${ queryWhere } {
-          edges {
-            node {
-              id
-              slug
-              title
-              excerpt
-              uri
-              featuredImage {
-                node {
-                  altText
-                  sourceUrl
-                  srcSet
-                  title
-                  mediaDetails {
-                    width
-                    height
-                  }
-                }
-              }
-              ${ queryPostTerms }
-            }
-          }
-        }
-        contentType(id: "${ postType }", idType: NAME) {
-          label
-          uri
-        }
-        ${ queryTerms }
-      }
-    `
-
-    fetch( badEggCupAPI.graphql, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: query }),
-    })
-      .then(res => res.json())
-      .then(res => {
-        setArchivePage(res?.data?.badEgg?.archiveObjects?.[postType])
-        setContentType(res?.data?.contentType || {})
-        setTerms(res?.data?.terms?.nodes || [])
-        setPosts(res?.data?.[ postType + 's']?.edges || [])
-        setIsLoaded(true);
-      })
-  }, [ postType, queryTaxonomy, term ])
-
-  if(isLoaded && archivePage) {
+  if(archivePage) {
 
     return (
       <>
@@ -140,26 +24,15 @@ export default function Archive({ postType = 'post' }) {
           <meta property="og:description" content="Dynamic page content" />
         </Helmet>
 
-        { archivePage && (
-          <>
-            <BlockList id={ archivePage.databaseId } postType={ postType } post={ archivePage } />
+        <BlockList id={ archivePage.databaseId } postType={ postType } post={ archivePage } />
 
-            <div className="badegg-block-list">
-              <PostGrid
-                postType={ postType }
-                activeTerm={ term }
-                posts={ posts }
-                terms={ terms }
-                contentType={ contentType }
-              />
-            </div>
-
-          </>
-        )}
-
+        <div className="badegg-block-list">
+          <PostGrid key={ postType } postType={ postType } activeTerm={ term }  />
+        </div>
       </>
     )
-  } else if (isLoaded) {
-    return <Error />
+  } else {
+    return <Error title="Archive not found" description="There was a page here but that is no longer the case." />
   }
 }
+

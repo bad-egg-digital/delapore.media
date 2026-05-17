@@ -11,57 +11,10 @@ export default function Single({ postType = 'page' }) {
   const [ isLoaded, setIsLoaded ] = useState(false)
 
   useEffect(() => {
-    let queryTerms = ''
-    let queryBlocks = ''
-
-    if( [ 'post' ].includes( postType )) {
-      queryTerms = `terms {
-        nodes {
-          databaseId
-          uri
-          name
-          slug
-          taxonomyName
-        }
-      }`
-    }
-
-    if(['page', 'post', 'podcast'].includes(postType)) {
-      queryBlocks = `blocks {
-        index
-        name
-        attributes
-        content
-        rawContent
-        innerBlocks {
-          index
-          name
-          attributes
-          content
-          rawContent
-        }
-      }`
-    }
-
-    let query = `
-      {
-        ${ postType }(id: "${ slug || '/' }", idType: URI) {
-          id
-          slug
-          title
-          excerpt
-          date
-          databaseId
-          ${ queryBlocks }
-          ${ queryTerms }
-        }
-      }
-    `;
-
     fetch( badEggCupAPI.graphql, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: query }),
+      body: JSON.stringify({ query: buildQuery(slug, postType) }),
     })
       .then(res => res.json())
       .then(res => {
@@ -82,11 +35,61 @@ export default function Single({ postType = 'page' }) {
         </Helmet>
 
         <BlockList id={ post.databaseId } postType={ postType } post={ post } />
-
       </>
-
     )
   } else if (isLoaded) {
     return <Error />
   }
+}
+
+function buildQuery(slug, postType)
+{
+  let queryTerms = ''
+  let queryBlocks = ''
+
+  if( [ 'post' ].includes( postType )) {
+    queryTerms = `terms {
+      nodes {
+        databaseId
+        uri
+        name
+        slug
+        taxonomyName
+      }
+    }`
+  }
+
+  if(['page', 'post', 'podcast'].includes(postType)) {
+    queryBlocks = `blocks {
+      index
+      name
+      attributes
+      content
+      rawContent
+      innerBlocks {
+        index
+        name
+        attributes
+        content
+        rawContent
+      }
+    }`
+  }
+
+  let query = `
+    {
+      ${ postType }(id: "${ slug || '/' }", idType: URI) {
+        id
+        slug
+        title
+        excerpt
+        date
+        databaseId
+        ${ queryBlocks }
+        ${ queryTerms }
+      }
+    }
+  `;
+
+  return query;
 }
