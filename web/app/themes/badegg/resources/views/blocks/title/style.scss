@@ -56,7 +56,6 @@
       @container BlockTitle (min-width: #{ variables.$screen-sm }) {
         display: flex;
         justify-content: space-between;
-        align-items: center;
         gap: variables.$gapLarge;
       }
     }
@@ -73,6 +72,7 @@
 
     @container BlockTitle (min-width: #{ variables.$screen-sm }) {
       display: block;
+      margin-top: variables.$sectionMedium * -1;
     }
   }
 

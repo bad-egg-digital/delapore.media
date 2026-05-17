@@ -26,7 +26,7 @@ export default function BlockList({ id, postType, post }) {
 
   if(Array.isArray(blocks) && blocks.length > 0) {
     return (
-       <div className="badegg-block-list">
+      <div className="badegg-block-list">
         { blocks.map((block, index) => (
           <Switchboard  key={ index } index={ index } post={ post } postType={ postType } { ...block } />
         )) }

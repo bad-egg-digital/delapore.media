@@ -1,19 +1,32 @@
+import clsx from 'clsx'
 import parse from "html-react-parser"
 import { Link } from 'react-router-dom'
 import TermList from '@views/components/TermList/TermList'
 
-export default function CardPost({ postType, slug, terms, title, excerpt, uri, featuredImage }) {
+export default function CardPost( props ) {
 
-  let readMore = ''
+  const {
+    postType,
+    slug,
+    terms,
+    title,
+    excerpt,
+    uri,
+    featuredImage,
+    isLoaded,
+  } = props
 
-  switch(postType) {
-    case 'post':    readMore = 'Continue reading'
-    case 'podcast': readMore = 'View show notes'
-    default:        readMore = 'Read more'
-  }
+  const className = clsx(
+    'card',
+    postType && 'card-' + postType,
+    'rounded',
+    'bg-white',
+  )
+
+  const readMore = 'Continue reading'
 
   return (
-    <article className={ `card card-${ postType } bg-white rounded` }>
+    <article className={ className }>
       <header className="bg-grey-darker ">
         { featuredImage ? (
           <img
@@ -31,7 +44,7 @@ export default function CardPost({ postType, slug, terms, title, excerpt, uri, f
         }
       </header>
       <div className="card-content inner inner-small">
-        <TermList items={ terms?.nodes } limit={ 2 } />
+        <TermList items={ terms?.nodes } limit={ 2 } isLoaded={ isLoaded } />
         <h2>{ title }</h2>
         { excerpt && <div className="card-excerpt">{ parse(excerpt) }</div> }
       </div>

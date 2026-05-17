@@ -28,7 +28,11 @@ export default function Masthead( props ) {
       { (!hideCategories || !hideDate) &&
         <div className={ `entry-meta ${ (!hideCategories && categories.length > 0) ? 'has-categories' : '' }` }>
           { !hideCategories && (
-            <TermList className="masthead-categories" items={ categories } />
+            <TermList
+              className="masthead-categories"
+              items={ categories }
+              isLoaded={ true }
+            />
           )}
 
           { !hideDate &&

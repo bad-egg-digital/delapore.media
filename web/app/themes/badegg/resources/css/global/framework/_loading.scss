@@ -1,0 +1,32 @@
+@use "@styles/global/variables";
+
+.loading {
+  opacity: 0.3;
+
+  &-sweep {
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      inset: 0;
+      width: 200%;
+      background: linear-gradient(
+        30deg,
+        transparent 25%,
+        rgba(variables.$white, 0.3),
+        transparent 75%,
+      );
+      transform: translateX(-100%);
+      animation: loadingSweep 2s infinite;
+    }
+  }
+}
+
+@keyframes loadingSweep {
+  100% {
+    transform: translateX(100%);
+  }
+}

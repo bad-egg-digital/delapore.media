@@ -67,6 +67,14 @@ $grey-light:          color.adjust(grey, $lightness: 10%);
 $grey-lighter:        color.adjust(grey, $lightness: 25%);
 $grey-lightest:       color.adjust(grey, $lightness: 40%);
 
+//== opaque shades
+$grey-darkest-a:      rgba($black, 0.9);
+$grey-darker-a:       rgba($black, 0.7);
+$grey-dark-a:         rgba($black, 0.5);
+$grey-light-a:        rgba($white, 0.5);
+$grey-lighter-a:      rgba($white, 0.3);
+$grey-lightest-a:     rgba($white, 0.1);
+
 //## Colour Array (used in generating colour classes).
 $colors: (
   // shades
@@ -79,6 +87,14 @@ $colors: (
   "grey-lighter":   $grey-lighter,
   "grey-lightest":  $grey-lightest,
   "white":          $white,
+
+  // opaque shades
+  "grey-darkest-a":   $grey-darkest-a,
+  "grey-darker-a":    $grey-darker-a,
+  "grey-dark-a":      $grey-dark-a,
+  "grey-light-a":     $grey-light-a,
+  "grey-lighter-a":   $grey-lighter-a,
+  "grey-lightest-a":  $grey-lightest-a,
 
   // status
   "error":      $error,

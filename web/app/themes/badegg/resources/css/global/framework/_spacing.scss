@@ -150,6 +150,7 @@ figure {
   border-style: solid;
   border-width: variables.$borderWidth;
 
+  &-thinnest { border-width: 1px; }
   &-thin { border-width: 0.0625em; }
   &-regular { border-width: variables.$borderWidth; }
   &-thick { border-width: variables.$borderThick; }
