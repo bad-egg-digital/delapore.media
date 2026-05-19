@@ -10,7 +10,7 @@ class GraphQL
 
     public function __construct()
     {
-        if(class_exists('WPGraphQL')) {
+        if(class_exists('WPGraphQL') && class_exists('\BadEggCup\Tools\Settings')) {
             add_filter( 'badeggcup_restapi_localize', [ $this, 'addGraphQL' ]);
             add_action( 'graphql_register_types', [$this, 'JSON']);
             add_action( 'graphql_register_types', [$this, 'archives']);
@@ -49,6 +49,22 @@ class GraphQL
     public function archives()
     {
         $Archives = new Data\Archives;
+        $app_context = \WPGraphQL::get_app_context();
+
+        $archiveIDs = $Archives->pagesForArchives();
+        $pagesForArchives = [];
+
+        foreach($archiveIDs as $postType => $pageID) {
+            $pagesForArchives[] = [
+                'postType' => $postType,
+                'page' => $app_context->get_loader('post')->load_deferred($pageID),
+            ];
+        }
+
+        register_graphql_field( 'ContentType', 'pageForArchive', [
+            'type'    => 'Page',
+            'resolve' => fn( $content_type ) => $app_context->get_loader('post')->load_deferred(@$archiveIDs[$content_type->name]),
+        ]);
 
         register_graphql_object_type( 'PageForArchive', [
             'fields' => [
@@ -66,8 +82,8 @@ class GraphQL
         register_graphql_field( $this->prefix . 'Cup', 'pagesForArchives', [
             'type' => [ 'list_of' => 'PageForArchive' ],
             'description' => 'Pages assigned to post type archives.',
-            'resolve' => function() use ($Archives) {
-                return $Archives->pagesForArchives();
+            'resolve' => function() use ($pagesForArchives) {
+                return $pagesForArchives;
             },
         ]);
     }
