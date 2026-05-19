@@ -7,6 +7,7 @@ class Podcast
 {
     private $td = 'badegg';
     private $postType = 'podcast';
+    private $taxonomy = 'podcast_category';
 
     public function __construct()
     {
@@ -53,6 +54,23 @@ class Podcast
             [
                 'singular' => __('Podcast Episode', $this->td),
                 'plural' => __('Podcast Episodes', $this->td),
+            ],
+        );
+
+        register_extended_taxonomy(
+            $this->taxonomy, $this->postType,
+            [
+                'meta_box' => 'checkbox',
+                'dashboard_glance' => true,
+                'show_in_rest' => true,
+                'graphql_single_name' => 'podcastCategory',
+                'graphql_plural_name' => 'podcastCategories',
+                'show_in_graphql' => true,
+            ],
+            [
+                'singular' => __('Podcast Category', $this->td ),
+                'plural'   => __('Podcast Categories', $this->td ),
+                'slug'     => 'podcast/categories',
             ],
         );
     }
