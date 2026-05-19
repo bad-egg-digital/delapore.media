@@ -3,10 +3,10 @@
 namespace App\PostTypes;
 use BadEggCup\Tools;
 
-class Podcast
+class Product
 {
     private $td = 'badegg';
-    private $postType = 'podcast';
+    private $postType = 'product';
     private $taxonomy = 'category';
 
     public function __construct()
@@ -19,11 +19,12 @@ class Podcast
         $Settings = new Tools\Settings;
         $archiveID = $Settings->lookup($this->postType, 'pagesForArchives');
         $rewrite = ($archiveID) ? get_post_field( 'post_name', $archiveID ) : $this->postType;
+        $rewrite = ($archiveID) ? get_post_field( 'post_name', $archiveID ) : $this->postType;
 
         register_extended_post_type(
             $this->postType,
             [
-                'menu_position' => 4,
+                'menu_position' => 5,
                 'supports' => [
                     'title',
                     'editor',
@@ -31,9 +32,9 @@ class Podcast
                     'thumbnail',
                     'page-attributes',
                 ],
-                'menu_icon' => 'dashicons-controls-volumeon',
+                'menu_icon' => 'dashicons-cart',
                 'show_in_rest' => true,
-                'rest_base' => 'podcasts',
+                'rest_base' => 'products',
                 'archive' => [
                     'nopaging' => true,
                 ],
@@ -41,19 +42,13 @@ class Podcast
                     'slug' => $rewrite,
                 ],
                 'labels' => [
-                    'menu_name' => __('Podcast', $this->td),
-                    'all_items' => __('All Episodes', $this->td),
-                    'add_new_item' => __('Add Episode', $this->td),
+                    'menu_name' => __('Shop', $this->td),
                 ],
                 'show_in_graphql' => true,
-                'graphql_single_name' => 'podcast',
-                'graphql_plural_name' => 'podcasts',
+                'graphql_single_name' => 'product',
+                'graphql_plural_name' => 'products',
                 'public' => true,
                 'publicly_queryable' => true,
-            ],
-            [
-                'singular' => __('Podcast Episode', $this->td),
-                'plural' => __('Podcast Episodes', $this->td),
             ],
         );
 
@@ -68,8 +63,8 @@ class Podcast
                 'show_in_graphql' => true,
             ],
             [
-                'singular' => __('Podcast Category', $this->td ),
-                'plural'   => __('Podcast Categories', $this->td ),
+                'singular' => __('Product Category', $this->td ),
+                'plural'   => __('Product Categories', $this->td ),
                 'slug'     => $rewrite . '/categories',
             ],
         );
