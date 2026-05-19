@@ -14,7 +14,13 @@ export default function TermList( props) {
    } = props
 
   const location = useLocation()
-  let itemList = (items && items.length > 0) ? items.filter( value => Object.keys(value).length !== 0) : []
+  let itemList = (items && items.length > 0)
+    ? items
+      .filter( value => (
+        Object.keys(value).length !== 0 &&
+        value?.count && value.count > 0
+      ))
+    : []
 
   if(limit && itemList.length > 0) itemList = itemList.slice(0, limit)
 
