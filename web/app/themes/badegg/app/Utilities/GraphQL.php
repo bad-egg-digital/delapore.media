@@ -14,6 +14,7 @@ class GraphQL
             add_filter( 'badeggcup_restapi_localize', [ $this, 'addGraphQL' ]);
             add_action( 'graphql_register_types', [$this, 'JSON']);
             add_action( 'graphql_register_types', [$this, 'archives']);
+            add_action( 'graphql_register_types', [$this, 'taxonomies']);
             add_action( 'graphql_register_types', [$this, 'blocks']);
             add_action( 'graphql_register_types', [$this, 'badeggcup']);
         }
@@ -50,20 +51,19 @@ class GraphQL
     {
         $Archives = new Data\Archives;
         $app_context = \WPGraphQL::get_app_context();
-
         $archiveIDs = $Archives->pagesForArchives();
-        $pagesForArchives = [];
-
-        foreach($archiveIDs as $postType => $pageID) {
-            $pagesForArchives[] = [
-                'postType' => $postType,
-                'page' => $app_context->get_loader('post')->load_deferred($pageID),
-            ];
-        }
 
         register_graphql_field( 'ContentType', 'pageForArchive', [
             'type'    => 'Page',
-            'resolve' => fn( $content_type ) => $app_context->get_loader('post')->load_deferred(@$archiveIDs[$content_type->name]),
+            'resolve' => function( $content_type ) use($app_context, $archiveIDs) {
+                if($content_type->name == 'post') {
+                    $archiveID = get_option('page_for_posts');
+                } else {
+                    $archiveID = @$archiveIDs[$content_type->name];
+                }
+
+                return $app_context->get_loader('post')->load_deferred($archiveID);
+            },
         ]);
 
         register_graphql_object_type( 'PageForArchive', [
@@ -79,11 +79,77 @@ class GraphQL
             ],
         ]);
 
+        $pageForPosts = $app_context->get_loader('post')->load_deferred(get_option('page_for_posts'));
+
+        $pagesForArchives = [
+            [
+                'postType' => 'post',
+                'page' => $pageForPosts,
+            ]
+        ];
+
+        foreach($archiveIDs as $postType => $pageID) {
+            $pagesForArchives[] = [
+                'postType' => $postType,
+                'page' => ($pageID) ? $app_context->get_loader('post')->load_deferred($pageID) : null,
+            ];
+        }
+
         register_graphql_field( $this->prefix . 'Cup', 'pagesForArchives', [
             'type' => [ 'list_of' => 'PageForArchive' ],
             'description' => 'Pages assigned to post type archives.',
             'resolve' => function() use ($pagesForArchives) {
                 return $pagesForArchives;
+            },
+        ]);
+    }
+
+     public function taxonomies()
+    {
+        $Archives = new Data\Archives;
+        $setTaxonomies = $Archives->primaryTaxonomies();
+
+        register_graphql_field( 'ContentType', 'primaryTaxonomy', [
+            'type'    => 'Taxonomy',
+            'resolve' => function( $content_type ) use($setTaxonomies) {
+                if($content_type->name == 'post') {
+                    $taxonomy = 'category';
+                } else {
+                    $taxonomy = @$setTaxonomies[$content_type->name];
+                }
+
+                return get_taxonomy($taxonomy);
+            },
+        ]);
+
+        register_graphql_object_type( 'primaryTaxonomy', [
+            'fields' => [
+                'postType' => [
+                    'type' => 'String',
+                    'description' => 'The post type slug',
+                ],
+                'taxonomy' => [
+                    'type' => 'Taxonomy',
+                    'description' => 'The WP Taxonomy object for the assigned taxonomy.',
+                ],
+            ],
+        ]);
+
+        $primaryTaxonomies = [];
+        foreach($setTaxonomies as $postType => $taxonomyName) {
+            if($taxonomyName) {
+                $primaryTaxonomies[] = [
+                    'postType' => $postType,
+                    'taxonomy' => get_taxonomy($taxonomyName),
+                ];
+            }
+        }
+
+        register_graphql_field( $this->prefix . 'Cup', 'primaryTaxonomies', [
+            'type' => [ 'list_of' => 'primaryTaxonomy' ],
+            'description' => 'Taxonomies set as the primary for a post type.',
+            'resolve' => function() use ($primaryTaxonomies) {
+                return $primaryTaxonomies;
             },
         ]);
     }
