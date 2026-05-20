@@ -22,7 +22,6 @@ class GraphQL
             add_action( 'graphql_register_types', [$this, 'badeggcup']);
 
             add_filter( 'graphql_post_object_connection_query_args', [$this, 'taxonomiesWhereQuery'], 10, 5);
-            add_filter( 'graphql_content_type_fields', [$this, 'fixRestBase'], 100);
         }
     }
 
@@ -358,17 +357,5 @@ class GraphQL
         }
 
         return $companyFields;
-    }
-
-    public function fixRestBase($fields)
-    {
-        $fields['restBase']['resolve'] = function ($content_type) {
-
-            $post_type = get_post_type_object($content_type->name);
-
-            return $post_type->rest_base ?? null;
-        };
-
-        return $fields;
     }
 }
