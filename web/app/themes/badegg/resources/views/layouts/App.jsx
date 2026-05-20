@@ -49,7 +49,6 @@ export default function App() {
     })
       .then(res => res.json())
       .then(res => {
-        // console.log(res)
         setAppContext(prevState => ({
           ...prevState,
           company: res?.data?.badEggCup?.company,
@@ -65,16 +64,15 @@ export default function App() {
   return (
     <HelmetProvider>
       { isLoaded && (
-        <Helmet>
-          {/* <title>{ companyName }</title>
-          <meta name="description" content="Dynamic page from WordPress" />
+        <>
+          <Helmet>
+            {/* <title>{ companyName }</title>
+            <meta name="description" content="Dynamic page from WordPress" />
 
-          <meta property="og:title" content={ companyName } />
-          <meta property="og:description" content="Dynamic page content" /> */}
-        </Helmet>
-      )}
+            <meta property="og:title" content={ companyName } />
+            <meta property="og:description" content="Dynamic page content" /> */}
+          </Helmet>
 
-        { isLoaded && (
           <Router>
             <div className="wrapper">
               <main className="main">
@@ -131,20 +129,12 @@ export default function App() {
             <MenuSide open={ appContext.menuOpen } items={ primaryMenu } />
 
           </Router>
+          </>
         )}
 
       <BgTexture className="global fixed" />
     </HelmetProvider>
   )
-
-  // if else {
-  //   return (
-  //     <div>
-  //       <h1>Loading...</h1>
-  //     </div>
-  //   )
-  // }
-
 }
 
 function buildQuery()
