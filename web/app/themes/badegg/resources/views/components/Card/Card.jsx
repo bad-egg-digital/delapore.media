@@ -12,7 +12,7 @@ export default function Card( props ) {
     return <CardLoading />
   } else {
     switch ( postType ) {
-      // case "podcast":   return <CardPodcast { ...props } />
+      case "podcast":   return <CardPodcast { ...props } />
       default:          return <CardPost    { ...props } />
     }
   }

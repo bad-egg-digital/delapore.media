@@ -44,11 +44,7 @@ export default function CardPost( props ) {
         }
       </header>
       <div className="card-content inner inner-small">
-        <TermList
-          items={ terms?.nodes }
-          limit={ 2 }
-          isLoaded={ isLoaded }
-        />
+        <TermList items={ terms?.nodes } limit={ 2 } isLoaded={ isLoaded } />
         <h2>{ title }</h2>
         { excerpt && <div className="card-excerpt">{ parse(excerpt) }</div> }
       </div>
