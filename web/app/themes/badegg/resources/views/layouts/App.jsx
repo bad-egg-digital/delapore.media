@@ -37,9 +37,9 @@ export default function App() {
   const { appContext, setAppContext } = useContext( AppContext )
   const [ isLoaded, setIsLoaded ] = useState(false)
 
-  const [ companyName, setCompanyName ] = useState('Loading...')
-  const [ primaryMenu, setPrimaryMenu ] = useState('Loading...')
-  const [ pageType, setPageType ] = useState(null)
+  const [ companyName, setCompanyName ] = useState({})
+  const [ primaryMenu, setPrimaryMenu ] = useState({})
+  const [ pageType, setPageType ] = useState({})
 
   useEffect(() => {
     fetch( badEggCupAPI.graphql, {
