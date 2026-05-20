@@ -7,15 +7,12 @@ export default function Masthead( props ) {
   const { post, postType, attributes } = props
   const [ title, setTitle ] = useState('')
   const [ date, setDate ] = useState('')
-  const [ categories, setCategories ] = useState({})
+  const [ terms, setTerms ] = useState({})
   const { hideCategories, hideDate } = attributes;
 
   useEffect(() => {
-    const terms = post?.terms?.nodes
-
-    if(terms && postType === 'post') {
-      const cats = terms.filter( node => node.taxonomyName === 'category')
-      setCategories( cats )
+    if(post?.terms?.nodes) {
+      setTerms( post.terms.nodes )
     }
 
     setDate( post.date )
@@ -26,11 +23,11 @@ export default function Masthead( props ) {
   return (
     <div className="wp-block-badegg-masthead">
       { (!hideCategories || !hideDate) &&
-        <div className={ `entry-meta ${ (!hideCategories && categories.length > 0) ? 'has-categories' : '' }` }>
+        <div className={ `entry-meta ${ (!hideCategories && terms.length > 0) ? 'has-categories' : '' }` }>
           { !hideCategories && (
             <TermList
               className="masthead-categories"
-              items={ categories }
+              items={ terms }
               isLoaded={ true }
             />
           )}

@@ -5,20 +5,22 @@ import { Helmet } from 'react-helmet-async'
 import BlockList from '@views/components/BlockList/BlockList'
 import Error from '@views/templates/Error'
 
-export default function Single({ postType = 'page' }) {
+export default function Single({ postType }) {
   const { slug } = useParams()
   const [ post, setPost ] = useState(null)
   const [ isLoaded, setIsLoaded ] = useState(false)
+
+  const query = buildQuery(slug, postType);
 
   useEffect(() => {
     fetch( badEggCupAPI.graphql, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: buildQuery(slug, postType) }),
+      body: JSON.stringify({ query: query }),
     })
       .then(res => res.json())
       .then(res => {
-        setPost(res?.data?.[postType])
+        setPost(res?.data?.[postType?.name])
         setIsLoaded(true)
       })
   }, [ slug, postType ])
@@ -46,20 +48,26 @@ function buildQuery(slug, postType)
 {
   let queryTerms = ''
   let queryBlocks = ''
+  let queryWhere = ''
 
-  if( [ 'post' ].includes( postType )) {
-    queryTerms = `terms {
+  if(postType?.primaryTaxonomy) {
+    queryWhere = `(where: {taxonomies: ${ postType.primaryTaxonomy.graphqlSingleName.toUpperCase() }})`
+  }
+
+  if(postType?.name !== 'page') {
+    queryTerms = `terms${ queryWhere } {
       nodes {
         databaseId
         uri
         name
         slug
         taxonomyName
+        count
       }
     }`
   }
 
-  if(['page', 'post', 'podcast'].includes(postType)) {
+  if(['page', 'post', 'podcast'].includes(postType?.name)) {
     queryBlocks = `blocks {
       index
       name
@@ -78,7 +86,7 @@ function buildQuery(slug, postType)
 
   let query = `
     {
-      ${ postType }(id: "${ slug || '/' }", idType: URI) {
+      ${ postType?.graphqlSingleName?.toLowerCase() }(id: "${ slug || '/' }", idType: URI) {
         id
         slug
         title

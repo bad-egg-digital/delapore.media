@@ -8,6 +8,7 @@ class Post
     {
         add_filter( 'register_post_post_type_args', [$this, 'rewrite'], 10, 2 );
         add_filter( 'register_post_post_type_args', [$this, 'template'], 10, 2 );
+        add_filter( 'register_category_taxonomy_args', [$this, 'categoryArgs'], 10, 2 );
         add_filter( 'pre_post_link', [$this, 'permalink'], 10, 3);
         add_filter( 'post_type_labels_post', [$this, 'labels']);
     }
@@ -119,5 +120,12 @@ class Post
         $slug_for_posts = get_post_field('post_name', $page_for_posts);
 
         return $slug_for_posts;
+    }
+
+    public function categoryArgs($args)
+    {
+        $args['default_term'] = false;
+
+        return $args;
     }
 }

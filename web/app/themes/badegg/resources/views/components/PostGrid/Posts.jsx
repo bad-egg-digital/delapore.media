@@ -2,10 +2,9 @@ import clsx from 'clsx'
 import Card from '@views/components/Card/Card'
 
 export default function Posts( props ) {
-
   const {
     posts,
-    postType = 'post',
+    postType,
     isLoaded,
     showLoading = false,
   } = props
@@ -15,7 +14,7 @@ export default function Posts( props ) {
     'section-small',
     'section-zero-bottom',
     'postgrid',
-    postType && 'postgrid-' + postType,
+    postType?.name && 'postgrid-' + postType?.name,
   )
 
   return (
@@ -26,10 +25,10 @@ export default function Posts( props ) {
 
             { posts.map( ( post, index ) =>
               <Card
-                key={ `${ postType }-${ index }` }
-                postType={ postType }
+                key={ `${ postType?.name }-${ index }` }
+                postType={ postType?.name }
                 isLoaded={ isLoaded }
-                { ...post.node }
+                { ...post }
               />
             )}
 
@@ -42,7 +41,7 @@ export default function Posts( props ) {
                 { [...Array(3).keys()].map( x =>
                   <Card
                     key={ `loading-card-${ x }` }
-                    postType={ postType }
+                    postType={ postType?.name }
                     isLoaded={ isLoaded }
                     showLoading={ showLoading }
                   />

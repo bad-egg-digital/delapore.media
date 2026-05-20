@@ -6,39 +6,30 @@ import clsx from 'clsx'
 export default function TermList( props) {
   const {
     className,
-    items,
-    active,
-    contentType,
+    items = [],
+    postType,
     limit,
     isLoaded,
    } = props
 
   const location = useLocation()
-  let itemList = (items && items.length > 0)
-    ? items
-      .filter( value => (
-        Object.keys(value).length !== 0 &&
-        value?.count && value.count > 0
-      ))
-    : []
-
-  if(limit && itemList.length > 0) itemList = itemList.slice(0, limit)
+  const itemList = (limit && items.length > 0) ? items.slice(0, limit) : items
 
   return (
     <div className={ `termlist ${ className || '' }` }>
       <ul className="nolist">
         { isLoaded ? (
           <>
-            { contentType &&
+            { postType &&
               <li className={ clsx(
                 'termlist-item-all',
-                (contentType.uri === location.pathname) && `active`,
+                (postType.uri === location.pathname) && `active`,
               )}>
-                { (contentType.uri === location.pathname) ? (
-                  <span>All { contentType.label }</span>
+                { (postType.uri === location.pathname) ? (
+                  <span>All { postType.label }</span>
                 ):(
-                  <Link to={ contentType.uri }>
-                    All { contentType.label }
+                  <Link to={ postType.uri }>
+                    All { postType.label }
                   </Link>
                 )}
               </li>
@@ -47,12 +38,15 @@ export default function TermList( props) {
             { itemList.length > 0 && (
               <>
                 { itemList.map((item, index) =>  {
+                  if('count' in item && item?.count < 1) return;
+
                   const isActive = location.pathname === item.uri ? true : false;
 
                   let termClass = clsx(
                     'termlist-term-' + item.slug,
                     (isActive) && `active`,
                   )
+
 
                   return (
                     <li key={ index } className={ termClass }>

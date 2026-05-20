@@ -3,6 +3,7 @@
 namespace App\Utilities;
 use BadEggCup\Tools;
 use BadEggCup\Data;
+use WPGraphQL\Model\Taxonomy;
 
 class GraphQL
 {
@@ -12,11 +13,16 @@ class GraphQL
     {
         if(class_exists('WPGraphQL') && class_exists('\BadEggCup\Tools\Settings')) {
             add_filter( 'badeggcup_restapi_localize', [ $this, 'addGraphQL' ]);
+
             add_action( 'graphql_register_types', [$this, 'JSON']);
             add_action( 'graphql_register_types', [$this, 'archives']);
             add_action( 'graphql_register_types', [$this, 'taxonomies']);
+            add_action( 'graphql_register_types', [$this, 'taxonomiesWhere']);
             add_action( 'graphql_register_types', [$this, 'blocks']);
             add_action( 'graphql_register_types', [$this, 'badeggcup']);
+
+            add_filter( 'graphql_post_object_connection_query_args', [$this, 'taxonomiesWhereQuery'], 10, 5);
+            add_filter( 'graphql_content_type_fields', [$this, 'fixRestBase'], 100);
         }
     }
 
@@ -118,7 +124,7 @@ class GraphQL
                     $taxonomy = @$setTaxonomies[$content_type->name];
                 }
 
-                return get_taxonomy($taxonomy);
+                return ($taxonomy) ? new Taxonomy(get_taxonomy($taxonomy)) : null;
             },
         ]);
 
@@ -140,7 +146,7 @@ class GraphQL
             if($taxonomyName) {
                 $primaryTaxonomies[] = [
                     'postType' => $postType,
-                    'taxonomy' => get_taxonomy($taxonomyName),
+                    'taxonomy' => ($taxonomyName) ? new Taxonomy(get_taxonomy($taxonomyName)) : null,
                 ];
             }
         }
@@ -152,6 +158,81 @@ class GraphQL
                 return $primaryTaxonomies;
             },
         ]);
+
+        register_graphql_field( 'Taxonomy', 'uri', [
+            'type' => 'String',
+            'resolve' => function( $taxonomy ) {
+                $tax = get_taxonomy( $taxonomy->name );
+                $rewrite = $tax->rewrite['slug'];
+
+                return ($rewrite) ? '/' . $rewrite : null;
+            }
+        ]);
+    }
+
+    public function taxonomiesWhere()
+    {
+        $postTypes = get_post_types([
+            'show_in_graphql' => true,
+            '_builtin' => false,
+            'taxonomies' => true,
+        ], 'objects');
+
+        foreach($postTypes as $postType => $props) {
+            $taxonomies = $props->taxonomies;
+            $singular = $props->graphql_single_name;
+
+            foreach($taxonomies as $taxonomyName) {
+                $taxonomy = get_taxonomy($taxonomyName);
+                $singularTax = $taxonomy->graphql_single_name;
+                $singularTaxName = $taxonomy->labels->singular_name;
+
+                register_graphql_field(
+                    'RootQueryTo' . $singular . 'ConnectionWhereArgs',
+                    $singularTax,
+                    [
+                        'type'        => 'String',
+                        'description' => __( 'Filter by ' . strtolower($singularTaxName) . ' slug', 'badegg' ),
+                    ]
+                );
+            }
+        }
+    }
+
+    public function taxonomiesWhereQuery( $query_args, $source, $args, $context, $info ) {
+
+        $postTypes = get_post_types([
+            'show_in_graphql' => true,
+            '_builtin' => false,
+            'taxonomies' => true,
+        ], 'objects');
+
+        foreach($postTypes as $postType => $props) {
+            $taxonomies = $props->taxonomies;
+            $plural = $props->graphql_plural_name;
+
+            if ($plural !== $info->fieldName) {
+                continue;
+            }
+
+            foreach($taxonomies as $taxonomyName) {
+                $taxonomy = get_taxonomy($taxonomyName);
+                $singularTax = $taxonomy->graphql_singular_name;
+                $pluralTax = $taxonomy->graphql_plural_name;
+
+                if (!empty( $args['where'][$singularTax])) {
+                    $query_args['tax_query'] = [
+                        [
+                            'taxonomy' => $taxonomyName,
+                            'field'    => 'slug',
+                            'terms'    => $args['where'][$singularTax],
+                        ]
+                    ];
+                }
+            }
+        }
+
+        return $query_args;
     }
 
     public function blocks()
@@ -168,14 +249,12 @@ class GraphQL
             ],
         ]);
 
-        $builtin = [
-            'pages' => 'pages',
-            'posts' => 'posts',
-        ];
+        $postTypes = get_post_types([
+            'show_in_graphql' => true,
+            'show_in_rest' => true,
+        ], 'objects');
 
-        $postTypes = get_post_types(['show_in_rest' => true]);
-
-        $postTypes = array_merge($builtin, $postTypes);
+        $postTypes = array_filter( $postTypes, fn($postType) => !in_array( $postType->name, [ 'attachment' ] ));
 
         $resolver = function ($post){
             $Blocks = new Data\Blocks;
@@ -188,8 +267,8 @@ class GraphQL
             return $Blocks->blocksMap($parsed);
         };
 
-        foreach($postTypes as $postType) {
-            register_graphql_field(ucfirst($postType), 'blocks', [
+        foreach($postTypes as $postType => $props) {
+            register_graphql_field($props->graphql_single_name, 'blocks', [
                 'type'    => ['list_of' => 'Block'],
                 'resolve' => $resolver,
             ]);
@@ -279,5 +358,17 @@ class GraphQL
         }
 
         return $companyFields;
+    }
+
+    public function fixRestBase($fields)
+    {
+        $fields['restBase']['resolve'] = function ($content_type) {
+
+            $post_type = get_post_type_object($content_type->name);
+
+            return $post_type->rest_base ?? null;
+        };
+
+        return $fields;
     }
 }

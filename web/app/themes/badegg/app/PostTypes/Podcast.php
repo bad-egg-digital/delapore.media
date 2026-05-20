@@ -32,8 +32,6 @@ class Podcast
                     'page-attributes',
                 ],
                 'menu_icon' => 'dashicons-controls-volumeon',
-                'show_in_rest' => true,
-                'rest_base' => 'podcasts',
                 'archive' => [
                     'nopaging' => true,
                 ],
@@ -45,11 +43,17 @@ class Podcast
                     'all_items' => __('All Episodes', $this->td),
                     'add_new_item' => __('Add Episode', $this->td),
                 ],
-                'show_in_graphql' => true,
-                'graphql_single_name' => 'podcast',
-                'graphql_plural_name' => 'podcasts',
                 'public' => true,
                 'publicly_queryable' => true,
+                'taxonomies' => [
+                    $this->postType . '_' . $this->taxonomy,
+                ],
+
+                'show_in_rest' => true,
+                'rest_base' => 'podcasts',
+                'show_in_graphql' => true,
+                'graphql_single_name' => 'Podcast',
+                'graphql_plural_name' => 'Podcasts',
             ],
             [
                 'singular' => __('Podcast Episode', $this->td),
@@ -63,14 +67,17 @@ class Podcast
                 'meta_box' => 'checkbox',
                 'dashboard_glance' => true,
                 'show_in_rest' => true,
-                'graphql_single_name' => $this->postType . 'Category',
-                'graphql_plural_name' => $this->postType . 'Categories',
+                'graphql_single_name' => 'podcastCategory',
+                'graphql_plural_name' => 'podcastCategories',
                 'show_in_graphql' => true,
+                'rewrite' => [
+                    'with_front' => true,
+                    'slug' => $rewrite . '/categories',
+                ],
             ],
             [
                 'singular' => __('Podcast Category', $this->td ),
                 'plural'   => __('Podcast Categories', $this->td ),
-                'slug'     => $rewrite . '/categories',
             ],
         );
     }

@@ -6,7 +6,7 @@ export default function BlockList({ id, postType, post }) {
   const [ blocks, setBlocks ] = useState(post.blocks)
   const [ isLoaded, setIsLoaded ] = useState(false)
 
-  const endpoint = `/wp-json/wp/v2/${ postType }s/${id}/blocks`
+  const endpoint = `/wp-json/wp/v2/${ postType.graphqlPluralName }/${id}/blocks`
 
   useEffect( () => {
     fetch( endpoint )
