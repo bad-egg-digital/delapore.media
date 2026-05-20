@@ -1,32 +1,26 @@
 import './PostGrid.scss'
-import React, { useEffect, useState, useContext } from 'react'
-import { useLocation } from 'react-router'
+import { useEffect, useState } from 'react'
 import TermList from '@views/components/TermList/TermList'
 import Posts from '@views/components/PostGrid/Posts'
 
-export default function PostGrid({ postType, activeTerm }) {
-  let location = useLocation()
-  const [ contentType, setContentType ] = useState({})
+export default function PostGrid( props ) {
   const [ posts, setPosts ] = useState([])
-  const [ terms, setTerms ] = useState([])
   const [ isLoaded, setIsLoaded ] = useState(false)
 
-  let queryTaxonomy = ''
+  const {
+    postType,
+    taxonomy,
+    activeTerm,
+  } = props
 
-  switch( postType ) {
-    case 'post':    queryTaxonomy = 'Category'
-    default:
-  }
-
-  const query = buildQuery( postType, queryTaxonomy, activeTerm )
+  const query = buildQuery( props )
+  const terms = taxonomy?.connectedTerms?.nodes
 
   useEffect(() => {
     setPosts([])
   }, [ location.pathname ])
 
   useEffect(() => {
-    setPosts([])
-
     fetch( badEggCupAPI.graphql, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -34,102 +28,79 @@ export default function PostGrid({ postType, activeTerm }) {
     })
       .then(res => res.json())
       .then(res => {
-        setContentType(res?.data?.contentType)
-        setTerms(res?.data?.terms?.nodes)
-        setPosts(res?.data?.[ postType + 's']?.edges)
+        setPosts(res?.data?.[postType?.graphqlPluralName.toLowerCase()]?.nodes)
         setIsLoaded(true)
       })
-  }, [ postType, activeTerm, query, isLoaded ])
+  }, [ postType, location.pathname ])
 
   return (
     <section className="section section-postgrid">
       <div className="container container-large">
 
         <TermList
+          key={ taxonomy?.name }
           className="termlist-archive"
           items={ terms }
-          active={ activeTerm }
-          contentType={ contentType }
+          postType={ postType }
           isLoaded={ isLoaded }
         />
 
         <Posts
-          key={ postType + activeTerm }
+          key={ postType?.name + activeTerm }
           posts={ posts }
           postType={ postType }
           isLoaded={ isLoaded }
           showLoading={ true }
         />
+
       </div>
     </section>
   )
 }
 
-function buildQuery(postType, queryTaxonomy, term)
+function buildQuery({ postType, taxonomy, activeTerm })
 {
-  let queryTerms = ''
-  let queryPostTerms = ''
   let queryWhere = ''
+  let termsWhere = ''
 
-  if(queryTaxonomy) {
-    queryTerms = `
-      terms {
-        nodes {
-          ... on ${ queryTaxonomy } {
-            name
-            slug
-            uri
-          }
-        }
-      }
-    `
-
-    queryPostTerms = `terms {
-      nodes {
-        ... on ${ queryTaxonomy } {
-          name
-          slug
-          uri
-        }
-      }
-    }`
+  if(activeTerm && taxonomy?.graphqlSingleName) {
+    queryWhere = `(where: { ${ taxonomy.graphqlSingleName }${ postType?.name === 'post' ?'Name' : '' }: "${ activeTerm }" })`
   }
 
-  if(term && queryTaxonomy === 'Category') {
-    queryWhere = `(where: {categoryName: "${ term }"})`
+  if(taxonomy && taxonomy?.graphqlSingleName) {
+    termsWhere = `(where: { taxonomies: ${ taxonomy.graphqlSingleName.toUpperCase() } })`
   }
 
   let query = `
     {
-      ${ postType }s${ queryWhere } {
-        edges {
-          node {
-            id
-            slug
-            title
-            excerpt
-            uri
-            featuredImage {
-              node {
-                altText
-                sourceUrl
-                srcSet
-                title
-                mediaDetails {
-                  width
-                  height
-                }
+      ${ postType.graphqlPluralName.toLowerCase() }${ queryWhere } {
+        nodes {
+          id
+          slug
+          title
+          excerpt
+          uri
+          featuredImage {
+            node {
+              altText
+              sourceUrl
+              srcSet
+              title
+              mediaDetails {
+                width
+                height
               }
             }
-            ${ queryPostTerms }
+          }
+          terms${ termsWhere } {
+            nodes {
+              name
+              slug
+              uri
+            }
           }
         }
       }
-      contentType(id: "${ postType }", idType: NAME) {
-        label
-        uri
-      }
-      ${ queryTerms }
     }
   `
 

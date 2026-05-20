@@ -33,8 +33,6 @@ class Product
                     'page-attributes',
                 ],
                 'menu_icon' => 'dashicons-cart',
-                'show_in_rest' => true,
-                'rest_base' => 'products',
                 'archive' => [
                     'nopaging' => true,
                 ],
@@ -44,11 +42,17 @@ class Product
                 'labels' => [
                     'menu_name' => __('Shop', $this->td),
                 ],
-                'show_in_graphql' => true,
-                'graphql_single_name' => 'product',
-                'graphql_plural_name' => 'products',
+                'show_in_rest' => true,
                 'public' => true,
                 'publicly_queryable' => true,
+                'taxonomies' => [
+                    $this->postType . '_' . $this->taxonomy,
+                ],
+
+                'rest_base' => 'products',
+                'show_in_graphql' => true,
+                'graphql_single_name' => 'Product',
+                'graphql_plural_name' => 'Products',
             ],
         );
 
@@ -58,14 +62,17 @@ class Product
                 'meta_box' => 'checkbox',
                 'dashboard_glance' => true,
                 'show_in_rest' => true,
-                'graphql_single_name' => $this->postType . 'Category',
-                'graphql_plural_name' => $this->postType . 'Categories',
+                'graphql_single_name' => 'productCategory',
+                'graphql_plural_name' => 'productCategories',
                 'show_in_graphql' => true,
+                'rewrite' => [
+                    'with_front' => true,
+                    'slug' => $rewrite . '/categories',
+                ]
             ],
             [
                 'singular' => __('Product Category', $this->td ),
                 'plural'   => __('Product Categories', $this->td ),
-                'slug'     => $rewrite . '/categories',
             ],
         );
     }

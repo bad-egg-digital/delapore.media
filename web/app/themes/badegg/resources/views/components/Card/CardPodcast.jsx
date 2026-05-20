@@ -3,9 +3,10 @@ import parse from "html-react-parser"
 import { Link } from 'react-router-dom'
 import TermList from '@views/components/TermList/TermList'
 
-export default function CardPodcast( props ) {
+export default function CardPost( props ) {
+
   const {
-    postType = 'post',
+    postType,
     slug,
     terms,
     title,
@@ -29,6 +30,7 @@ export default function CardPodcast( props ) {
       <header className="bg-grey-darker ">
         { featuredImage ? (
           <img
+            loading="lazy"
             className="card-featured"
             src={featuredImage?.node?.sourceUrl }
             srcSet={ featuredImage?.node?.srcSet }

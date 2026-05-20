@@ -6,12 +6,54 @@
 }
 
 .postgrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20em), 1fr));
-  gap: variables.$gapMedium;
+  &-items {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: variables.$gapMedium;
 
-  @container PostGrid (min-width: #{variables.$screen-md}) {
-    gap: variables.$gapLarge;
-    grid-template-columns: repeat(3, 1fr);
+    .card-loading {
+      display: none;
+
+      &:first-of-type {
+        display: flex;
+      }
+    }
+
+    @container PostGrid (min-width: #{variables.$screen-sm}) {
+      grid-template-columns: repeat(2, 1fr);
+
+      .card-loading:nth-child(2) { display: flex; }
+    }
+
+    @container PostGrid (min-width: #{variables.$screen-md}) {
+      gap: variables.$gapLarge;
+      grid-template-columns: repeat(3, 1fr);
+
+      .card-loading:nth-child(3) { display: flex; }
+    }
+
+    // &-fade {
+    //   &-enter {
+    //     opacity: 0;
+    //     transform: scale(0.5);
+    //   }
+
+    //   &-enter-active {
+    //     opacity: 1;
+    //     transform: none;
+    //     transition: all 300ms ease;
+    //   }
+
+    //   &-exit {
+    //     opacity: 1;
+    //   }
+
+    //   &-exit-active {
+    //     opacity: 0;
+    //     transform: scale(1.5);
+    //     transform: none;
+    //     transition: all 300ms ease;
+    //   }
+    // }
   }
 }

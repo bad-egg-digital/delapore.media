@@ -6,6 +6,8 @@ import CardPost    from './CardPost'
 export default function Card( props ) {
   const { postType, showLoading = false } = props
 
+  // console.log(props)
+
   if(showLoading) {
     return <CardLoading />
   } else {

@@ -7,10 +7,15 @@ import BlockList from '@views/components/BlockList/BlockList'
 import PostGrid from '@views/components/PostGrid/PostGrid'
 import Error from '@views/templates/Error'
 
-export default function Archive({ postType = 'post' }) {
+export default function Archive( props ) {
   const { appContext, setAppContext } = useContext( AppContext )
   const { term } = useParams()
-  const archivePage = appContext?.pagesForArchives?.[postType]
+
+  const {
+    postType = 'post',
+    archivePage,
+    taxonomy,
+  } = props
 
   if(archivePage) {
 
@@ -27,7 +32,7 @@ export default function Archive({ postType = 'post' }) {
         <BlockList id={ archivePage.databaseId } postType={ postType } post={ archivePage } />
 
         <div className="badegg-block-list">
-          <PostGrid key={ postType } postType={ postType } activeTerm={ term }  />
+          <PostGrid key={ postType?.name + taxonomy?.name } postType={ postType } taxonomy={ taxonomy } activeTerm={ term }  />
         </div>
       </>
     )

@@ -37,10 +37,9 @@ export default function App() {
   const { appContext, setAppContext } = useContext( AppContext )
   const [ isLoaded, setIsLoaded ] = useState(false)
 
-  const [ companyName, setCompanyName ] = useState('Loading...')
-  const [ pageForPosts, setPageForPosts ] = useState(0)
-  const [ pageForPodcasts, setPageForPodcasts ] = useState(0)
-  const [ primaryMenu, setPrimaryMenu ] = useState('Loading...')
+  const [ companyName, setCompanyName ] = useState({})
+  const [ primaryMenu, setPrimaryMenu ] = useState({})
+  const [ pageType, setPageType ] = useState({})
 
   useEffect(() => {
     fetch( badEggCupAPI.graphql, {
@@ -50,31 +49,14 @@ export default function App() {
     })
       .then(res => res.json())
       .then(res => {
-        const pagesForArchives = res?.data?.badEggCup?.pagesForArchives
-
         setAppContext(prevState => ({
           ...prevState,
           company: res?.data?.badEggCup?.company,
           menuPrimaryData: res?.data?.menuItems?.nodes,
+          postTypes: res?.data?.contentTypes?.nodes,
         }));
 
-        if(pagesForArchives && pagesForArchives.length > 0){
-          pagesForArchives.map((archive, index) => {
-
-            let postType = archive.postType
-            let page = archive.page
-
-            setAppContext(prevState => ({
-              ...prevState,
-              pagesForArchives: {
-                ...prevState?.pagesForArchives,
-                [postType]: page,
-              }
-            }));
-
-          })
-        }
-
+        setPageType(res?.data?.contentType)
         setIsLoaded(true);
       })
   }, [])
@@ -82,55 +64,62 @@ export default function App() {
   return (
     <HelmetProvider>
       { isLoaded && (
-        <Helmet>
-          {/* <title>{ companyName }</title>
-          <meta name="description" content="Dynamic page from WordPress" />
+        <>
+          <Helmet>
+            {/* <title>{ companyName }</title>
+            <meta name="description" content="Dynamic page from WordPress" />
 
-          <meta property="og:title" content={ companyName } />
-          <meta property="og:description" content="Dynamic page content" /> */}
-        </Helmet>
-      )}
+            <meta property="og:title" content={ companyName } />
+            <meta property="og:description" content="Dynamic page content" /> */}
+          </Helmet>
 
-        { isLoaded && (
           <Router>
             <div className="wrapper">
               <main className="main">
                 <Header />
                   <Wrapper>
                     <Routes>
-                      <Route path="/" element={ <Single key={ `route-page` } /> } />
-                      <Route path="/:slug" element={ <Single key={ `route-page` } /> } />
-                      <Route path={ `/category/:term` } element={ <Archive key={ `route-post` } postType="post" /> } />
+                      <Route path="/" element={ <Single key={ `route-page` } postType={ pageType } /> } />
+                      <Route path="/:slug" element={ <Single key={ `route-page` } postType={ pageType } /> } />
 
-                      { (appContext?.pagesForArchives) && (
+                      { (appContext?.postTypes) && (
                         <>
+                          { Object(appContext.postTypes).map( postType => {
+                            if(postType?.name === 'page') {
 
-                          { Object.keys(appContext.pagesForArchives).map( postType => {
-                            let archive = appContext.pagesForArchives[postType]
-                            let path = `/${ archive.slug }`
+                            }
 
-                            return (
-                              <React.Fragment key={ `routes-${postType}` }>
-                                <Route  path={ path } element={
-                                  <Archive
-                                    key={ `route-${ postType }` }
-                                    postType={ postType }
-                                    pageForArchive={ archive }
-                                  />
-                                } />
-                                <Route path={ `${ path }/:slug` } element={
-                                  <Single
-                                    key={ `route-${ postType }` }
-                                    postType={ postType }
-                                  />
-                                } />
-                              </React.Fragment>
-                            )
+                            if(postType?.uri) {
+                              let archive = postType?.pageForArchive
+                              let taxonomy = postType?.primaryTaxonomy
+
+                              return (
+                                <React.Fragment key={ `routes-${postType}` }>
+                                  <Route path={ `${ postType.uri }:slug` } element={
+                                    <Single key={ `route-${ postType }` } postType={ postType } />
+                                  } />
+
+                                  { archive && (
+                                    <>
+                                      <Route path={ `/${archive.slug}/` } element={
+                                        <Archive key={ `route-${ postType }` } postType={ postType } archivePage={ archive } taxonomy={ taxonomy } />
+                                      } />
+                                    </>
+                                  ) }
+
+                                  { taxonomy && (
+                                    <>
+                                      <Route path={ `${ taxonomy.uri }/:term` } element={
+                                        <Archive key={ `route-${ postType }` } postType={ postType } archivePage={ archive } taxonomy={ taxonomy } />
+                                      } />
+                                    </>
+                                  ) }
+                                </React.Fragment>
+                              )
+                            }
                           })}
-
                         </>
                       )}
-
                     </Routes>
                   </Wrapper>
               </main>
@@ -140,20 +129,12 @@ export default function App() {
             <MenuSide open={ appContext.menuOpen } items={ primaryMenu } />
 
           </Router>
+          </>
         )}
 
       <BgTexture className="global fixed" />
     </HelmetProvider>
   )
-
-  // if else {
-  //   return (
-  //     <div>
-  //       <h1>Loading...</h1>
-  //     </div>
-  //   )
-  // }
-
 }
 
 function buildQuery()
@@ -161,29 +142,6 @@ function buildQuery()
   let query = `
     {
       badEggCup {
-        pagesForArchives {
-          postType
-          page {
-            slug
-            title
-            content
-            excerpt
-            databaseId
-            blocks {
-              attributes
-              content
-              name
-              rawContent
-              innerBlocks {
-                index
-                name
-                attributes
-                content
-                rawContent
-              }
-            }
-          }
-        }
         company {
           name
           nameLegal
@@ -198,6 +156,56 @@ function buildQuery()
         nodes {
           label
           path
+        }
+      }
+      contentType(id: "page", idType: NAME) {
+        name
+        graphqlPluralName
+        graphqlSingleName
+      }
+      contentTypes {
+        nodes {
+          name
+          label
+          uri
+          graphqlSingleName
+          graphqlPluralName
+          pageForArchive {
+            slug
+            title
+            content
+            excerpt
+            databaseId
+            uri
+            blocks {
+              attributes
+              content
+              name
+              rawContent
+              innerBlocks {
+                index
+                name
+                attributes
+                content
+                rawContent
+              }
+            }
+          }
+          primaryTaxonomy {
+            name
+            label
+            uri
+            graphqlSingleName
+            graphqlPluralName
+            connectedTerms {
+              nodes {
+                count
+                name
+                slug
+                uri
+              }
+            }
+          }
         }
       }
     }
