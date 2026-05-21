@@ -59,7 +59,7 @@ class Product
         register_extended_taxonomy(
             $this->postType . '_' . $this->taxonomy, $this->postType,
             [
-                'meta_box' => 'checkbox',
+                // 'meta_box' => 'checkbox',
                 'dashboard_glance' => true,
                 'show_in_rest' => true,
                 'graphql_single_name' => 'productCategory',
