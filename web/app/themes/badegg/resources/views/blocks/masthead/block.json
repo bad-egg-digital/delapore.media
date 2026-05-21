@@ -17,6 +17,9 @@
       "text": false
     }
   },
+  "postTypes": [
+    "post"
+  ],
   "attributes": {
     "hideCategories": {
       "type": "boolean",

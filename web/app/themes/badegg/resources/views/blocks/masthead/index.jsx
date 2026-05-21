@@ -135,7 +135,7 @@ registerBlockType(metadata.name, {
                   { allCategories?.filter( (cat) => selectedCategories.includes(cat.id) )
                     .map((cat) => (
                       <li key={ cat.id } className={ `category-${ cat.slug }` }>
-                        <a href="#"><span>{ cat.name }</span></a>
+                        <a href="#">{ cat.name }</a>
                       </li>
                     ))}
                 </ul>
