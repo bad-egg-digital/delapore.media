@@ -1,0 +1,28 @@
+{
+  "apiVersion": 3,
+  "name": "badegg/podcast-content",
+  "title": "Podcast Content",
+  "category": "text",
+  "icon": {
+    "src": "playlist-audio",
+    "foreground": "#f58762"
+  },
+  "description": "Display the imported content from RSS.",
+  "keywords": [ "title", "heading" ],
+  "supports": {
+    "html": false,
+    "multiple": false,
+    "color": {
+      "background": false,
+      "text": false
+    }
+  },
+  "postTypes": [
+    "podcast"
+  ],
+  "usesContext": [
+    "postId",
+    "postType"
+  ],
+  "attributes": {}
+}

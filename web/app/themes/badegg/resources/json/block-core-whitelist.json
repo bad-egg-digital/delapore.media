@@ -23,5 +23,7 @@
   "core/columns",
 
   "badegg/masthead",
-  "badegg/excerpt"
+  "badegg/excerpt",
+  "badegg/podcast-title",
+  "badegg/podcast-content"
 ]

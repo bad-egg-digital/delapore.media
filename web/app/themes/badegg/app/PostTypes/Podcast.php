@@ -32,6 +32,7 @@ class Podcast
                     'excerpt',
                     'thumbnail',
                     'page-attributes',
+                    'custom-fields',
                 ],
                 'menu_icon' => 'dashicons-controls-volumeon',
                 'archive' => [
@@ -82,6 +83,20 @@ class Podcast
                 'plural'   => __('Podcast Categories', $this->td ),
             ],
         );
+
+        register_post_meta( $this->postType, $this->postType . '_audio_id', [
+            'show_in_rest' => true,
+            'single' => true,
+            'type' => 'number',
+            'sanitize_callback' => 'wp_kses_post',
+        ]);
+
+        register_post_meta( $this->postType, $this->postType . '_content', [
+            'show_in_rest' => true,
+            'single' => true,
+            'type' => 'string',
+            'sanitize_callback' => 'wp_kses_post',
+        ]);
     }
 
     public function settings_page()

@@ -3,6 +3,7 @@
 namespace App\Utilities;
 use SimplePie\SimplePie;
 use Alley\WP\Block_Converter\Block_Converter;
+use WP_CLI;
 
 class PodcastRSS
 {
@@ -10,10 +11,38 @@ class PodcastRSS
     public function __construct()
     {
         // add_action( 'admin_footer', [ $this, 'importEpisodes' ]);
-        add_action('admin_footer', function(){
+       if(class_exists('WP_CLI')) {
+           WP_CLI::add_command( 'badegg-podcast-import', [ $this, 'importCLI' ] );
+       }
 
-            // echo '<div style="margin-left: 200px">'.ABSPATH.'</div>';
-        });
+        // add_action('admin_footer', function(){
+
+        //     $podcasts = get_posts([
+        //         'post_type' => 'podcast',
+        //     ]);
+
+        //     echo '<div style="margin-left: 200px">';
+
+        //     foreach($podcasts as $podcast) {
+        //         echo '<h2>'. $podcast->post_title .'</h2>';
+        //         // echo '<pre>',print_r($podcast),'</pre>';
+        //         echo '<pre>',print_r(get_post_meta($podcast->ID)),'</pre>';
+        //     }
+
+        //     echo '</div>';
+        // });
+    }
+
+    public function importCLI() {
+        $imports = $this->importEpisodes([ 'cli' => true, 'placeholder_images' => true ]);
+
+        if($imports) {
+            WP_CLI::log('Successfully imported/updated ' . count($imports) . ' podcast episodes.');
+            WP_CLI::success( 'Podcast import complete.' );
+        } else {
+            WP_CLI::error( 'No new imports' );
+        }
+
     }
 
     public function importEpisodes($args = [])
@@ -21,74 +50,121 @@ class PodcastRSS
         $Uploads = new Uploads;
 
         $args = wp_parse_args($args, $this->defaultArgs());
+        $cli = $args['cli'];
+
+        if($cli) WP_CLI::log('Retrieving podcast data from RSS');
 
         $data = $this->parseRSS($args);
-        if(!$data) return;
 
+        if(!$data) {
+            if($cli) WP_CLI::log('No data found.');
+            return;
+        }
+
+        WP_CLI::log( count($data) . ' items retrieved.');
+
+        $imports = [];
+
+        $x = 1;
         foreach($data as $index => $props) {
+            $num = 'Import #' . $x;
+
+            if($cli) WP_CLI::log('Processing ' . $num);
+
             $postArgs = [
                 'post_type'    => 'podcast',
                 'post_title'   => $props['title'],
                 'post_name'    => $props['slug'],
                 'post_date'    => $props['date'],
-                'post_content' => $this->generateContent($props['content']),
                 'post_status'  => 'publish',
                 'post_author'  => get_current_user_id(),
-                'meta_input'   => [
-                    'podcast_import_id'         => $props['id'],
-                    'podcast_audio_id'          => null,
-                    'podcast_audio_source_url'  => null,
-                    'podcast_placeholder_image' => null,
-                ],
             ];
 
             $existing = get_page_by_path($props['slug'], OBJECT, 'podcast');
-            $existingID = @$existing->ID ?: 0;
-            $postArgs['ID'] = $existingID;
 
-            if(get_post_meta($existingID, 'podcast_audio_source_url', true) !== $props['media']) {
-                $audioID = $Uploads->byURL($props['media']);
-
-                if($audioID) {
-                    $postArgs['meta_input']['podcast_audio_id'] = $audioID;
-                    $postArgs['meta_input']['podcast_audio_source_url'] = $props['media'];
-                }
+            if($existing && $cli) {
+                if($cli) WP_CLI::log($num . ': Episode previously imported.');
             }
 
-            if(!get_post_thumbnail_id($existingID) && !get_post_meta($existingID, 'podcast_placeholder_image', true)) {
-                $attachmentID = $Uploads->byURL("https://static.photos/bokeh/1200x630.jpg");
+            $existingID = @$existing->ID ?: 0;
+            $existingAudioSource = get_post_meta($existingID, 'podcast_audio_source_url', true);
+            $existingAudioID = get_post_meta($existingID, 'podcast_audio_id', true);
 
-                if($attachmentID) {
-                    $postArgs['_thumbnail_id'] = $attachmentID;
-                    $postArgs['meta_input']['podcast_placeholder_image'] = true;
-                }
+            $postArgs['ID'] = $existingID;
+
+            if($cli) WP_CLI::log($num . ': Existing Audio Source: ' . $existingAudioSource);
+            if($cli) WP_CLI::log($num . ': RSS Audio source: ' . $props['media']);
+
+            $existingThumbnail = get_post_thumbnail_id($existingID);
+            $existingPlaceholder = get_post_meta($existingID, 'podcast_placeholder_image', true);
+
+            if(!$existing) {
+                $postArgs['post_content'] = $this->contentTemplate();
             }
 
             $postID = wp_insert_post($postArgs);
+
+            if(!$postID) {
+                if($cli) WP_CLI::log($num . ': Error adding podcast. Skipping.');
+                continue;
+            }
+
+            update_post_meta($postID, 'podcast_content', $props['content']);
+
+            if(!$existingAudioID && $existingAudioSource !== $props['media']) {
+                if($cli) WP_CLI::log($num . ': Uploading audio file.');
+                $audioID = $Uploads->byURL($props['media']);
+
+                if($audioID) {
+                    update_post_meta($postID, 'podcast_audio_id', $audioID);
+                    update_post_meta($postID, 'podcast_audio_source_url', $props['media']);
+
+                    if($cli) WP_CLI::log($num . ': Successfully attached audio file to episode.');
+                }
+
+            } else {
+                if($cli) WP_CLI::log($num . ': Audio source filenames match. Skipping audio attachment.');
+            }
+
+            if($args['placeholder_images'] && !$existingThumbnail) {
+                if($cli) WP_CLI::log($num . ': Uploading placeholder image');
+                $attachmentID = $Uploads->byURL("https://static.photos/bokeh/1200x630.jpg");
+
+                if($attachmentID) {
+                    $postArgs['meta_input']['podcast_placeholder_image'] = $attachmentID;
+                    set_post_thumbnail($postID, $attachmentID);
+                    update_post_meta($postID, 'podcast_placeholder_image', $attachmentID);
+
+                    if($cli) WP_CLI::log($num . ': Placeholder image attached.');
+                }
+
+            } else {
+                if($cli) WP_CLI::log($num . ': Already has a featured image. Skipping image attachment.');
+            }
+
+            $imports[] = $postID;
+
+            $x++;
+
+            if($cli) WP_CLI::log('-----');
         }
+
+        return $imports;
     }
 
-    public function generateContent($content = '')
+    public function contentTemplate()
     {
         if(!$content) return;
 
         $converter = new Block_Converter( $content );
         $blocks = $converter->convert();
 
-        ob_start(); ?>
+        $template = '';
+        $template .= '<!-- wp:badegg/article {"container_width":"large", "sidebar":true} -->' . PHP_EOL;
+        $template .= $blocks . PHP_EOL;
+        $template .= '<!-- /wp:badegg/article -->' . PHP_EOL;
 
-        <!-- wp:badegg/article {"container_width":"large", "sidebar":true} -->
-
-        <?= $blocks ?>
-
-        <!-- /wp:badegg/article -->
-
-        <?php $html = ob_get_clean();
-
-
-
-        return $html;
-
+        return $template;
     }
 
     public function parseRSS($args = [])
@@ -156,6 +232,9 @@ class PodcastRSS
     public function defaultArgs() {
         return [
             'feed' => get_option('badegg_podcast_libsyn_rss_url'),
+            'cli' => false,
+            'force' => false,
+            'placeholder_images' => false,
         ];
     }
 

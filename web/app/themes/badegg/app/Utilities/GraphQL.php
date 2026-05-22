@@ -13,15 +13,14 @@ class GraphQL
     {
         if(class_exists('WPGraphQL') && class_exists('\BadEggCup\Tools\Settings')) {
             add_filter( 'badeggcup_restapi_localize', [ $this, 'addGraphQL' ]);
-
             add_action( 'graphql_register_types', [$this, 'JSON']);
             add_action( 'graphql_register_types', [$this, 'archives']);
             add_action( 'graphql_register_types', [$this, 'taxonomies']);
             add_action( 'graphql_register_types', [$this, 'taxonomiesWhere']);
+            add_filter( 'graphql_post_object_connection_query_args', [$this, 'taxonomiesWhereQuery'], 10, 5);
             add_action( 'graphql_register_types', [$this, 'blocks']);
             add_action( 'graphql_register_types', [$this, 'badeggcup']);
-
-            add_filter( 'graphql_post_object_connection_query_args', [$this, 'taxonomiesWhereQuery'], 10, 5);
+            add_action( 'graphql_register_types', [$this, 'podcast']);
         }
     }
 
@@ -357,5 +356,25 @@ class GraphQL
         }
 
         return $companyFields;
+    }
+
+    public function podcast()
+    {
+        register_graphql_field( 'Podcast', 'episodeContent', [
+            'type' => 'String',
+            'description' => __('Imported content from RSS feed', 'badegg'),
+            'resolve' => function( $post ) {
+                return get_post_meta( $post->databaseId, 'podcast_content', true );
+            }
+        ]);
+
+        register_graphql_field( 'Podcast', 'episodeAudio', [
+            'type' => 'String',
+            'description' => __('Audio attachment', 'badegg'),
+            'resolve' => function( $post ) {
+                $audioID = get_post_meta( $post->databaseId, 'podcast_audio_id', true );
+                return wp_make_link_relative(wp_get_attachment_url( $audioID ));
+            }
+        ]);
     }
 }
