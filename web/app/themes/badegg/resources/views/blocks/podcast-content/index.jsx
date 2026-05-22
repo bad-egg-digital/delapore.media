@@ -9,12 +9,13 @@ import { Panel, PanelBody } from '@wordpress/components';
 import { useEntityProp } from '@wordpress/core-data';
 
 registerBlockType(metadata.name, {
-  edit({ attributes, setAttributes, context: { postType, postId } }) {
+  edit({ attributes, setAttributes, context: { postId } }) {
     const blockProps = useBlockProps();
+    const postType = wp.data.select( 'core/editor' ).getCurrentPostType();
 
     const [ meta, updateMeta ] = useEntityProp(
       'postType',
-      'podcast',
+      postType,
       'meta',
       postId
     );

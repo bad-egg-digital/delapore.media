@@ -4,8 +4,10 @@ import './style.scss'
 import metadata from './block.json';
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import { useSelect } from '@wordpress/data';
+import { useSelect, useDispatch } from '@wordpress/data';
 import { useState, useEffect } from '@wordpress/element';
+import { useEntityProp } from '@wordpress/core-data';
+import parse from "html-react-parser"
 
 import {
   useBlockProps,
@@ -14,6 +16,8 @@ import {
   InspectorControls,
   BlockControls,
   AlignmentToolbar,
+  MediaUpload,
+  MediaUploadCheck,
 } from '@wordpress/block-editor';
 
 import {
@@ -31,9 +35,12 @@ import ArticleTOC from '@blocks/article/ArticleTOC'
 import Delibird from '@views/components/Delibird/Delibird'
 
 registerBlockType(metadata.name, {
-  edit({ attributes, setAttributes, clientId, context: { postType, postId } }) {
+  edit({ attributes, setAttributes, clientId, context: { postId } }) {
+
+    const postType = wp.data.select( 'core/editor' ).getCurrentPostType();
     const blockProps = useBlockProps();
     const [ h2s, setH2s ] = useState([]);
+    const dispatch = useDispatch('core/editor');
 
     const {
       alignment,
@@ -59,6 +66,27 @@ registerBlockType(metadata.name, {
 
     blockProps.className = sectionClassNames(attributes, blockProps.className).join(' ');
 
+    const [ meta, setMeta ] = useEntityProp(
+      'postType',
+      postType,
+      'meta',
+      postId
+    );
+
+    const { podcast_audio_id } = meta;
+    const [ audioFile, setAudioFile ] = useState({});
+
+    useEffect(() => {
+      if (postType === 'podcast' && podcast_audio_id) {
+        fetch(`/wp-json/wp/v2/media/${podcast_audio_id}`)
+          .then(response => response.json())
+          .then(media => {
+            setAudioFile(media);
+          })
+          .catch(error => console.error('Error fetching media:', error));
+      }
+    }, [podcast_audio_id]);
+
     return (
       <section { ...blockProps }>
         <BlockControls>
@@ -69,6 +97,33 @@ registerBlockType(metadata.name, {
         </BlockControls>
         <InspectorControls>
           <Panel className="badegg-components-panel">
+
+            { postType === 'podcast' &&
+              <PanelBody title={ __('Podcast Audio', 'badegg') }>
+                { 'id' in audioFile &&
+                  <>
+                    <p><strong>{ audioFile?.title?.rendered }</strong></p>
+                    { parse( audioFile?.description?.rendered ) }
+                  </>
+                }
+
+                <MediaUploadCheck>
+                  <MediaUpload
+                    onSelect={ (media) => {
+                      setMeta({ podcast_audio_id: media?.id || 0 });
+                      setAudioFile( media || {} );
+                    }}
+                    allowedTypes={ ['audio/mpeg'] }
+                    value={ podcast_audio_id }
+                    render={({ open }) => (
+                      <button onClick={open} className="editor-media-placeholder__button">
+                        Replace file
+                      </button>
+                    )}
+                  />
+                </MediaUploadCheck>
+              </PanelBody>
+            }
 
             { !hideSidebar &&
               <PanelBody title={ __('Sidebar', 'badegg') }>
