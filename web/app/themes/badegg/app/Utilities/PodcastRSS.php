@@ -89,6 +89,7 @@ class PodcastRSS
             $existingID = @$existing->ID ?: 0;
             $existingAudioSource = get_post_meta($existingID, 'podcast_audio_source_url', true);
             $existingAudioID = get_post_meta($existingID, 'podcast_audio_id', true);
+            $existingAudioURL = wp_get_attachment_url($existingAudioID);
 
             $postArgs['ID'] = $existingID;
 
@@ -98,7 +99,7 @@ class PodcastRSS
             $existingThumbnail = get_post_thumbnail_id($existingID);
             $existingPlaceholder = get_post_meta($existingID, 'podcast_placeholder_image', true);
 
-            if(!$existing) {
+            if(!$existing || !$existing->post_content) {
                 $postArgs['post_content'] = $this->contentTemplate();
             }
 
@@ -111,7 +112,7 @@ class PodcastRSS
 
             update_post_meta($postID, 'podcast_content', $props['content']);
 
-            if(!$existingAudioID && $existingAudioSource !== $props['media']) {
+            if(!$existingAudioURL || ($existingAudioSource !== $props['media'])) {
                 if($cli) WP_CLI::log($num . ': Uploading audio file.');
                 $audioID = $Uploads->byURL($props['media']);
 
@@ -154,15 +155,27 @@ class PodcastRSS
 
     public function contentTemplate()
     {
-        if(!$content) return;
+        ob_start();
+?>
 
-        $converter = new Block_Converter( $content );
-        $blocks = $converter->convert();
+<!-- wp:badegg/article {"sidebarSwitch":true,"hideTOC":true} -->
+<!-- wp:badegg/podcast-title {"titlePrefix":"Episode","attribution":"with Stephen E. Wall"} /-->
 
-        $template = '';
-        $template .= '<!-- wp:badegg/article {"container_width":"large", "sidebar":true} -->' . PHP_EOL;
-        $template .= $blocks . PHP_EOL;
-        $template .= '<!-- /wp:badegg/article -->' . PHP_EOL;
+<!-- wp:badegg/excerpt /-->
+
+<!-- wp:separator {"className":"is-style-wide"} -->
+<hr class="wp-block-separator has-alpha-channel-opacity is-style-wide"/>
+<!-- /wp:separator -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Show Notes:</h2>
+<!-- /wp:heading -->
+
+<!-- wp:badegg/podcast-content /-->
+<!-- /wp:badegg/article -->
+
+<?php
+        $template = ob_get_clean();
 
         return $template;
     }

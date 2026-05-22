@@ -16,6 +16,8 @@ export default function Article( props ) {
   const hTwos = headings.filter( node => ( !node.attributes.level ))
 
   console.log(attributes)
+  console.log(postType)
+  console.log(post)
 
   const menuOffset = () => {
     const menuFixed = document.querySelector('.menu-fixed');
@@ -85,9 +87,12 @@ export default function Article( props ) {
           <aside className={ `article-sidebar${ attributes?.sidebarSwitch ? ' article-sidebar-switch' : '' }` } ref={ refArticleSidebar }>
             <div className="article-sidebar-inner" style={{ top: sidebarOffset + 32 }}>
 
+              {  }
+
               { !attributes?.hideTOC &&
                 <ArticleTOC label={ attributes?.tocLabel } headings={ hTwos } />
               }
+
             </div>
 
             { !attributes?.hideDelibird &&

@@ -25,6 +25,10 @@ import {
 	PanelBody,
 	ToggleControl,
   TextControl,
+  Button,
+  __experimentalHStack as HStack,
+  __experimentalHeading as Heading,
+  __experimentalSpacer as Spacer,
 } from '@wordpress/components';
 
 import allowedBlocks from '@json/block-core-whitelist.json';
@@ -82,6 +86,8 @@ registerBlockType(metadata.name, {
           .then(response => response.json())
           .then(media => {
             setAudioFile(media);
+
+            console.log(media);
           })
           .catch(error => console.error('Error fetching media:', error));
       }
@@ -97,44 +103,72 @@ registerBlockType(metadata.name, {
         </BlockControls>
         <InspectorControls>
           <Panel className="badegg-components-panel">
-
-            { postType === 'podcast' &&
-              <PanelBody title={ __('Podcast Audio', 'badegg') }>
-                { 'id' in audioFile &&
-                  <>
-                    <p><strong>{ audioFile?.title?.rendered }</strong></p>
-                    { parse( audioFile?.description?.rendered ) }
-                  </>
-                }
-
-                <MediaUploadCheck>
-                  <MediaUpload
-                    onSelect={ (media) => {
-                      setMeta({ podcast_audio_id: media?.id || 0 });
-                      setAudioFile( media || {} );
-                    }}
-                    allowedTypes={ ['audio/mpeg'] }
-                    value={ podcast_audio_id }
-                    render={({ open }) => (
-                      <button onClick={open} className="editor-media-placeholder__button">
-                        Replace file
-                      </button>
-                    )}
-                  />
-                </MediaUploadCheck>
-              </PanelBody>
-            }
-
             { !hideSidebar &&
               <PanelBody title={ __('Sidebar', 'badegg') }>
-                  { !hideTOC &&
-                    <TextControl
-                      label={ __('Table of Contents Heading', 'badegg') }
-                      value={ tocLabel }
-                      onChange={(value) => setAttributes({ tocLabel: value }) }
-                      __next40pxDefaultSize
-                    />
-                  }
+                { !hideTOC &&
+                  <TextControl
+                    label={ __('Table of Contents Heading', 'badegg') }
+                    value={ tocLabel }
+                    onChange={(value) => setAttributes({ tocLabel: value }) }
+                    __next40pxDefaultSize
+                  />
+                }
+                { postType === 'podcast' && 'id' in audioFile &&
+                  <>
+                    <Spacer margin="4" />
+                    <Heading level="3" style={{ fontWeight: 'bold' }}>
+                      { audioFile?.title?.rendered }
+                    </Heading>
+
+                    { audioFile?.description?.rendered ? (
+                      <>
+                        { parse( audioFile?.description?.rendered ) }
+                      </>
+                    ) : (
+                      <audio controls>
+                        <source src={ audioFile?.url } type={ audioFile?.['mime_type'] } />
+                      </audio>
+                    )}
+
+                    <MediaUploadCheck>
+                      <MediaUpload
+                        onSelect={ (media) => {
+                          console.log(media);
+                          setMeta({ podcast_audio_id: media?.id || 0 });
+                          setAudioFile( media || {} );
+                        }}
+                        allowedTypes={ ['audio/mpeg'] }
+                        value={ podcast_audio_id }
+                        render={({ open }) => (
+                          <>
+                            <Spacer />
+
+                            <Button
+                              onClick={ open }
+                              variant="secondary"
+                            >
+                              { __("Select File", "badegg") }
+                            </Button>
+
+                            { podcast_audio_id != 0 && (
+                              <Button
+                                onClick={ () => {
+                                  setMeta({ podcast_audio_id: 0 });
+                                  setAudioFile({});
+                                }}
+                                isDestructive
+                                variant="secondary"
+                                style={{ marginLeft: 8 }}
+                              >
+                                { __("Remove", "badegg") }
+                              </Button>
+                            )}
+                          </>
+                        )}
+                      />
+                    </MediaUploadCheck>
+                  </>
+                }
               </PanelBody>
             }
 
@@ -207,21 +241,23 @@ registerBlockType(metadata.name, {
 
             { !hideSidebar &&
               <aside className={ `article-sidebar${ sidebarSwitch ? ' article-sidebar-switch' : '' }` }>
-                { !hideTOC &&
-                  <ArticleTOC
-                    label={ tocLabel }
-                    headings={ h2s }
-                    stickyTop={ 32 }
-                  />
-                }
+                <div className="article-sidebar-switch">
+                  { !hideTOC &&
+                    <ArticleTOC
+                      label={ tocLabel }
+                      headings={ h2s }
+                      stickyTop={ 32 }
+                    />
+                  }
 
-                { postType === 'podcast' &&
-                  <h3>PODCAST!</h3>
-                }
+                  { postType === 'podcast' &&
+                    <h3>PODCAST!</h3>
+                  }
 
-                { !hideDelibird &&
-                  <Delibird />
-                }
+                  { !hideDelibird &&
+                    <Delibird />
+                  }
+                </div>
               </aside>
             }
 

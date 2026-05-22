@@ -16,8 +16,6 @@ export default function PodcastTitle( props ) {
     hideAttribution,
   } = attributes;
 
-  console.log(attributes)
-
   useEffect(() => {
     setDate( post.date )
     setTitle( post.title )
