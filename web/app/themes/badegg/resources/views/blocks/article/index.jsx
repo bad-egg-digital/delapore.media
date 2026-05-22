@@ -31,16 +31,17 @@ import ArticleTOC from '@blocks/article/ArticleTOC'
 import Delibird from '@views/components/Delibird/Delibird'
 
 registerBlockType(metadata.name, {
-  edit({ attributes, setAttributes, clientId }) {
+  edit({ attributes, setAttributes, clientId, context: { postType, postId } }) {
     const blockProps = useBlockProps();
     const [ h2s, setH2s ] = useState([]);
 
-    blockProps.className = sectionClassNames(attributes, blockProps.className).join(' ');
-
     const {
       alignment,
-      sidebar,
       tocLabel,
+      sidebarSwitch,
+      hideSidebar,
+      hideTOC,
+      hideDelibird,
     } = attributes;
 
     const innerBlocks = useSelect(
@@ -54,7 +55,9 @@ registerBlockType(metadata.name, {
       );
 
       setH2s(filtered);
-    }, [innerBlocks]);
+    }, [ innerBlocks ]);
+
+    blockProps.className = sectionClassNames(attributes, blockProps.className).join(' ');
 
     return (
       <section { ...blockProps }>
@@ -66,20 +69,49 @@ registerBlockType(metadata.name, {
         </BlockControls>
         <InspectorControls>
           <Panel className="badegg-components-panel">
-            <PanelBody>
+
+            { !hideSidebar &&
+              <PanelBody title={ __('Sidebar', 'badegg') }>
+                  { !hideTOC &&
+                    <TextControl
+                      label={ __('Table of Contents Heading', 'badegg') }
+                      value={ tocLabel }
+                      onChange={(value) => setAttributes({ tocLabel: value }) }
+                      __next40pxDefaultSize
+                    />
+                  }
+              </PanelBody>
+            }
+
+            <PanelBody title={ __('Controls', 'badegg') }>
               <ToggleControl
-                label={ __('Show Sidebar', 'badegg') }
-                checked={ sidebar }
-                onChange={(value) => setAttributes({ sidebar: value }) }
+                label={ __('Hide Sidebar', 'badegg') }
+                checked={ hideSidebar }
+                onChange={(value) => setAttributes({ hideSidebar: value }) }
                 __nextHasNoMarginBottom
               />
 
-              { sidebar &&
-                <TextControl
-                  label={ __('Table of Contents Heading', 'badegg') }
-                  value={ tocLabel }
-                  onChange={(value) => setAttributes({ tocLabel: value }) }
-                />
+              { !hideSidebar &&
+                <>
+                  <ToggleControl
+                    label={ __('Switch Sides', 'badegg') }
+                    checked={ sidebarSwitch }
+                    onChange={(value) => setAttributes({ sidebarSwitch: value }) }
+                    __nextHasNoMarginBottom
+                  />
+                  <ToggleControl
+                    label={ __('Hide Table of Contents', 'badegg') }
+                    checked={ hideTOC }
+                    onChange={(value) => setAttributes({ hideTOC: value }) }
+                    __nextHasNoMarginBottom
+                  />
+                  <ToggleControl
+                    label={ __('Hide Delibird', 'badegg') }
+                    checked={ hideDelibird }
+                    onChange={(value) => setAttributes({ hideDelibird: value }) }
+                    __nextHasNoMarginBottom
+                  />
+                </>
               }
 
             </PanelBody>
@@ -118,14 +150,23 @@ registerBlockType(metadata.name, {
               />
             </div>
 
-            { sidebar &&
-              <aside className="article-sidebar">
-                <ArticleTOC
-                  label={ tocLabel }
-                  headings={ h2s }
-                  stickyTop={ 32 }
-                />
-                <Delibird />
+            { !hideSidebar &&
+              <aside className={ `article-sidebar${ sidebarSwitch ? ' article-sidebar-switch' : '' }` }>
+                { !hideTOC &&
+                  <ArticleTOC
+                    label={ tocLabel }
+                    headings={ h2s }
+                    stickyTop={ 32 }
+                  />
+                }
+
+                { postType === 'podcast' &&
+                  <h3>PODCAST!</h3>
+                }
+
+                { !hideDelibird &&
+                  <Delibird />
+                }
               </aside>
             }
 

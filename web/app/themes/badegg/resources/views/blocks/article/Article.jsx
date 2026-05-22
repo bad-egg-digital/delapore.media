@@ -15,12 +15,14 @@ export default function Article( props ) {
   const headings = (innerBlocks) ? innerBlocks.filter( node => ( node.name === 'core/heading' )) : []
   const hTwos = headings.filter( node => ( !node.attributes.level ))
 
+  console.log(attributes)
+
   const menuOffset = () => {
     const menuFixed = document.querySelector('.menu-fixed');
     return (menuFixed) ? menuFixed.offsetHeight + 32 : 32;
   };
 
-  const [ tocOffset, setTocOffset ] = useState( menuOffset )
+  const [ sidebarOffset, setSidebarOffset ] = useState( menuOffset )
   const [ windowHeight, setWindowHeight ] = useState( window.innerHeight )
 
   useEffect(() => {
@@ -36,13 +38,13 @@ export default function Article( props ) {
         const slug = h2.id
         const link = renderedTOC.querySelector(`[data-slug="${ slug }"]`)
 
-        h2.style.scrollMarginTop = tocOffset + 'px'
+        h2.style.scrollMarginTop = sidebarOffset + 'px'
 
         if(!link) return
 
         const h2Top = h2.getBoundingClientRect().top
 
-        if(h2Top > tocOffset && h2Top < windowHeight - tocOffset * 0.75) {
+        if(h2Top > sidebarOffset && h2Top < windowHeight - sidebarOffset * 0.75) {
           link.classList.add("active")
         } else {
           link.classList.remove("active")
@@ -52,7 +54,7 @@ export default function Article( props ) {
     }
 
     const handleResize = () => {
-      setTocOffset( menuOffset )
+      setSidebarOffset( menuOffset )
       setWindowHeight( window.innerHeight )
     }
 
@@ -66,7 +68,7 @@ export default function Article( props ) {
       window.removeEventListener('resize', handleResize)
     }
 
-  }, [ tocOffset, windowHeight]);
+  }, [ sidebarOffset, windowHeight]);
 
   return (
     <Block className="wp-block-badegg-article" attributes={ attributes } innerRef={ refArticle }>
@@ -79,10 +81,18 @@ export default function Article( props ) {
           )}
         </div>
 
-        { attributes?.sidebar && Array.isArray(hTwos) && hTwos.length > 2 && (
-          <aside className="article-sidebar" ref={ refArticleSidebar }>
-            <ArticleTOC label={ attributes?.tocLabel } headings={ hTwos } stickyTop={ tocOffset } />
-            <Delibird />
+        { !attributes?.hideSidebar && (
+          <aside className={ `article-sidebar${ attributes?.sidebarSwitch ? ' article-sidebar-switch' : '' }` } ref={ refArticleSidebar }>
+            <div className="article-sidebar-inner" style={{ top: sidebarOffset + 32 }}>
+
+              { !attributes?.hideTOC &&
+                <ArticleTOC label={ attributes?.tocLabel } headings={ hTwos } />
+              }
+            </div>
+
+            { !attributes?.hideDelibird &&
+              <Delibird />
+            }
           </aside>
         )}
 

@@ -1,30 +1,6 @@
 @use "@styles/global/variables";
 
 .article-toc {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-
-  .inner {
-    border-color: rgba(variables.$white, 0.3);
-    backdrop-filter: blur(0.25em);
-    background: linear-gradient(-30deg, rgba(variables.$black, 0.1), rgba(variables.$white, 0.1), rgba(variables.$black, 0.1));
-    border-top-left-radius: 0;
-  }
-
-  &::before {
-    content: '';
-    position: absolute;
-    z-index: 2;
-    top: -0.8em;
-    left: -0.8em;
-    display: block;
-    width: 3.625em;
-    height: 3.625em;
-    background: variables.$primary;
-    mask-image: url("@images/embellish-corner-left-top.svg");
-  }
-
   h3 {
     font-size: 1.25em;
     margin: 0 0 1em;

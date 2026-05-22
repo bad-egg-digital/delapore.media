@@ -10,13 +10,25 @@
   },
   "description": "A wrapper to contain core blocks",
   "attributes": {
-    "sidebar": {
-      "type": "boolean",
-      "default": false
-    },
     "tocLabel": {
       "type": "string",
       "default": "In this article"
+    },
+    "sidebarSwitch": {
+      "type": "boolean",
+      "default": false
+    },
+    "hideSidebar": {
+      "type": "boolean",
+      "default": false
+    },
+    "hideTOC": {
+      "type": "boolean",
+      "default": false
+    },
+    "hideDelibird": {
+      "type": "boolean",
+      "default": false
     }
   },
   "supports": {

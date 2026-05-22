@@ -46,7 +46,7 @@ export function sectionClassNames(attributes, defaultClasses = '', extraClasses 
     classNames.push(bg);
   }
 
-  if('sidebar' in attributes && attributes.sidebar) {
+  if(!attributes?.hideSidebar) {
     classNames.push('has-sidebar');
   }
 
