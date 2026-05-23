@@ -10,29 +10,9 @@ class PodcastRSS
 
     public function __construct()
     {
-        // add_action( 'admin_footer', [ $this, 'importEpisodes' ]);
        if(class_exists('WP_CLI')) {
            WP_CLI::add_command( 'badegg-podcast-import', [ $this, 'importCLI' ] );
        }
-
-        add_action('admin_footer', function(){
-
-            // $podcasts = get_posts([
-            //     'post_type' => 'podcast',
-            // ]);
-            echo '<div style="margin-left: 200px">';
-
-            // foreach($podcasts as $podcast) {
-            //     echo '<h2>'. $podcast->post_title .'</h2>';
-            //     // echo '<pre>',print_r($podcast),'</pre>';
-            //     echo '<pre>',print_r(get_post_meta($podcast->ID)),'</pre>';
-            // }
-
-            // echo '<pre>',print_r([0]),'</pre>';
-
-
-            echo '</div>';
-        });
     }
 
     public function importCLI() {
