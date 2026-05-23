@@ -57,6 +57,7 @@ class Podcast
                 'show_in_graphql' => true,
                 'graphql_single_name' => 'Podcast',
                 'graphql_plural_name' => 'Podcasts',
+                'template' => $this->template(),
             ],
             [
                 'singular' => __('Podcast Episode', $this->td),
@@ -97,6 +98,61 @@ class Podcast
             'type' => 'string',
             'sanitize_callback' => 'wp_kses_post',
         ]);
+    }
+
+    public function template()
+    {
+        return [
+            [
+                'badegg/article',
+                [
+                    'lock' => [
+                        'move' => false,
+                        'remove' => false,
+                    ],
+                    'sidebarSwitch' => true,
+                    'hideTOC' => true,
+                ],
+                [
+                    [
+                        'badegg/podcast-title',
+                        [
+                            'lock' => [
+                                'move' => false,
+                                'remove' => false,
+                            ],
+                            'titlePrefix' => 'Episode',
+                            'attribution' => 'with Stephen E. Wall',
+                        ],
+                    ],
+                    [
+                        'badegg/excerpt',
+                        [
+                            'lock' => [
+                                'move' => false,
+                                'remove' => true,
+                            ],
+                        ],
+                    ],
+                    [
+                        'core/heading',
+                        [
+                            'placeholder' => 'Show Notes:',
+                            'lock' => [
+                                'move' => false,
+                                'remove' => true,
+                            ],
+                        ],
+                    ],
+                    [
+                        'core/paragraph',
+                        [
+                            'placeholder' => 'Start typing...',
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     public function settings_page()
