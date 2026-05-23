@@ -20,11 +20,11 @@ import {
 	Panel,
 	PanelBody,
 	ToggleControl,
+  TextControl,
   TextareaControl,
   DateTimePicker,
   CheckboxControl,
 } from '@wordpress/components';
-
 
 registerBlockType(metadata.name, {
   edit({ attributes, setAttributes, clientId }) {
@@ -38,6 +38,7 @@ registerBlockType(metadata.name, {
 
     const [ taxonomy, setTaxonomy ] = useState('')
     const [ taxonomyBase, setTaxonomyBase ] = useState('')
+    const [ taxonomyLabel, setTaxonomyLabel ] = useState('')
 
     useEffect(() => {
       fetch(`/wp-json/badeggcup/v1/post-types`)
@@ -45,9 +46,11 @@ registerBlockType(metadata.name, {
         .then(res => {
           const primaryTax = res?.hasArchive?.[postType]?.primaryTaxonomy;
           const primaryTaxBase = res?.hasArchive?.[postType]?.taxonomies?.[primaryTax]?.restBase;
+          const primaryTaxLabel = res?.hasArchive?.[postType]?.taxonomies?.[primaryTax]?.label;
 
           setTaxonomy(primaryTax || '');
           setTaxonomyBase(primaryTaxBase || '');
+          setTaxonomyLabel(primaryTaxLabel || '');
 
         })
         .catch(error => console.error('Error fetching post types:', error));
@@ -71,14 +74,16 @@ registerBlockType(metadata.name, {
         );
       }
 
-      editPost({
-        [ taxonomy ]: updatedTerms,
-      });
+      editPost({ [ taxonomy ]: updatedTerms });
     };
 
     const {
-      hideCategories,
+      titlePrefix,
+      subtitle,
+      hideTerms,
       hideDate,
+      hideTitlePrefix,
+      hideSubtitle,
     } = attributes;
 
     return (
@@ -86,14 +91,51 @@ registerBlockType(metadata.name, {
         <InspectorControls>
           <Panel className="badegg-components-panel">
             <PanelBody>
-              { (postType === 'post') &&
-                <ToggleControl
-                  label={ __('Hide Categories', 'badegg') }
-                  checked={ hideCategories }
-                  onChange={(value) => setAttributes({ hideCategories: value }) }
+              { !hideTitlePrefix &&
+                <TextControl
+                  label={ __('Title Prefix', 'badegg') }
+                  value={ titlePrefix }
+                  onChange={(value) => setAttributes({ titlePrefix: value }) }
                   __nextHasNoMarginBottom
                 />
               }
+
+              <TextareaControl
+                label={ __('Title', 'badegg') }
+                value={ postTitle }
+                onChange={ (newTitle) => {
+                  wp.data.dispatch('core/editor').editPost({ title: newTitle });
+                }}
+              />
+
+              { !hideSubtitle &&
+                <TextControl
+                  label={ __('Subtitle', 'badegg') }
+                  value={ subtitle }
+                  onChange={(value) => setAttributes({ subtitle: value }) }
+                  __nextHasNoMarginBottom
+                />
+              }
+            </PanelBody>
+            <PanelBody title={ __('Controls', 'badegg') }>
+              <ToggleControl
+                label={ __('Hide Title Prefix', 'badegg') }
+                checked={ hideTitlePrefix }
+                onChange={(value) => setAttributes({ hideTitlePrefix: value }) }
+                __nextHasNoMarginBottom
+              />
+              <ToggleControl
+                label={ __('Hide Subtitle', 'badegg') }
+                checked={ hideSubtitle }
+                onChange={(value) => setAttributes({ hideSubtitle: value }) }
+                __nextHasNoMarginBottom
+              />
+              <ToggleControl
+                label={ `Hide ${ taxonomyLabel }` }
+                checked={ hideTerms }
+                onChange={(value) => setAttributes({ hideTerms: value }) }
+                __nextHasNoMarginBottom
+              />
               <ToggleControl
                 label={ __('Hide Date', 'badegg') }
                 checked={ hideDate }
@@ -101,8 +143,9 @@ registerBlockType(metadata.name, {
                 __nextHasNoMarginBottom
               />
             </PanelBody>
-            { postType === 'post' && !hideCategories &&
-              <PanelBody title={ __('Categories', 'badegg') }>
+
+            { !hideTerms &&
+              <PanelBody title={ taxonomyLabel }>
                 { allTerms?.map((category) => (
                   <CheckboxControl
                     key={category.id}
@@ -118,7 +161,7 @@ registerBlockType(metadata.name, {
             }
 
             { !hideDate &&
-              <PanelBody title={ __('Publish Date', 'badegg') }>
+              <PanelBody title={ __('Publish Date', 'badegg') } initialOpen={ false }>
                 <DateTimePicker
                   currentDate={ postDate }
                   onChange={ (date) => {
@@ -127,13 +170,14 @@ registerBlockType(metadata.name, {
                 />
               </PanelBody>
             }
+
           </Panel>
         </InspectorControls>
 
-        { (!hideCategories || !hideDate) &&
-          <div className={ `entry-meta ${ (!hideCategories) ? 'has-categories' : '' }` }>
-            { !hideCategories &&
-              <div className="termlist masthead-categories ">
+        { (!hideTerms || !hideDate || !hideTitlePrefix) &&
+          <div className="masthead-meta">
+            { !hideTerms &&
+              <div className="termlist masthead-terms">
                 <ul className="nolist">
                   { allTerms?.filter((term) => selectedTerms.includes(term.id)).map((term) =>
                     <li key={ term.id } className={ `category-${ term.slug }` }><a href="#">{ term.name }</a></li>
@@ -142,8 +186,18 @@ registerBlockType(metadata.name, {
               </div>
             }
 
+            { !hideTitlePrefix &&
+              <RichText
+                tagName="p"
+                className="masthead-prefix"
+                value={ titlePrefix }
+                placeholder="The title prefix..."
+                onChange={(value) => setAttributes({ titlePrefix: value }) }
+              />
+            }
+
             { !hideDate &&
-              <time dateTime={ postDate }>
+              <time className="masthead-date" dateTime={ postDate }>
                 { dateI18n( formats.date, postDate ) }
               </time>
             }
@@ -153,13 +207,23 @@ registerBlockType(metadata.name, {
 
         <RichText
           tagName="h1"
+          className="masthead-title"
           value={ postTitle }
-          placeholder="Enter the post title..."
+          placeholder="The subtitle..."
           onChange={ (newTitle) => {
-            // Update the editor state with the new title
             wp.data.dispatch('core/editor').editPost({ title: newTitle });
           }}
         />
+
+        { !hideSubtitle &&
+          <RichText
+            tagName="p"
+            className="masthead-subtitle"
+            value={ subtitle }
+            placeholder="Enter the post title..."
+            onChange={(value) => setAttributes({ subtitle: value }) }
+          />
+        }
 
       </div>
     );

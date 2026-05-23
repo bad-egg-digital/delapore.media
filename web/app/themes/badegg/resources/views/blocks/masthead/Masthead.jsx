@@ -8,7 +8,15 @@ export default function Masthead( props ) {
   const [ title, setTitle ] = useState('')
   const [ date, setDate ] = useState('')
   const [ terms, setTerms ] = useState({})
-  const { hideCategories, hideDate } = attributes;
+
+  const {
+    titlePrefix,
+    subtitle,
+    hideTerms,
+    hideDate,
+    hideTitlePrefix,
+    hideSubtitle,
+  } = attributes;
 
   useEffect(() => {
     if(post?.terms?.nodes) {
@@ -22,18 +30,23 @@ export default function Masthead( props ) {
 
   return (
     <div className="wp-block-badegg-masthead">
-      { (!hideCategories || !hideDate) &&
-        <div className={ `entry-meta ${ (!hideCategories && terms.length > 0) ? 'has-categories' : '' }` }>
-          { !hideCategories && (
+      { (!hideTerms || !hideDate || !hideTitlePrefix) &&
+        <div className="masthead-meta">
+
+          { !hideTerms && (
             <TermList
-              className="masthead-categories"
+              className="masthead-terms"
               items={ terms }
               isLoaded={ true }
             />
           )}
 
+          { !hideTitlePrefix &&
+            <p className="masthead-prefix">{ titlePrefix }</p>
+          }
+
           { !hideDate &&
-            <time dateTime={ date }>
+            <time className="masthead-date" dateTime={ date }>
               {
                 new Date(date).toLocaleDateString(
                   'en-US',
@@ -45,7 +58,11 @@ export default function Masthead( props ) {
         </div>
       }
 
-      <h1>{ title }</h1>
+      <h1 className="masthead-title">{ title }</h1>
+
+      { !hideSubtitle &&
+        <p className="masthead-subtitle">{ subtitle }</p>
+      }
     </div>
   )
 }

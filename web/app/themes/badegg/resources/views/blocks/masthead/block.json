@@ -8,7 +8,12 @@
     "foreground": "#f58762"
   },
   "description": "Display the title, categories, and date.",
-  "keywords": ["title", "author", "category", "meta"],
+  "keywords": [
+    "title",
+    "author",
+    "category",
+    "meta"
+  ],
   "supports": {
     "html": true,
     "multiple": false,
@@ -30,7 +35,7 @@
       "type": "boolean",
       "default": false
     },
-    "hideCategories": {
+    "hideTerms": {
       "type": "boolean",
       "default": false
     },

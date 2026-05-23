@@ -4,29 +4,48 @@
 .wp-block-badegg-masthead {
   container-name: BlockMasthead;
   container-type: inline-size;
+}
 
-  time,
-  .masthead-categories,
-  .entry-meta {
-    display: inline-block;
-    vertical-align: middle;
-  }
+.masthead {
+  &-date,
+  &-prefix,
+  &-terms {
+    display: block;
 
-  .entry-meta {
-    margin: 0 0 1em;
-
-    &.has-categories {
-      time::before {
-        content: '\2022';
-        display: inline-block;
-        vertical-align: middle;
-        margin: 0.5em;
-        opacity: 0.7;
-      }
+    @container BlockMasthead (min-width: #{variables.$screen-xs}) {
+      display: inline-block;
+      vertical-align: middle;
     }
   }
 
-  .masthead-categories {
+  &-date,
+  &-prefix {
+    margin: 0.25em 0 0;
+
+    @container BlockMasthead (min-width: #{variables.$screen-xs}) {
+      margin: 0;
+    }
+  }
+
+  &-date {
+    white-space: nowrap;
+  }
+
+  &-title {
+    color: variables.$white;
+    margin: 0;
+
+    @container BlockMasthead (min-width: #{variables.$screen-xs}) {
+      font-size: 2.25em;
+    }
+  }
+
+  &-subtitle {
+    color: variables.$primary-lightest;
+    margin: 0.25em 0 0;
+  }
+
+  &-terms.termlist {
     li {
       a {
         background: variables.$secondary-lighter;
@@ -40,17 +59,26 @@
     }
   }
 
-  time {
-    line-height: 1;
-    white-space: nowrap;
-  }
+  &-meta {
+    margin: 0 0 0.5em;
 
-  h1 {
-    color: variables.$white;
-    margin: 0;
+    > *::before {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0.5em;
+      opacity: 0.7;
+    }
 
     @container BlockMasthead (min-width: #{variables.$screen-xs}) {
-      font-size: 2.25em;
+      margin: 0;
+
+      > *::before {
+        content: '\2022';
+      }
+
+      *:first-child::before {
+        content: none;
+      }
     }
   }
 }
