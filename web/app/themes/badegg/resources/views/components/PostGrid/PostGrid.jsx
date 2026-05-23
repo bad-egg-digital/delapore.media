@@ -62,6 +62,7 @@ function buildQuery({ postType, taxonomy, activeTerm })
 {
   let queryWhere = ''
   let termsWhere = ''
+  let podcastFields = ''
 
   if(activeTerm && taxonomy?.graphqlSingleName) {
     queryWhere = `(where: { ${ taxonomy.graphqlSingleName }${ postType?.name === 'post' ?'Name' : '' }: "${ activeTerm }" })`
@@ -69,6 +70,13 @@ function buildQuery({ postType, taxonomy, activeTerm })
 
   if(taxonomy && taxonomy?.graphqlSingleName) {
     termsWhere = `(where: { taxonomies: ${ taxonomy.graphqlSingleName.toUpperCase() } })`
+  }
+
+  if(postType?.name === 'podcast') {
+    podcastFields = `
+      episodeAudio
+      episodeContent
+    `
   }
 
   let query = `
@@ -79,7 +87,9 @@ function buildQuery({ postType, taxonomy, activeTerm })
           slug
           title
           excerpt
+          date
           uri
+          ${ podcastFields }
           featuredImage {
             node {
               altText

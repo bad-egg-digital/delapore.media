@@ -1,6 +1,6 @@
 // block.json's editorScript, loaded only in the block editor
 import './style.scss'
-
+import clsx from 'clsx'
 import metadata from './block.json';
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
@@ -8,6 +8,7 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { useState, useEffect } from '@wordpress/element';
 import { useEntityProp } from '@wordpress/core-data';
 import parse from "html-react-parser"
+import IconPlay from '@images/circle-play-solid-full.svg?react'
 
 import {
   useBlockProps,
@@ -37,6 +38,7 @@ import BlockSettings from '@blocks/-editor/BlockSettings';
 import BackgroundImage from '@views/components/BackgroundImage/BackgroundImage';
 import ArticleTOC from '@blocks/article/ArticleTOC'
 import Delibird from '@views/components/Delibird/Delibird'
+import AudioPlay from '@views/components/AudioPlay/AudioPlay'
 
 registerBlockType(metadata.name, {
   edit({ attributes, setAttributes, clientId, context: { postId } }) {
@@ -90,6 +92,8 @@ registerBlockType(metadata.name, {
           .catch(error => console.error('Error fetching media:', error));
       }
     }, [podcast_audio_id]);
+
+    console.log(audioFile)
 
     return (
       <section { ...blockProps }>
@@ -242,8 +246,12 @@ registerBlockType(metadata.name, {
             </div>
 
             { !hideSidebar &&
-              <aside className={ `article-sidebar${ sidebarSwitch ? ' article-sidebar-switch' : '' }` }>
-                <div className="article-sidebar-switch">
+              <aside className={ clsx(
+                'article-sidebar',
+                sidebarSwitch && 'article-sidebar-switch',
+                postType && 'article-sidebar-' + postType,
+              )}>
+                <div className="article-sidebar-inner">
                   { !hideTOC &&
                     <ArticleTOC
                       label={ tocLabel }
@@ -252,14 +260,30 @@ registerBlockType(metadata.name, {
                     />
                   }
 
-                  { postType === 'podcast' &&
-                    <h3>PODCAST!</h3>
-                  }
+                  { postType === 'podcast' && audioFile &&
+                    <div className={ clsx(
+                      'article-sidebar-block',
+                      'article-sidebar-block-podcast',
+                      'inner',
+                      'inner-small',
+                    )}>
 
-                  { !hideDelibird &&
-                    <Delibird />
+                      <div
+                        className="audioplay"
+                        aria-label="Play podcast episode audio"
+                      >
+                        <IconPlay />
+                        <span>Play Episode</span>
+                        <small>{ audioFile?.media_details?.length_formatted }</small>
+                      </div>
+
+                    </div>
                   }
                 </div>
+
+                { !hideDelibird &&
+                  <Delibird variant={ postType } />
+                }
               </aside>
             }
 

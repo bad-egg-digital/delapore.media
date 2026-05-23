@@ -23,7 +23,7 @@ export default function Article( props ) {
   const menuOffset = () => {
     const menuFixed = document.querySelector('.menu-fixed');
     return (menuFixed) ? menuFixed.offsetHeight + 32 : 32;
-  }
+  };
 
   const [ sidebarOffset, setSidebarOffset ] = useState( menuOffset )
   const [ windowHeight, setWindowHeight ] = useState( window.innerHeight )

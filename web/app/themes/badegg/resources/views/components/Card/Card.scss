@@ -6,10 +6,12 @@
   position: relative;
 
   &-featured {
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
+    img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
 
     &-placeholder {
       padding-top: 56.25%;
@@ -81,6 +83,57 @@
         display: inline-block;
         text-decoration: none !important;
         width: 40%;
+      }
+    }
+  }
+
+  &-podcast {
+    .card-featured {
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
+
+      img {
+        filter: blur(0.5em);
+      }
+
+      .audioplay {
+        position: absolute;
+        z-index: 2;
+        top: calc(50% - 0.5em);
+        left: calc(50% - 0.5em);
+        width: 1em;
+        height: 1em;
+        font-size: 7.5em;
+
+        svg {
+          position: relative;
+          z-index: 2;
+          font-size: 1em;
+        }
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: calc(50% - 0.5em);
+          left: calc(50% - 0.5em);
+          z-index: 1;
+          display: block;
+          border-radius: 50%;
+          width: 1em;
+          height: 1em;
+          font-size: 1.125em;
+          filter: blur(0.25em);
+          background: variables.$black;
+        }
+      }
+    }
+
+    &-duration {
+      &::before {
+        content: '\2022';
+        margin: 0 0.5em;
+        opacity: 0.25;
       }
     }
   }

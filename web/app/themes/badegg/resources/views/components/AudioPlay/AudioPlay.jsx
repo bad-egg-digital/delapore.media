@@ -50,6 +50,8 @@ export default function AudioPlay( props ) {
           }
         </>
       }
+
+      <span className="visually-hidden">Play episode</span>
     </button>
   )
 }

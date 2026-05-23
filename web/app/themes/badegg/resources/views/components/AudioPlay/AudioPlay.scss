@@ -8,6 +8,10 @@
   svg {
     fill: variables.$primary;
     transition: all 300ms ease;
+    width: 1em;
+    width: 1em;
+    font-size: 5em;
+    margin: auto;
   }
 
   span,
@@ -27,6 +31,7 @@
   &:hover {
     svg {
       fill: variables.$white;
+      transform: scale(1.1);
     }
   }
 }

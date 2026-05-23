@@ -14,7 +14,7 @@ export default function CardLoading( props ) {
 
   return (
     <article className={ className }>
-      <header className="border border-grey-lighter-a border-bottom border-thinnest">
+      <header className="card-featured border border-grey-lighter-a border-bottom border-thinnest">
         <div className="card-featured-placeholder loading-sweep" />
       </header>
       <div className="card-content inner inner-small">
