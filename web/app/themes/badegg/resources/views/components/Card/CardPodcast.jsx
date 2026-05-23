@@ -1,5 +1,7 @@
 import clsx from 'clsx'
 import parse from "html-react-parser"
+import { useContext } from 'react'
+import { AppContext } from '@views/layouts/AppContext'
 import { Link } from 'react-router-dom'
 import TermList from '@views/components/TermList/TermList'
 

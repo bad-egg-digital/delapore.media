@@ -1,0 +1,9 @@
+@use "react-h5-audio-player/src/styles.scss";
+
+.audiotray {
+  position: fixed;
+  inset: 0;
+  top: unset;
+  z-index: 1000;
+  transition: all 300ms ease;
+}

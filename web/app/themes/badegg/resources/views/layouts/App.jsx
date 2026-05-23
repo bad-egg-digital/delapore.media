@@ -17,6 +17,7 @@ import Header from '@views/sections/Header/Header'
 import Footer from '@views/sections/Footer/Footer'
 import Archive from '@views/templates/Archive'
 import Single from '@views/templates/Single'
+import AudioTray from '@views/components/AudioTray/AudioTray'
 
 const Wrapper = ({ children }) => {
   const location = useLocation();
@@ -127,6 +128,7 @@ export default function App() {
             </div>
 
             <MenuSide open={ appContext.menuOpen } items={ primaryMenu } />
+            <AudioTray />
 
           </Router>
           </>

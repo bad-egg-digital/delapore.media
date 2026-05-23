@@ -86,8 +86,6 @@ registerBlockType(metadata.name, {
           .then(response => response.json())
           .then(media => {
             setAudioFile(media);
-
-            console.log(media);
           })
           .catch(error => console.error('Error fetching media:', error));
       }
@@ -113,27 +111,31 @@ registerBlockType(metadata.name, {
                     __next40pxDefaultSize
                   />
                 }
-                { postType === 'podcast' && 'id' in audioFile &&
+                { postType === 'podcast' &&
                   <>
                     <Spacer margin="4" />
-                    <Heading level="3" style={{ fontWeight: 'bold' }}>
-                      { audioFile?.title?.rendered }
-                    </Heading>
 
-                    { audioFile?.description?.rendered ? (
+                    { 'id' in audioFile &&
                       <>
-                        { parse( audioFile?.description?.rendered ) }
+                        <Heading level="3" style={{ fontWeight: 'bold' }}>
+                          { audioFile?.title?.rendered }
+                        </Heading>
+
+                        { audioFile?.description?.rendered ? (
+                          <>
+                            { parse( audioFile?.description?.rendered ) }
+                          </>
+                        ) : (
+                          <audio controls>
+                            <source src={ audioFile?.url } type={ audioFile?.['mime_type'] } />
+                          </audio>
+                        )}
                       </>
-                    ) : (
-                      <audio controls>
-                        <source src={ audioFile?.url } type={ audioFile?.['mime_type'] } />
-                      </audio>
-                    )}
+                    }
 
                     <MediaUploadCheck>
                       <MediaUpload
                         onSelect={ (media) => {
-                          console.log(media);
                           setMeta({ podcast_audio_id: media?.id || 0 });
                           setAudioFile( media || {} );
                         }}

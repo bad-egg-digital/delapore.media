@@ -36,7 +36,7 @@ export default function Single({ postType }) {
           <meta property="og:description" content="Dynamic page content" />
         </Helmet>
 
-        <BlockList id={ post.databaseId } postType={ postType } post={ post } />
+        <BlockList key={ post.databaseId } id={ post.databaseId } postType={ postType } post={ post } />
       </>
     )
   } else if (isLoaded) {

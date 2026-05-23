@@ -28,9 +28,12 @@ export default function Title( props ) {
             <div className="wp-block-badegg-title-excerpt">{ parse(excerpt) }</div>
           }
         </div>
-        <div className="wp-block-badegg-title-image">
-          <Delibird />
-        </div>
+
+        { !hideDelibird &&
+          <div className="wp-block-badegg-title-image">
+            <Delibird />
+          </div>
+        }
       </div>
     </Block>
   )

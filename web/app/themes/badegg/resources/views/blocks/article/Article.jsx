@@ -1,23 +1,24 @@
 import './style.scss'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useContext } from 'react'
+import { AppContext } from '@views/layouts/AppContext'
+import clsx from 'clsx'
 import parse, { attributesToProps } from "html-react-parser"
 import Switchboard from '@views/components/Switchboard/Switchboard'
 import Block from '@views/layouts/Block'
 import ArticleTOC from '@blocks/article/ArticleTOC'
 import Delibird from '@views/components/Delibird/Delibird'
+import AudioPlay from '@views/components/AudioPlay/AudioPlay'
+import { useLocation } from 'react-router-dom'
 
 export default function Article( props ) {
   const refArticle = useRef(null)
   const refArticleMain = useRef(null)
   const refArticleSidebar = useRef(null)
+  const location = useLocation()
 
   const { name, attributes, innerBlocks, post, postType } = props
   const headings = (innerBlocks) ? innerBlocks.filter( node => ( node.name === 'core/heading' )) : []
   const hTwos = headings.filter( node => ( !node.attributes.level ))
-
-  console.log(attributes)
-  console.log(postType)
-  console.log(post)
 
   const menuOffset = () => {
     const menuFixed = document.querySelector('.menu-fixed');
@@ -84,10 +85,31 @@ export default function Article( props ) {
         </div>
 
         { !attributes?.hideSidebar && (
-          <aside className={ `article-sidebar${ attributes?.sidebarSwitch ? ' article-sidebar-switch' : '' }` } ref={ refArticleSidebar }>
+          <aside
+            ref={ refArticleSidebar }
+            className={ clsx(
+              'article-sidebar',
+              attributes?.sidebarSwitch && 'article-sidebar-switch',
+              postType?.name && 'article-sidebar-' + postType.name,
+            )}
+          >
             <div className="article-sidebar-inner" style={{ top: sidebarOffset + 32 }}>
 
-              {  }
+              { postType?.name === 'podcast' && post?.episodeAudio &&
+                <div className={ clsx(
+                  'article-sidebar-block',
+                  'article-sidebar-block-podcast',
+                  'inner',
+                  'inner-small',
+                )}>
+                  <AudioPlay
+                    { ...post.episodeAudio }
+                    postLink={ location.pathname }
+                    postTitle={ post.title }
+                    postDate={ post.date }
+                  />
+                </div>
+              }
 
               { !attributes?.hideTOC &&
                 <ArticleTOC label={ attributes?.tocLabel } headings={ hTwos } />
@@ -96,7 +118,7 @@ export default function Article( props ) {
             </div>
 
             { !attributes?.hideDelibird &&
-              <Delibird />
+              <Delibird variant={ postType?.name } />
             }
           </aside>
         )}

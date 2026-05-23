@@ -369,11 +369,19 @@ class GraphQL
         ]);
 
         register_graphql_field( 'Podcast', 'episodeAudio', [
-            'type' => 'String',
+            'type' => 'JSON',
             'description' => __('Audio attachment', 'badegg'),
             'resolve' => function( $post ) {
                 $audioID = get_post_meta( $post->databaseId, 'podcast_audio_id', true );
-                return wp_make_link_relative(wp_get_attachment_url( $audioID ));
+
+                if(!$audioID) return null;
+
+                $audioMetadata = wp_get_attachment_metadata($audioID);
+                $audioURL = wp_make_link_relative(wp_get_attachment_url( $audioID ));
+                $audioMetadata['uri'] = $audioURL ?: null;
+
+                return $audioMetadata;
+
             }
         ]);
     }
