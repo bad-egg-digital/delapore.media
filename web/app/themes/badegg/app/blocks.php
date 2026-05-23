@@ -130,6 +130,8 @@ function get_post_type_in_admin()
     if ( 'post-new.php' === $pagenow ) {
         if ( isset( $_REQUEST['post_type'] ) && post_type_exists( $_REQUEST['post_type'] ) ) {
             $typenow = $_REQUEST['post_type'];
+        } else {
+            $typenow = 'post';
         }
 
     } elseif ( 'post.php' === $pagenow ) {

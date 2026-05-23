@@ -1,0 +1,45 @@
+{
+  "apiVersion": 3,
+  "name": "badegg/podcast-title",
+  "title": "Podcast Title",
+  "category": "text",
+  "icon": {
+    "src": "controls-volumeon",
+    "foreground": "#f58762"
+  },
+  "description": "Display the title, categories, and date.",
+  "keywords": ["title", "author", "category", "meta"],
+  "supports": {
+    "html": true,
+    "multiple": false,
+    "color": {
+      "background": false,
+      "text": false
+    }
+  },
+  "postTypes": [
+    "podcast"
+  ],
+  "attributes": {
+    "titlePrefix": {
+      "type": "string",
+      "default": ""
+    },
+    "attribution": {
+      "type": "string",
+      "default": ""
+    },
+    "hideTitlePrefix": {
+      "type": "boolean",
+      "default": false
+    },
+    "hideDate": {
+      "type": "boolean",
+      "default": false
+    },
+    "hideAttribution": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

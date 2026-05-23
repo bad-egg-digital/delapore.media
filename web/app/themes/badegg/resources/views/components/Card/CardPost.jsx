@@ -27,11 +27,10 @@ export default function CardPost( props ) {
 
   return (
     <article className={ className }>
-      <header className="bg-grey-darker ">
+      <header className="card-featured bg-grey-darker ">
         { featuredImage ? (
           <img
             loading="lazy"
-            className="card-featured"
             src={featuredImage?.node?.sourceUrl }
             srcSet={ featuredImage?.node?.srcSet }
             alt={ featuredImage?.node?.altText }

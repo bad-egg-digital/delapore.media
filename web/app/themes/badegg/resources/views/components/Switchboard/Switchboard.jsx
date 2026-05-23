@@ -31,6 +31,8 @@ import Title          from '@blocks/title/Title'
 // Custom inner blocks
 import Masthead       from '@blocks/masthead/Masthead'
 import Excerpt        from '@blocks/excerpt/Excerpt'
+import PodcastTitle   from '@blocks/podcast-title/PodcastTitle'
+import PodcastContent from '@blocks/podcast-content/PodcastContent'
 
 export default function Switchboard( props ) {
   const { name } = props;
@@ -38,36 +40,38 @@ export default function Switchboard( props ) {
   switch (name) {
 
     // Full-width blocks
-    case "badegg/title":              return <Title         { ...props } />
-    case "badegg/article":            return <Article       { ...props } />
+    case "badegg/title":              return <Title           { ...props } />
+    case "badegg/article":            return <Article         { ...props } />
 
     // Custom inner blocks
-    case "badegg/masthead":           return <Masthead      { ...props } />
-    case "badegg/excerpt":            return <Excerpt       { ...props } />
+    case "badegg/masthead":           return <Masthead        { ...props } />
+    case "badegg/excerpt":            return <Excerpt         { ...props } />
+    case "badegg/podcast-title":      return <PodcastTitle    { ...props } />
+    case "badegg/podcast-content":    return <PodcastContent  { ...props } />
 
     // Core blocks
-    case 'core/separator':            return <Separator     { ...props } />
-    // case 'core/spacer':               return <Spacer        { ...props } />
-    case 'core/image':                return <Image         { ...props } />
-    case 'core/audio':                return <Audio         { ...props } />
-    // case 'core/video':                return <Video         { ...props } />
-    case 'core/embed':                return <Embed         { ...props } />
-    // case 'core/footnotes':            return <Footnotes     { ...props } />
-    case "core/heading":              return <Heading       { ...props } />
-    case "core/paragraph":            return <Paragraph     { ...props } />
-    // case 'core/verse':                return <Verse         { ...props } />
-    case 'core/post-featured-image':  return <FeaturedImage { ...props } />
+    case 'core/separator':            return <Separator       { ...props } />
+    // case 'core/spacer':               return <Spacer          { ...props } />
+    case 'core/image':                return <Image           { ...props } />
+    case 'core/audio':                return <Audio           { ...props } />
+    // case 'core/video':                return <Video           { ...props } />
+    case 'core/embed':                return <Embed           { ...props } />
+    // case 'core/footnotes':            return <Footnotes       { ...props } />
+    case "core/heading":              return <Heading         { ...props } />
+    case "core/paragraph":            return <Paragraph       { ...props } />
+    // case 'core/verse':                return <Verse           { ...props } />
+    case 'core/post-featured-image':  return <FeaturedImage   { ...props } />
 
     // Core blocks with innerBlocks
-    case 'core/list':                 return <List          { ...props } />
-    case 'core/list-item':            return <ListItem      { ...props } />
-    case 'core/gallery':              return <Gallery       { ...props } />
-    case 'core/media-text':           return <MediaText     { ...props } />
-    case 'core/details':              return <Details       { ...props } />
-    case 'core/quote':                return <Quote         { ...props } />
-    case 'core/pullquote':            return <PullQuote     { ...props } />
-    case 'core/columns':              return <Columns       { ...props } />
-    case 'core/column':               return <Column        { ...props } />
+    case 'core/list':                 return <List            { ...props } />
+    case 'core/list-item':            return <ListItem        { ...props } />
+    case 'core/gallery':              return <Gallery         { ...props } />
+    case 'core/media-text':           return <MediaText       { ...props } />
+    case 'core/details':              return <Details         { ...props } />
+    case 'core/quote':                return <Quote           { ...props } />
+    case 'core/pullquote':            return <PullQuote       { ...props } />
+    case 'core/columns':              return <Columns         { ...props } />
+    case 'core/column':               return <Column          { ...props } />
 
     // Fallback
     default:

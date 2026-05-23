@@ -5,7 +5,7 @@ import Block from '@views/layouts/Block'
 import Delibird from '@views/components/Delibird/Delibird';
 
 export default function Title( props ) {
-  const { post, attributes } = props
+  const { post, postType, attributes } = props
   const { subtitle, enabledSubtitle, hideDelibird } = attributes
   const [ title, setTitle ] = useState('')
   const [ excerpt, setExcerpt ] = useState('')
@@ -28,9 +28,12 @@ export default function Title( props ) {
             <div className="wp-block-badegg-title-excerpt">{ parse(excerpt) }</div>
           }
         </div>
-        <div className="wp-block-badegg-title-image">
-          <Delibird />
-        </div>
+
+        { !hideDelibird &&
+          <div className="wp-block-badegg-title-image">
+            <Delibird variant={ postType?.name } />
+          </div>
+        }
       </div>
     </Block>
   )

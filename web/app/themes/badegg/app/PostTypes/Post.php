@@ -45,7 +45,6 @@ class Post
                         'move' => false,
                         'remove' => false,
                     ],
-                    'sidebar' => true,
                 ],
                 [
                     [

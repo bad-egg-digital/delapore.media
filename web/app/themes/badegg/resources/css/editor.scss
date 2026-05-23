@@ -59,17 +59,22 @@ html :where(.wp-block) {
   }
 
   .block-list-appender {
-    width: 350px;
+    // width: 350px;
     max-width: 90%;
     margin: 1em auto;
     background: transparent;
-    border: 1px solid variables.$black;
     background: variables.$primary;
+    position: relative;
+    text-align: center;
+    border: none;
+    padding: 0.5em 1em;
 
-    &::after {
-      content: '';
-      clear: both;
-      display: table;
+    .block-list-appender {
+      position: relative;
+
+      .block-list-appender__toggle {
+        display: inline-block;
+      }
     }
   }
 }

@@ -12,6 +12,7 @@
 @use "@blocks/core/Separator";
 @use "@blocks/core/Verse";
 @use "@blocks/core/DropCap";
+@use "@views/components/AudioPlay/AudioPlay";
 
 .wp-block-badegg-article {
   position: relative;

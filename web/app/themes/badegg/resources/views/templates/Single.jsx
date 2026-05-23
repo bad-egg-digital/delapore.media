@@ -36,7 +36,7 @@ export default function Single({ postType }) {
           <meta property="og:description" content="Dynamic page content" />
         </Helmet>
 
-        <BlockList id={ post.databaseId } postType={ postType } post={ post } />
+        <BlockList key={ post.databaseId } id={ post.databaseId } postType={ postType } post={ post } />
       </>
     )
   } else if (isLoaded) {
@@ -49,6 +49,7 @@ function buildQuery(slug, postType)
   let queryTerms = ''
   let queryBlocks = ''
   let queryWhere = ''
+  let podcastFields = ''
 
   if(postType?.primaryTaxonomy) {
     queryWhere = `(where: {taxonomies: ${ postType.primaryTaxonomy.graphqlSingleName.toUpperCase() }})`
@@ -65,6 +66,13 @@ function buildQuery(slug, postType)
         count
       }
     }`
+  }
+
+  if(postType?.name === 'podcast') {
+    podcastFields = `
+      episodeAudio
+      episodeContent
+    `
   }
 
   if(['page', 'post', 'podcast'].includes(postType?.name)) {
@@ -93,6 +101,7 @@ function buildQuery(slug, postType)
         excerpt
         date
         databaseId
+        ${ podcastFields }
         ${ queryBlocks }
         ${ queryTerms }
       }

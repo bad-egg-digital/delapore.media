@@ -1,9 +1,12 @@
 import clsx from 'clsx'
 import parse from "html-react-parser"
+import { useContext } from 'react'
+import { AppContext } from '@views/layouts/AppContext'
 import { Link } from 'react-router-dom'
 import TermList from '@views/components/TermList/TermList'
+import AudioPlay from '@views/components/AudioPlay/AudioPlay'
 
-export default function CardPost( props ) {
+export default function CardPodcast( props ) {
 
   const {
     postType,
@@ -11,9 +14,11 @@ export default function CardPost( props ) {
     terms,
     title,
     excerpt,
+    date,
     uri,
     featuredImage,
     isLoaded,
+    episodeAudio,
   } = props
 
   const className = clsx(
@@ -27,11 +32,18 @@ export default function CardPost( props ) {
 
   return (
     <article className={ className }>
-      <header className="bg-grey-darker ">
+      <header className="card-featured bg-grey-darker">
+        <AudioPlay
+          { ...episodeAudio }
+          postLink={ uri }
+          postTitle={ title }
+          postDate={ date }
+          hideLabel={ true }
+        />
+
         { featuredImage ? (
           <img
             loading="lazy"
-            className="card-featured"
             src={featuredImage?.node?.sourceUrl }
             srcSet={ featuredImage?.node?.srcSet }
             alt={ featuredImage?.node?.altText }
@@ -40,11 +52,21 @@ export default function CardPost( props ) {
           />
         ) : (
           <div className="card-featured-placeholder" />
-        )
-        }
+        )}
       </header>
       <div className="card-content inner inner-small">
-        <TermList items={ terms?.nodes } limit={ 2 } isLoaded={ isLoaded } />
+        <p>
+          <time dateTime={ date }>
+            {
+              new Date(date).toLocaleDateString(
+                'en-US',
+                { year: 'numeric', month: 'long', day: 'numeric' }
+              )
+            }
+          </time>
+          <span className="card-podcast-duration">{ episodeAudio?.length_formatted }</span>
+        </p>
+
         <h2>{ title }</h2>
         { excerpt && <div className="card-excerpt">{ parse(excerpt) }</div> }
       </div>
