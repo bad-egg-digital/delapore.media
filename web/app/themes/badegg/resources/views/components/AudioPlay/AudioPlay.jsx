@@ -23,7 +23,7 @@ export default function AudioPlay( props ) {
       audioTrayDate: postDate,
       audioTraySrc: uri,
       audioTrayPresent: true,
-    }));
+    }))
 
     setTimeout( () => {
       setAppContext(prevState => ({
@@ -32,8 +32,6 @@ export default function AudioPlay( props ) {
       }));
     }, 300 )
   }
-
-  // console.log(props)
 
   return (
     <button

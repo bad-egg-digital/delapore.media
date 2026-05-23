@@ -24,11 +24,16 @@ export default function AudioTray( props ) {
     setAppContext(prevState => ({
       ...prevState,
       audioTrayVisible: false,
-    }));
+      audioTrayOffset: 0,
+    }))
 
     setTimeout( () => {
       setAppContext(prevState => ({
         ...prevState,
+        audioTrayTitle: '',
+        audioTrayLink: '',
+        audioTrayDate: '',
+        audioTraySrc: '',
         audioTrayPresent: false,
       }));
     }, 300 )
@@ -36,22 +41,31 @@ export default function AudioTray( props ) {
 
   if(audioTraySrc && audioTrayPresent) {
     return (
-      <section className={ `audiotray bg-primary` }>
-        <button
-          role="button"
-          className="audiotray-close"
-          onClick={ closeAudioTray }
-          aria-label="close audio player"
-        >
-          <IconClose />
-        </button>
-        <div className="section section-small container container-large">
-          <AudioPlayer
-            autoPlay
-            src={ audioTraySrc }
-            onPlay={e => console.log("onPlay")}
-            // other props here
-          />
+      <section
+        className={ clsx(
+          'audiotray',
+          audioTrayVisible && 'audiotray-visible',
+        ) }
+      >
+        <div className="section section-small container container-narrow">
+          <div className="audiotray-inner">
+            <button
+              role="button"
+              className="audiotray-close"
+              onClick={ closeAudioTray }
+              aria-label="close audio player"
+            >
+              <span className="visually-hidden">Close Audio Player</span>
+              <IconClose />
+            </button>
+            <AudioPlayer
+              className="audiotray-player"
+              autoPlay
+              src={ audioTraySrc }
+              onPlay={e => console.log("onPlay")}
+              // other props here
+            />
+          </div>
         </div>
       </section>
     )
