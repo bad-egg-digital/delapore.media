@@ -62,6 +62,7 @@ class Product
                 // 'meta_box' => 'checkbox',
                 'dashboard_glance' => true,
                 'show_in_rest' => true,
+                'rest_base' => 'productCategories',
                 'graphql_single_name' => 'productCategory',
                 'graphql_plural_name' => 'productCategories',
                 'show_in_graphql' => true,

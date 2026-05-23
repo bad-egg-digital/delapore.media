@@ -17,15 +17,28 @@
       "text": false
     }
   },
-  "postTypes": [
-    "post"
-  ],
   "attributes": {
+    "titlePrefix": {
+      "type": "string",
+      "default": ""
+    },
+    "subtitle": {
+      "type": "string",
+      "default": ""
+    },
+    "hideTitlePrefix": {
+      "type": "boolean",
+      "default": false
+    },
     "hideCategories": {
       "type": "boolean",
       "default": false
     },
     "hideDate": {
+      "type": "boolean",
+      "default": false
+    },
+    "hideSubtitle": {
       "type": "boolean",
       "default": false
     }

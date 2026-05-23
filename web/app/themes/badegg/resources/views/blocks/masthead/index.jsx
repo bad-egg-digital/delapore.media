@@ -5,6 +5,8 @@ import metadata from './block.json';
 import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import { dateI18n, getSettings } from '@wordpress/date';
+import { useState, useEffect } from '@wordpress/element';
+import { useSelect, useDispatch } from '@wordpress/data';
 
 import {
   useBlockProps,
@@ -23,10 +25,6 @@ import {
   CheckboxControl,
 } from '@wordpress/components';
 
-import {
-  useSelect,
-  useDispatch,
-} from '@wordpress/data';
 
 registerBlockType(metadata.name, {
   edit({ attributes, setAttributes, clientId }) {
@@ -38,40 +36,45 @@ registerBlockType(metadata.name, {
     const postDate = useSelect((select) => select('core/editor').getEditedPostAttribute('date'), []);
     const postTitle = useSelect((select) => select('core/editor').getEditedPostAttribute('title'), []);
 
-    const selectedCategories = (postType === 'post') ? useSelect( (select) => select('core/editor').getEditedPostAttribute('categories'), [] ) : {};
+    const [ taxonomy, setTaxonomy ] = useState('')
+    const [ taxonomyBase, setTaxonomyBase ] = useState('')
 
-    const allCategories = (postType === 'post') ? useSelect(
-      (select) => select('core').getEntityRecords(
-        'taxonomy',
-        'category',
-        {
-          per_page: -1,
-          orderby: 'name',
-          order: 'asc',
-        }
-      ),
-      []
-    ) : {};
+    useEffect(() => {
+      fetch(`/wp-json/badeggcup/v1/post-types`)
+        .then(response => response.json())
+        .then(res => {
+          const primaryTax = res?.hasArchive?.[postType]?.primaryTaxonomy;
+          const primaryTaxBase = res?.hasArchive?.[postType]?.taxonomies?.[primaryTax]?.restBase;
 
-    const toggleCategory = (categoryId, checked) => {
-      let updatedCategories;
+          setTaxonomy(primaryTax || '');
+          setTaxonomyBase(primaryTaxBase || '');
+
+        })
+        .catch(error => console.error('Error fetching post types:', error));
+    }, [ postType ])
+
+    const taxArgs = { per_page: -1, orderby: 'name', order: 'asc' };
+		const selectedTerms = useSelect((select) => select('core/editor').getEditedPostAttribute(taxonomyBase), [ taxonomyBase ]) || [];
+    const allTerms = useSelect((select) => select('core').getEntityRecords('taxonomy', taxonomy, taxArgs ), [ taxonomy ]) || [];
+
+    const toggleTerm = (termID, checked) => {
+      let updatedTerms;
 
       if (checked) {
-        updatedCategories = [
-          ...selectedCategories,
-          categoryId,
+        updatedTerms = [
+          ...selectedTerms,
+          termID,
         ];
       } else {
-        updatedCategories = selectedCategories.filter(
-          (id) => id !== categoryId
+        updatedTerms = selectedTerms.filter(
+          (id) => id !== termID
         );
       }
 
       editPost({
-        categories: updatedCategories,
+        [ taxonomy ]: updatedTerms,
       });
     };
-
 
     const {
       hideCategories,
@@ -100,13 +103,13 @@ registerBlockType(metadata.name, {
             </PanelBody>
             { postType === 'post' && !hideCategories &&
               <PanelBody title={ __('Categories', 'badegg') }>
-                { allCategories?.map((category) => (
+                { allTerms?.map((category) => (
                   <CheckboxControl
                     key={category.id}
                     label={category.name}
-                    checked={selectedCategories.includes(category.id)}
+                    checked={selectedTerms.includes(category.id)}
                     onChange={(checked) => {
-                      toggleCategory(category.id, checked);
+                      toggleTerm(category.id, checked);
                     }}
                     __nextHasNoMarginBottom
                   />
@@ -129,15 +132,12 @@ registerBlockType(metadata.name, {
 
         { (!hideCategories || !hideDate) &&
           <div className={ `entry-meta ${ (!hideCategories) ? 'has-categories' : '' }` }>
-            { postType === 'post' && !hideCategories &&
+            { !hideCategories &&
               <div className="termlist masthead-categories ">
                 <ul className="nolist">
-                  { allCategories?.filter( (cat) => selectedCategories.includes(cat.id) )
-                    .map((cat) => (
-                      <li key={ cat.id } className={ `category-${ cat.slug }` }>
-                        <a href="#">{ cat.name }</a>
-                      </li>
-                    ))}
+                  { allTerms?.filter((term) => selectedTerms.includes(term.id)).map((term) =>
+                    <li key={ term.id } className={ `category-${ term.slug }` }><a href="#">{ term.name }</a></li>
+                  )}
                 </ul>
               </div>
             }

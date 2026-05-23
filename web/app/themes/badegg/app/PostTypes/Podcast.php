@@ -71,6 +71,7 @@ class Podcast
                 // 'meta_box' => 'checkbox',
                 'dashboard_glance' => true,
                 'show_in_rest' => true,
+                'rest_base' => 'podcastCategories',
                 'graphql_single_name' => 'podcastCategory',
                 'graphql_plural_name' => 'podcastCategories',
                 'show_in_graphql' => true,

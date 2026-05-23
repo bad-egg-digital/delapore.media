@@ -79,21 +79,18 @@ registerBlockType(metadata.name, {
       postId
     );
 
-    const { podcast_audio_id } = meta;
     const [ audioFile, setAudioFile ] = useState({});
 
     useEffect(() => {
-      if (postType === 'podcast' && podcast_audio_id) {
-        fetch(`/wp-json/wp/v2/media/${podcast_audio_id}`)
+      if (postType === 'podcast' && meta?.podcast_audio_id) {
+        fetch(`/wp-json/wp/v2/media/${meta?.podcast_audio_id}`)
           .then(response => response.json())
           .then(media => {
             setAudioFile(media);
           })
           .catch(error => console.error('Error fetching media:', error));
       }
-    }, [podcast_audio_id]);
-
-    console.log(audioFile)
+    }, [meta?.podcast_audio_id])
 
     return (
       <section { ...blockProps }>
@@ -144,7 +141,7 @@ registerBlockType(metadata.name, {
                           setAudioFile( media || {} );
                         }}
                         allowedTypes={ ['audio/mpeg'] }
-                        value={ podcast_audio_id }
+                        value={ meta?.podcast_audio_id }
                         render={({ open }) => (
                           <>
                             <Spacer />
@@ -156,7 +153,7 @@ registerBlockType(metadata.name, {
                               { __("Select File", "badegg") }
                             </Button>
 
-                            { podcast_audio_id != 0 && (
+                            { meta?.podcast_audio_id != 0 && (
                               <Button
                                 onClick={ () => {
                                   setMeta({ podcast_audio_id: 0 });
