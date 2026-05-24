@@ -43,6 +43,7 @@ export default function PostGrid( props ) {
           items={ terms }
           postType={ postType }
           isLoaded={ isLoaded }
+          state={{ preserveScroll: true }}
         />
 
         <Posts

@@ -10,6 +10,7 @@ export default function TermList( props) {
     postType,
     limit,
     isLoaded,
+    state,
    } = props
 
   const location = useLocation()
@@ -28,7 +29,7 @@ export default function TermList( props) {
                 { (postType.uri === location.pathname) ? (
                   <span>All { postType.label }</span>
                 ):(
-                  <Link to={ postType.uri }>
+                  <Link to={ postType.uri } state={ state }>
                     All { postType.label }
                   </Link>
                 )}
@@ -50,7 +51,7 @@ export default function TermList( props) {
 
                   return (
                     <li key={ index } className={ termClass }>
-                      <Link to={ item.uri } rel="preload">
+                      <Link to={ item.uri } rel="preload" state={ state }>
                         { item.name }
                       </Link>
                     </li>

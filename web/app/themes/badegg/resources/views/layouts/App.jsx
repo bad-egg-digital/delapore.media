@@ -23,6 +23,9 @@ const Wrapper = ({ children }) => {
   const location = useLocation();
 
   useLayoutEffect(() => {
+    // Allow certain navigations to preserve scroll
+    if (location.state?.preserveScroll) return;
+
     // Scroll to the top of the page when the route changes
     window.scrollTo({
       top: 0,
