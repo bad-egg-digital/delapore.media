@@ -96,7 +96,7 @@ registerBlockType(metadata.name, {
                   label={ __('Title Prefix', 'badegg') }
                   value={ titlePrefix }
                   onChange={(value) => setAttributes({ titlePrefix: value }) }
-                  __nextHasNoMarginBottom
+                  __next40pxDefaultSize
                 />
               }
 
@@ -113,7 +113,7 @@ registerBlockType(metadata.name, {
                   label={ __('Subtitle', 'badegg') }
                   value={ subtitle }
                   onChange={(value) => setAttributes({ subtitle: value }) }
-                  __nextHasNoMarginBottom
+                  __next40pxDefaultSize
                 />
               }
             </PanelBody>
