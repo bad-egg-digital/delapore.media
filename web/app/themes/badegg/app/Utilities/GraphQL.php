@@ -17,24 +17,18 @@ class GraphQL
             add_action( 'graphql_register_types', [$this, 'archives']);
             add_action( 'graphql_register_types', [$this, 'taxonomies']);
             add_action( 'graphql_register_types', [$this, 'taxonomiesWhere']);
-            add_filter( 'graphql_post_object_connection_query_args', [$this, 'taxonomiesWhereQuery'], 10, 5);
             add_action( 'graphql_register_types', [$this, 'blocks']);
             add_action( 'graphql_register_types', [$this, 'badeggcup']);
             add_action( 'graphql_register_types', [$this, 'podcast']);
             add_action( 'graphql_register_types', [$this, 'product']);
 
-            // add_action('admin_footer', function(){
-            //     echo '<div style="margin-left: 200px">';
+            add_action('admin_footer', function(){
+                echo '<div style="margin-left: 200px">';
 
-            //     $products = get_posts(['post_type' => 'product']);
+                // echo '<pre>',print_r($postTypes),'</pre>';
 
-            //     foreach($products as $product) {
-            //         echo '<pre>',print_r($product),'</pre>';
-            //         echo '<pre>',print_r(get_post_meta($product->ID)),'</pre>';
-            //     }
-
-            //     echo '</div>';
-            // });
+                echo '</div>';
+            });
         }
     }
 
@@ -182,6 +176,7 @@ class GraphQL
         ]);
     }
 
+    // https://stackoverflow.com/a/76356744/10585540
     public function taxonomiesWhere()
     {
         $postTypes = get_post_types([
@@ -191,59 +186,24 @@ class GraphQL
         ], 'objects');
 
         foreach($postTypes as $postType => $props) {
-            $taxonomies = $props->taxonomies;
-            $singular = $props->graphql_single_name;
+            $taxonomies = @$props->taxonomies;
+            $postTypeSingular = @$props->graphql_single_name;
 
             foreach($taxonomies as $taxonomyName) {
                 $taxonomy = get_taxonomy($taxonomyName);
-                $singularTax = $taxonomy->graphql_single_name;
-                $singularTaxName = $taxonomy->labels->singular_name;
+                $taxonomySingular = $taxonomy->graphql_single_name;
+                $taxonomySingularLabel = $taxonomy->labels->singular_name;
 
                 register_graphql_field(
-                    'RootQueryTo' . $singular . 'ConnectionWhereArgs',
-                    $singularTax,
+                    'RootQueryTo' . ucfirst($postTypeSingular) . 'ConnectionWhereArgs',
+                    $taxonomySingular . 'Name',
                     [
-                        'type'        => 'String',
-                        'description' => __( 'Filter by ' . strtolower($singularTaxName) . ' slug', 'badegg' ),
-                    ]
+                        'type' => [ 'list_of' => 'String' ],
+                        'description' => __('Filter by post objects that have the specific ' . $taxonomySingularLabel, 'badegg'),
+                    ],
                 );
             }
         }
-    }
-
-    public function taxonomiesWhereQuery( $query_args, $source, $args, $context, $info ) {
-
-        $postTypes = get_post_types([
-            'show_in_graphql' => true,
-            '_builtin' => false,
-            'taxonomies' => true,
-        ], 'objects');
-
-        foreach($postTypes as $postType => $props) {
-            $taxonomies = $props->taxonomies;
-            $plural = $props->graphql_plural_name;
-
-            if ($plural !== $info->fieldName) {
-                continue;
-            }
-
-            foreach($taxonomies as $taxonomyName) {
-                $taxonomy = get_taxonomy($taxonomyName);
-                $singularTax = $taxonomy->graphql_singular_name;
-
-                if (!empty( $args['where'][$singularTax])) {
-                    $query_args['tax_query'] = [
-                        [
-                            'taxonomy' => $taxonomyName,
-                            'field'    => 'slug',
-                            'terms'    => $args['where'][$singularTax],
-                        ]
-                    ];
-                }
-            }
-        }
-
-        return $query_args;
     }
 
     public function blocks()

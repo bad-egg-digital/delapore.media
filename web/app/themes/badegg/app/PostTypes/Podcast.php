@@ -12,6 +12,7 @@ class Podcast
     public function __construct()
     {
         add_action('init', [$this, 'register']);
+        add_filter( 'graphql_post_object_connection_query_args', [$this, 'graphqlTaxQuery'], 10, 5);
         add_action('admin_menu', [$this, 'settings_page']);
         add_action('admin_init', [$this, 'settings_fields']);
     }
@@ -221,5 +222,26 @@ class Podcast
                 'style' => 'width: calc(100% - 1em)',
             ],
         );
+    }
+
+    public function graphqlTaxQuery( $query_args, $source, $args, $context, $info )
+    {
+        $taxQuery = [];
+        $where = @$args['where'] ?: [];
+        $key = 'podcastCategoryName';
+
+        if(!isset($where[$key])) return $query_args;
+
+        $taxQuery[] = [
+            'taxonomy' => 'podcast_category',
+            'field' => 'slug',
+            'terms' => (array) $where[$key],
+        ];
+
+        if(!empty($taxQuery)) {
+            $query_args['tax_query'] = $taxQuery;
+        }
+
+        return $query_args;
     }
 }

@@ -66,7 +66,7 @@ function buildQuery({ postType, taxonomy, activeTerm })
   let productFields = ''
 
   if(activeTerm && taxonomy?.graphqlSingleName) {
-    queryWhere = `(where: { ${ taxonomy.graphqlSingleName }${ postType?.name === 'post' ?'Name' : '' }: "${ activeTerm }" })`
+    queryWhere = `(where: { ${ taxonomy.graphqlSingleName }Name: "${ activeTerm }" })`
   }
 
   if(taxonomy && taxonomy?.graphqlSingleName) {
@@ -124,8 +124,6 @@ function buildQuery({ postType, taxonomy, activeTerm })
       }
     }
   `
-
-  console.log(query)
 
   return query
 }

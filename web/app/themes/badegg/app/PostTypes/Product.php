@@ -12,6 +12,7 @@ class Product
     public function __construct()
     {
         add_action('init', [$this, 'register']);
+        add_filter( 'graphql_post_object_connection_query_args', [$this, 'graphqlTaxQuery'], 10, 5);
     }
 
     public function register()
@@ -89,5 +90,26 @@ class Product
                 'sanitize_callback' => 'wp_kses_post',
             ]);
         }
+    }
+
+    public function graphqlTaxQuery( $query_args, $source, $args, $context, $info ) {
+
+        $taxQuery = [];
+        $where = @$args['where'] ?: [];
+        $key = 'productCategoryName';
+
+        if(!isset($where[$key])) return $query_args;
+
+        $taxQuery[] = [
+            'taxonomy' => 'product_category',
+            'field' => 'slug',
+            'terms' => (array) $where[$key],
+        ];
+
+        if(!empty($taxQuery)) {
+            $query_args['tax_query'] = $taxQuery;
+        }
+
+        return $query_args;
     }
 }
