@@ -68,21 +68,17 @@ class Podcast
         register_extended_taxonomy(
             $this->postType . '_' . $this->taxonomy, $this->postType,
             [
-                // 'meta_box' => 'checkbox',
-                'dashboard_glance' => true,
-                'show_in_rest' => true,
-                'rest_base' => 'podcastCategories',
+                'dashboard_glance'    => true,
+                'show_in_rest'        => true,
+                'rest_base'           => 'podcastCategories',
                 'graphql_single_name' => 'podcastCategory',
                 'graphql_plural_name' => 'podcastCategories',
-                'show_in_graphql' => true,
-                'rewrite' => [
-                    'with_front' => true,
-                    'slug' => $rewrite . '/categories',
-                ],
+                'show_in_graphql'     => true,
             ],
             [
                 'singular' => __('Podcast Category', $this->td ),
                 'plural'   => __('Podcast Categories', $this->td ),
+                'slug'     => $rewrite . '-categories',
             ],
         );
 

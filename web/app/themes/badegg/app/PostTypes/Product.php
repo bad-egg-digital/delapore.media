@@ -31,6 +31,7 @@ class Product
                     'excerpt',
                     'thumbnail',
                     'page-attributes',
+                    'custom-fields',
                 ],
                 'menu_icon' => 'dashicons-cart',
                 'archive' => [
@@ -59,22 +60,34 @@ class Product
         register_extended_taxonomy(
             $this->postType . '_' . $this->taxonomy, $this->postType,
             [
-                // 'meta_box' => 'checkbox',
-                'dashboard_glance' => true,
-                'show_in_rest' => true,
-                'rest_base' => 'productCategories',
+                'dashboard_glance'    => true,
+                'show_in_rest'        => true,
+                'rest_base'           => 'productCategories',
                 'graphql_single_name' => 'productCategory',
                 'graphql_plural_name' => 'productCategories',
-                'show_in_graphql' => true,
-                'rewrite' => [
-                    'with_front' => true,
-                    'slug' => $rewrite . '/categories',
-                ]
+                'show_in_graphql'     => true,
             ],
             [
                 'singular' => __('Product Category', $this->td ),
                 'plural'   => __('Product Categories', $this->td ),
+                'slug'     => $rewrite . '-categories',
             ],
         );
+
+        $metaFields = [
+            'cover_id'       => 'number',
+            'price'          => 'string',
+            'price_discount' => 'string',
+            'offsite_url'    => 'string',
+        ];
+
+        foreach($metaFields as $key => $type) {
+            register_post_meta( $this->postType, $this->postType . '_' . $key, [
+                'show_in_rest' => true,
+                'single' => true,
+                'type' => $type,
+                'sanitize_callback' => 'wp_kses_post',
+            ]);
+        }
     }
 }
