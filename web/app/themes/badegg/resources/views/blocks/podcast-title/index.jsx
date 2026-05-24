@@ -45,7 +45,7 @@ registerBlockType(metadata.name, {
                   label={ __('Title Prefix', 'badegg') }
                   value={ titlePrefix }
                   onChange={(value) => setAttributes({ titlePrefix: value }) }
-                  __nextHasNoMarginBottom
+                  __next40pxDefaultSize
                 />
               }
 
@@ -62,7 +62,7 @@ registerBlockType(metadata.name, {
                   label={ __('Attribution', 'badegg') }
                   value={ attribution }
                   onChange={(value) => setAttributes({ attribution: value }) }
-                  __nextHasNoMarginBottom
+                  __next40pxDefaultSize
                 />
               }
 

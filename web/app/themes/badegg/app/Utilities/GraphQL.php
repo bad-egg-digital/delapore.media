@@ -21,6 +21,20 @@ class GraphQL
             add_action( 'graphql_register_types', [$this, 'blocks']);
             add_action( 'graphql_register_types', [$this, 'badeggcup']);
             add_action( 'graphql_register_types', [$this, 'podcast']);
+            add_action( 'graphql_register_types', [$this, 'product']);
+
+            // add_action('admin_footer', function(){
+            //     echo '<div style="margin-left: 200px">';
+
+            //     $products = get_posts(['post_type' => 'product']);
+
+            //     foreach($products as $product) {
+            //         echo '<pre>',print_r($product),'</pre>';
+            //         echo '<pre>',print_r(get_post_meta($product->ID)),'</pre>';
+            //     }
+
+            //     echo '</div>';
+            // });
         }
     }
 
@@ -216,7 +230,6 @@ class GraphQL
             foreach($taxonomies as $taxonomyName) {
                 $taxonomy = get_taxonomy($taxonomyName);
                 $singularTax = $taxonomy->graphql_singular_name;
-                $pluralTax = $taxonomy->graphql_plural_name;
 
                 if (!empty( $args['where'][$singularTax])) {
                     $query_args['tax_query'] = [
@@ -384,5 +397,22 @@ class GraphQL
 
             }
         ]);
+    }
+
+    public function product()
+    {
+        $fields = [
+            'CoverID'        => [ 'meta' => 'cover_id',       'type' => 'Number'   ],
+            'Price'          => [ 'meta' => 'price',          'type' => 'String'   ],
+            'PriceDiscount'  => [ 'meta' => 'price_discount', 'type' => 'String'   ],
+            'OffsiteURL'     => [ 'meta' => 'offsite_url',    'type' => 'String'   ],
+        ];
+
+        foreach($fields as $field => $props) {
+            register_graphql_field( 'Product', 'product' . $field, [
+                'type' => $props['type'],
+                'resolve' => fn( $post ) => get_post_meta( $post->databaseId, 'product_' . $props['meta'], true ) ?: null,
+            ]);
+        }
     }
 }
