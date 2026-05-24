@@ -9,6 +9,7 @@ import { useState, useEffect } from '@wordpress/element';
 import { useEntityProp } from '@wordpress/core-data';
 import parse from "html-react-parser"
 import IconPlay from '@images/circle-play-solid-full.svg?react'
+import AttachmentImage from "@blocks/-editor/AttachmentImage"
 
 import {
   useBlockProps,
@@ -80,6 +81,7 @@ registerBlockType(metadata.name, {
     );
 
     const [ audioFile, setAudioFile ] = useState({});
+    const [ coverFile, setCoverFile ] = useState({});
 
     useEffect(() => {
       if (postType === 'podcast' && meta?.podcast_audio_id) {
@@ -90,7 +92,16 @@ registerBlockType(metadata.name, {
           })
           .catch(error => console.error('Error fetching media:', error));
       }
-    }, [meta?.podcast_audio_id])
+
+      if (postType === 'product' && meta?.product_cover_id) {
+        fetch(`/wp-json/wp/v2/media/${meta?.product_cover_id}`)
+          .then(response => response.json())
+          .then(media => {
+            setCoverFile(media);
+          })
+          .catch(error => console.error('Error fetching media:', error));
+      }
+    }, [ meta ])
 
     return (
       <section { ...blockProps }>
@@ -112,6 +123,67 @@ registerBlockType(metadata.name, {
                     __next40pxDefaultSize
                   />
                 }
+
+                { postType === 'product' &&
+                  <>
+                    <Spacer margin="4" />
+
+                    { 'link' in coverFile &&
+                      <>
+                        <Heading level="3" style={{ fontWeight: 'bold' }}>
+                          { coverFile?.title?.rendered }
+                        </Heading>
+
+                        <AttachmentImage imageId={ coverFile?.id } />
+                      </>
+                    }
+
+                    <MediaUploadCheck>
+                      <MediaUpload
+                        onSelect={ (media) => {
+                          setMeta({
+                            ...meta,
+                            product_cover_id: media?.id || 0,
+                          });
+                          setCoverFile( media || {} );
+                        }}
+                        allowedTypes={ ['image'] }
+                        value={ meta?.product_cover_id }
+                        render={ ({ open }) => (
+                          <>
+                            <Spacer />
+
+                            <Button
+                              onClick={ open }
+                              variant="secondary"
+                            >
+                              { __("Select File", "badegg") }
+                            </Button>
+
+                            { meta?.product_cover_id != 0 && (
+                              <Button
+                                onClick={ () => {
+                                  setMeta({
+                                    ...meta,
+                                    product_cover_id: 0,
+                                  });
+                                  setCoverFile({});
+                                }}
+                                isDestructive
+                                variant="secondary"
+                                style={{ marginLeft: 8 }}
+                              >
+                                { __("Remove", "badegg") }
+                              </Button>
+                            )}
+                          </>
+                        )}
+                      />
+                    </MediaUploadCheck>
+
+                  </>
+                }
+
                 { postType === 'podcast' &&
                   <>
                     <Spacer margin="4" />
@@ -137,7 +209,10 @@ registerBlockType(metadata.name, {
                     <MediaUploadCheck>
                       <MediaUpload
                         onSelect={ (media) => {
-                          setMeta({ podcast_audio_id: media?.id || 0 });
+                          setMeta({
+                            ...meta,
+                            podcast_audio_id: media?.id || 0,
+                          });
                           setAudioFile( media || {} );
                         }}
                         allowedTypes={ ['audio/mpeg'] }
@@ -156,7 +231,10 @@ registerBlockType(metadata.name, {
                             { meta?.podcast_audio_id != 0 && (
                               <Button
                                 onClick={ () => {
-                                  setMeta({ podcast_audio_id: 0 });
+                                  setMeta({
+                                    ...meta,
+                                    podcast_audio_id: 0,
+                                  });
                                   setAudioFile({});
                                 }}
                                 isDestructive
@@ -255,6 +333,10 @@ registerBlockType(metadata.name, {
                       headings={ h2s }
                       stickyTop={ 32 }
                     />
+                  }
+
+                  { postType === 'product' &&
+                    <h3>Product</h3>
                   }
 
                   { postType === 'podcast' && audioFile &&
