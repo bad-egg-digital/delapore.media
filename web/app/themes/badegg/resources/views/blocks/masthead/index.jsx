@@ -8,6 +8,7 @@ import { __ } from '@wordpress/i18n';
 import { dateI18n, getSettings } from '@wordpress/date';
 import { useState, useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
+import { useEntityProp } from '@wordpress/core-data';
 
 import {
   useBlockProps,
@@ -28,7 +29,7 @@ import {
 } from '@wordpress/components';
 
 registerBlockType(metadata.name, {
-  edit({ attributes, setAttributes, clientId }) {
+  edit({ attributes, setAttributes, clientId, context: { postId } }) {
     const blockProps = useBlockProps();
     const { formats } = getSettings();
     const { editPost } = useDispatch('core/editor');
@@ -87,6 +88,13 @@ registerBlockType(metadata.name, {
       hideSubtitle,
     } = attributes;
 
+    const [ meta, setMeta ] = useEntityProp(
+      'postType',
+      postType,
+      'meta',
+      postId
+    );
+
     return (
       <div { ...blockProps }>
         <InspectorControls>
@@ -95,8 +103,11 @@ registerBlockType(metadata.name, {
               { !hideTitlePrefix &&
                 <TextControl
                   label={ __('Title Prefix', 'badegg') }
-                  value={ titlePrefix }
-                  onChange={(value) => setAttributes({ titlePrefix: value }) }
+                  value={ meta?.titlePrefix }
+                  onChange={(value) => setMeta({
+                    ...meta,
+                    titlePrefix: value
+                  }) }
                   __next40pxDefaultSize
                   __nextHasNoMarginBottom
                 />
@@ -115,8 +126,11 @@ registerBlockType(metadata.name, {
               { !hideSubtitle &&
                 <TextControl
                   label={ __('Subtitle', 'badegg') }
-                  value={ subtitle }
-                  onChange={(value) => setAttributes({ subtitle: value }) }
+                  value={ meta?.subtitle }
+                  onChange={(value) => setMeta({
+                    ...meta,
+                    subtitle: value
+                  }) }
                   __next40pxDefaultSize
                   __nextHasNoMarginBottom
                 />
@@ -198,13 +212,16 @@ registerBlockType(metadata.name, {
               </div>
             }
 
-            { !hideTitlePrefix &&
+            { !hideTitlePrefix && meta?.titlePrefix &&
               <RichText
                 tagName="p"
                 className="masthead-prefix"
-                value={ titlePrefix }
+                value={ meta.titlePrefix }
                 placeholder="The title prefix..."
-                onChange={(value) => setAttributes({ titlePrefix: value }) }
+                onChange={(value) => setMeta({
+                  ...meta,
+                  titlePrefix: value
+                }) }
               />
             }
 
@@ -227,13 +244,16 @@ registerBlockType(metadata.name, {
           }}
         />
 
-        { !hideSubtitle &&
+        { !hideSubtitle && meta?.subtitle &&
           <RichText
             tagName="p"
             className="masthead-subtitle"
-            value={ subtitle }
+            value={ meta.subtitle }
             placeholder="Enter the subtitle..."
-            onChange={(value) => setAttributes({ subtitle: value }) }
+            onChange={(value) => setMeta({
+              ...meta,
+              subtitle: value,
+            }) }
           />
         }
 

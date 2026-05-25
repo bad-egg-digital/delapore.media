@@ -104,8 +104,6 @@ registerBlockType(metadata.name, {
       }
     }, [ meta ])
 
-    console.log(coverFile);
-
     return (
       <section { ...blockProps }>
         <BlockControls>

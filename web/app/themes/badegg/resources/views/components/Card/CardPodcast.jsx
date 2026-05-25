@@ -60,7 +60,7 @@ export default function CardPodcast( props ) {
 
           { terms?.nodes?.length > 0 &&
             <TermList
-              className="card-meta-terms"
+              className="card-terms"
               items={ terms?.nodes }
               primaryItem={ taxonomy && props?.[ taxonomy?.graphqlSingleName + 'PrimaryTerm' ] }
               limit={ 1 }
@@ -79,15 +79,12 @@ export default function CardPodcast( props ) {
           <span className="card-meta-duration">{ episodeAudio?.length_formatted }</span>
         </div>
 
-        <h2 className="section-title">{ title }</h2>
-        { excerpt && <div className="card-excerpt">{ parse(excerpt) }</div> }
+        <h2 className="card-title">{ title }</h2>
+        { excerpt && <div className="card-excerpt wysiwyg">{ parse(excerpt) }</div> }
       </div>
       <footer className="inner inner-small inner-unset-top">
-        <span className="card-more">+{ readMore }</span>
+        <Link to={ uri } className="card-more">+{ readMore }</Link>
       </footer>
-      <Link to={ uri } className="card-more-overlay">
-        <span className="visually-hidden">{ readMore }</span>
-      </Link>
     </article>
   )
 }

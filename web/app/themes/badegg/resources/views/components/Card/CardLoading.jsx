@@ -18,9 +18,9 @@ export default function CardLoading( props ) {
         <div className="card-featured-placeholder loading-sweep" />
       </header>
       <div className="card-content inner inner-small">
-        <TermList limit={ 2 } isLoaded={ false } />
+        <TermList className="card-terms" limit={ 2 } isLoaded={ false } />
         <h2 className="loading-sweep bg-grey-lightest-a">&nbsp;</h2>
-        <div className="card-excerpt">
+        <div className="card-excerpt wysiwyg">
           <p>
             <span className="loading-sweep bg-grey-lightest-a">&nbsp;</span>
             <span className="loading-sweep bg-grey-lightest-a">&nbsp;</span>

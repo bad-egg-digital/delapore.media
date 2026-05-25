@@ -7,28 +7,14 @@ import TermList from '@views/components/TermList/TermList'
 export default function Masthead( props ) {
   const { appContext: { postTypes } } = useContext( AppContext )
   const { post, postType, attributes } = props
-  const [ title, setTitle ] = useState('')
-  const [ date, setDate ] = useState('')
-  const [ terms, setTerms ] = useState({})
+  const { titlePrefix, title, subtitle, date, terms: { nodes = {}} } = post
 
   const {
-    titlePrefix,
-    subtitle,
     hideTerms,
     hideDate,
     hideTitlePrefix,
     hideSubtitle,
   } = attributes;
-
-  useEffect(() => {
-    if(post?.terms?.nodes) {
-      setTerms( post.terms.nodes )
-    }
-
-    setDate( post.date )
-    setTitle( post.title )
-
-  }, [ post, postType ])
 
   const primaryTaxonomy = postTypes.find( type => type.name === postType?.name)?.primaryTaxonomy?.graphqlSingleName
 
@@ -37,10 +23,10 @@ export default function Masthead( props ) {
       { (!hideTerms || !hideDate || !hideTitlePrefix) &&
         <div className="masthead-meta">
 
-          { !hideTerms && terms.length > 0 && (
+          { !hideTerms && nodes.length > 0 && (
             <TermList
               className="masthead-terms"
-              items={ terms }
+              items={ nodes }
               primaryItem={ primaryTaxonomy && post?.[ primaryTaxonomy + 'PrimaryTerm' ] }
               isLoaded={ true }
             />

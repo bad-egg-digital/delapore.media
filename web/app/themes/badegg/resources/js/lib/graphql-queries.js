@@ -71,7 +71,9 @@ export function querySingle( slug, postType, )
       ${ postType?.graphqlSingleName?.toLowerCase() }(id: "${ slug || '/' }", idType: URI) {
         id
         slug
+        titlePrefix
         title
+        subtitle
         excerpt
         date
         databaseId
@@ -131,7 +133,9 @@ export function queryArchive({ postType, taxonomy, activeTerm })
         nodes {
           id
           slug
+          titlePrefix
           title
+          subtitle
           excerpt
           date
           uri
@@ -200,7 +204,9 @@ export function queryApp()
           graphqlPluralName
           pageForArchive {
             slug
+            titlePrefix
             title
+            subtitle
             content
             excerpt
             databaseId

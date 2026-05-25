@@ -52,14 +52,14 @@
       .bg-white & {
         span,
         a {
-          border-color: variables.$secondary-lightest;
-          background: variables.$secondary-lightest;
+          border-color: variables.$grey-lighter;
+          background: variables.$grey-lighter;
         }
 
         &.termlist-term-primary {
           span, a {
-            border-color: variables.$primary;
-            background: variables.$primary;
+            border-color: variables.$secondary-lightest;
+            background: variables.$secondary-lightest;
           }
         }
 

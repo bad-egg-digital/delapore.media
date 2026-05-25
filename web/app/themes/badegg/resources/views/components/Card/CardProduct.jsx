@@ -4,20 +4,26 @@ import { useContext } from 'react'
 import parse from "html-react-parser"
 import { Link } from 'react-router-dom'
 import TermList from '@views/components/TermList/TermList'
+import isUriValid from "@scripts/lib/isUriValid";
 
-export default function CardPost( props ) {
+export default function CardProduct( props ) {
   const { appContext: { postTypes } } = useContext( AppContext )
 
   const {
     postType,
     slug,
     terms,
+    titlePrefix,
     title,
+    subtitle,
     excerpt,
     uri,
     featuredImage,
     isLoaded,
     taxonomy,
+    productPrice,
+    productPriceDiscount,
+    productOffsiteURL,
   } = props
 
   const className = clsx(
@@ -28,7 +34,7 @@ export default function CardPost( props ) {
   )
 
   const primaryTaxonomy = postTypes.find( type => type.name === postType)?.primaryTaxonomy?.graphqlSingleName
-  const readMore = 'Continue reading'
+  const productLink = isUriValid(productOffsiteURL) ? new URL(productOffsiteURL) : {}
 
   return (
     <article className={ className }>
@@ -53,15 +59,41 @@ export default function CardPost( props ) {
             className="card-terms"
             items={ terms?.nodes }
             primaryItem={ primaryTaxonomy && props?.[ primaryTaxonomy + 'PrimaryTerm' ] }
-            limit={ 2 }
+            limit={ 1 }
             isLoaded={ isLoaded }
           />
+
+          { titlePrefix && <p className="card-title-prefix secondary-darkest">{ titlePrefix }</p> }
         </div>
+
         <h2 className="card-title">{ title }</h2>
+        { subtitle && <p className="card-subtitle grey">{ subtitle }</p> }
         { excerpt && <div className="card-excerpt wysiwyg">{ parse(excerpt) }</div> }
       </div>
       <footer className="inner inner-small inner-unset-top">
-        <Link to={ uri } className="card-more">+{ readMore }</Link>
+        { productPrice &&
+          <p className={ clsx(
+            'card-product-pricing',
+            productPriceDiscount && 'card-product-pricing-discounted',
+          )}>
+            <span className={ clsx(
+              'card-product-pricing-current',
+              productPriceDiscount && 'strikethrough',
+            )}>{ productPrice }</span>
+
+            { productPriceDiscount &&
+              <span className="card-product-pricing-discount">
+                { productPriceDiscount }
+              </span>
+            }
+          </p>
+        }
+        <div className="btn-wrap">
+          { 'href' in productLink &&
+            <a href={ productLink } target="_blank" className="btn primary">Buy Now</a>
+          }
+          <Link to={ uri } className="btn outline">Learn More</Link>
+        </div>
       </footer>
     </article>
   )

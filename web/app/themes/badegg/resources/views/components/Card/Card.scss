@@ -22,7 +22,24 @@
     flex-grow: 1;
   }
 
+  &-title-prefix {
+    margin: 0.25em 0;
+    font-weight: 700;
+    font-size: 0.8em;
+  }
+
+  &-title {
+    margin: 0;
+  }
+
+  &-subtitle {
+    margin: 0.25em 0 1em;
+    font-size: 0.8em;
+  }
+
   &-excerpt {
+    margin: 0.5em 0 0;
+
     p {
       display: -webkit-box;
       -webkit-line-clamp: 3;
@@ -36,26 +53,21 @@
     text-decoration: none;
     color: variables.$primary;
 
-    &-overlay {
-      display: block;
-      position: absolute;
-      inset: 0;
-      z-index: 1;
+    &:hover {
+      text-decoration: underline;
     }
   }
 
-  .termlist {
-    position: relative;
-    z-index: 2;
+  &-terms {
     display: inline-block;
-    font-size: 0.8em;
+    font-size: 0.75em;
   }
 
   &-meta {
     width: 100%;
-    margin: 0 0 0.75em;
+    margin: 0 0 0.5em;
     white-space: nowrap;
-    text-overflow: "";
+    text-overflow: clip;
     overflow: hidden;
 
     > * {
@@ -73,12 +85,6 @@
       &:first-child::before {
         content: none;
       }
-    }
-  }
-
-  &:hover {
-    .card-more {
-      text-decoration: underline;
     }
   }
 
@@ -150,6 +156,40 @@
           font-size: 1.125em;
           filter: blur(0.25em);
           background: variables.$black;
+        }
+      }
+    }
+  }
+
+  &-product {
+    .card-title {
+      color: variables.$grey-darker;
+    }
+
+    .card-meta {
+      white-space: unset;
+      display: flex;
+      gap: variables.$gapSmall;
+      align-items: center;
+
+      > *::before {
+        content: none;
+      }
+    }
+
+    &-pricing {
+      font-family: variables.$displayFont;
+      font-size: 1.875em;
+      margin: 0;
+
+      span {
+        display: inline-block;
+      }
+
+      &-discounted {
+        .card-product-pricing-current {
+          opacity: 0.5;
+          transform: scale(0.8);
         }
       }
     }

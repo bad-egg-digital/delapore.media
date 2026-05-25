@@ -15,7 +15,8 @@ export default function TermList( props) {
    } = props
 
   const location = useLocation()
-  let itemList = (limit && items.length > 0) ? items.slice(0, limit) : items
+
+  let itemList = items
 
   if(primaryItem) {
     // https://stackoverflow.com/a/36192641/10585540
@@ -26,6 +27,8 @@ export default function TermList( props) {
       1)[0]                                         // and continuing for one item
     )
   }
+
+  itemList = (limit && items.length > 0) ? items.slice(0, limit) : items
 
   return (
     <div className={ `termlist ${ className || '' }` }>

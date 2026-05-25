@@ -12,7 +12,6 @@ export default function ArticleProduct({ coverFile, coverSrc, price, discount, l
           'article-sidebar-block',
           'article-sidebar-block-product',
           'inner',
-          'inner-small',
         )
       }
     >
