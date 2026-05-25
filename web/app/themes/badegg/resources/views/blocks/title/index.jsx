@@ -66,6 +66,7 @@ registerBlockType(metadata.name, {
                 onChange={ (newTitle) => {
                   wp.data.dispatch('core/editor').editPost({ title: newTitle });
                 }}
+                __nextHasNoMarginBottom
               />
 
               { enableSubtitle &&
@@ -73,6 +74,7 @@ registerBlockType(metadata.name, {
                   label={ __('Subtitle', 'badegg') }
                   value={ subtitle }
                   onChange={(value) => setAttributes({ subtitle: value }) }
+                  __nextHasNoMarginBottom
                 />
               }
 
@@ -82,6 +84,7 @@ registerBlockType(metadata.name, {
                 onChange={ (newExcerpt) => {
                   wp.data.dispatch('core/editor').editPost({ excerpt: newExcerpt });
                 }}
+                __nextHasNoMarginBottom
               />
 
             </PanelBody>

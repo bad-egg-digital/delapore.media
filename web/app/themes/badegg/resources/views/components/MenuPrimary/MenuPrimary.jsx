@@ -21,7 +21,7 @@ export default function MenuPrimary({ items }) {
       <nav className="menu-primary">
         <ul className="nolist">
           { appContext.menuPrimaryData.map((item, index) => {
-            const isActive = location.pathname.startsWith(item.path);
+            const isActive = location.pathname.startsWith(item.path.slice(0, -1));
 
             return (
               <li key={ index } className={ `menu-item ${ isActive ? 'active' : '' }` }>

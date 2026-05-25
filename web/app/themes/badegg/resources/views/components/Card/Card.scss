@@ -47,7 +47,33 @@
   .termlist {
     position: relative;
     z-index: 2;
+    display: inline-block;
     font-size: 0.8em;
+  }
+
+  &-meta {
+    width: 100%;
+    margin: 0 0 0.75em;
+    white-space: nowrap;
+    text-overflow: "";
+    overflow: hidden;
+
+    > * {
+      display: inline-block;
+      vertical-align: middle;
+
+      &::before {
+        content: '\2022';
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0.5em;
+        opacity: 0.7;
+      }
+
+      &:first-child::before {
+        content: none;
+      }
+    }
   }
 
   &:hover {
@@ -58,7 +84,6 @@
 
   h2 {
     color: variables.$secondary-darker;
-    margin-top: 1rem;
   }
 
   &-loading {
@@ -126,14 +151,6 @@
           filter: blur(0.25em);
           background: variables.$black;
         }
-      }
-    }
-
-    &-duration {
-      &::before {
-        content: '\2022';
-        margin: 0 0.5em;
-        opacity: 0.25;
       }
     }
   }

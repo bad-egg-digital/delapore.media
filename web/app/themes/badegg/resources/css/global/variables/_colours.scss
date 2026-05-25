@@ -46,7 +46,7 @@ $secondary-darker:    color.adjust($secondary, $lightness: -20%, $space: oklch);
 $secondary-dark:      color.adjust($secondary, $lightness: -10%, $space: oklch);
 $secondary-light:     color.adjust($secondary, $lightness:  05%, $space: oklch);
 $secondary-lighter:   color.adjust($secondary, $lightness:  10%, $space: oklch);
-$secondary-lightest:  color.adjust($secondary, $lightness:  20%, $space: oklch);
+$secondary-lightest:  color.adjust($secondary, $lightness:  15%, $space: oklch);
 $secondary-offWhite:  color.adjust($secondary, $lightness:  50%, $space: oklch);
 
 //== Tertiary Tints

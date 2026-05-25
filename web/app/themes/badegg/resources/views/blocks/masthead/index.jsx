@@ -2,6 +2,7 @@
 import './style.scss'
 
 import metadata from './block.json';
+import clsx from 'clsx'
 import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import { dateI18n, getSettings } from '@wordpress/date';
@@ -97,6 +98,7 @@ registerBlockType(metadata.name, {
                   value={ titlePrefix }
                   onChange={(value) => setAttributes({ titlePrefix: value }) }
                   __next40pxDefaultSize
+                  __nextHasNoMarginBottom
                 />
               }
 
@@ -106,6 +108,8 @@ registerBlockType(metadata.name, {
                 onChange={ (newTitle) => {
                   wp.data.dispatch('core/editor').editPost({ title: newTitle });
                 }}
+                __next40pxDefaultSize
+                __nextHasNoMarginBottom
               />
 
               { !hideSubtitle &&
@@ -114,22 +118,11 @@ registerBlockType(metadata.name, {
                   value={ subtitle }
                   onChange={(value) => setAttributes({ subtitle: value }) }
                   __next40pxDefaultSize
+                  __nextHasNoMarginBottom
                 />
               }
             </PanelBody>
             <PanelBody title={ __('Controls', 'badegg') }>
-              <ToggleControl
-                label={ __('Hide Title Prefix', 'badegg') }
-                checked={ hideTitlePrefix }
-                onChange={(value) => setAttributes({ hideTitlePrefix: value }) }
-                __nextHasNoMarginBottom
-              />
-              <ToggleControl
-                label={ __('Hide Subtitle', 'badegg') }
-                checked={ hideSubtitle }
-                onChange={(value) => setAttributes({ hideSubtitle: value }) }
-                __nextHasNoMarginBottom
-              />
               <ToggleControl
                 label={ `Hide ${ taxonomyLabel }` }
                 checked={ hideTerms }
@@ -137,9 +130,21 @@ registerBlockType(metadata.name, {
                 __nextHasNoMarginBottom
               />
               <ToggleControl
+                label={ __('Hide Prefix', 'badegg') }
+                checked={ hideTitlePrefix }
+                onChange={(value) => setAttributes({ hideTitlePrefix: value }) }
+                __nextHasNoMarginBottom
+              />
+              <ToggleControl
                 label={ __('Hide Date', 'badegg') }
                 checked={ hideDate }
                 onChange={(value) => setAttributes({ hideDate: value }) }
+                __nextHasNoMarginBottom
+              />
+              <ToggleControl
+                label={ __('Hide Subtitle', 'badegg') }
+                checked={ hideSubtitle }
+                onChange={(value) => setAttributes({ hideSubtitle: value }) }
                 __nextHasNoMarginBottom
               />
             </PanelBody>
@@ -176,11 +181,18 @@ registerBlockType(metadata.name, {
 
         { (!hideTerms || !hideDate || !hideTitlePrefix) &&
           <div className="masthead-meta">
-            { !hideTerms &&
+            { !hideTerms && selectedTerms.length > 0 &&
               <div className="termlist masthead-terms">
                 <ul className="nolist">
                   { allTerms?.filter((term) => selectedTerms.includes(term.id)).map((term) =>
-                    <li key={ term.id } className={ `category-${ term.slug }` }><a href="#">{ term.name }</a></li>
+                    <li
+                      key={ term.id }
+                      className={ clsx(
+                        'termlist-term-' + term.slug,
+                      ) }
+                    >
+                      <a href="#">{ term.name }</a>
+                    </li>
                   )}
                 </ul>
               </div>
@@ -220,7 +232,7 @@ registerBlockType(metadata.name, {
             tagName="p"
             className="masthead-subtitle"
             value={ subtitle }
-            placeholder="Enter the post title..."
+            placeholder="Enter the subtitle..."
             onChange={(value) => setAttributes({ subtitle: value }) }
           />
         }

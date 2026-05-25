@@ -1,9 +1,11 @@
 import './style.scss'
-import { useEffect, useState } from 'react'
+import { AppContext } from '@views/layouts/AppContext'
+import { useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import TermList from '@views/components/TermList/TermList'
 
 export default function Masthead( props ) {
+  const { appContext: { postTypes } } = useContext( AppContext )
   const { post, postType, attributes } = props
   const [ title, setTitle ] = useState('')
   const [ date, setDate ] = useState('')
@@ -28,20 +30,23 @@ export default function Masthead( props ) {
 
   }, [ post, postType ])
 
+  const primaryTaxonomy = postTypes.find( type => type.name === postType?.name)?.primaryTaxonomy?.graphqlSingleName
+
   return (
     <div className="wp-block-badegg-masthead">
       { (!hideTerms || !hideDate || !hideTitlePrefix) &&
         <div className="masthead-meta">
 
-          { !hideTerms && (
+          { !hideTerms && terms.length > 0 && (
             <TermList
               className="masthead-terms"
               items={ terms }
+              primaryItem={ primaryTaxonomy && post?.[ primaryTaxonomy + 'PrimaryTerm' ] }
               isLoaded={ true }
             />
           )}
 
-          { !hideTitlePrefix &&
+          { !hideTitlePrefix && titlePrefix &&
             <p className="masthead-prefix">{ titlePrefix }</p>
           }
 

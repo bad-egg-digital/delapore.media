@@ -1,6 +1,7 @@
 @use "@styles/global/variables";
 @use "@views/components/TermList/TermList";
 
+.wp-block-badegg-podcast-title,
 .wp-block-badegg-masthead {
   container-name: BlockMasthead;
   container-type: inline-size;
@@ -70,8 +71,6 @@
     }
 
     @container BlockMasthead (min-width: #{variables.$screen-xs}) {
-      margin: 0;
-
       > *::before {
         content: '\2022';
       }

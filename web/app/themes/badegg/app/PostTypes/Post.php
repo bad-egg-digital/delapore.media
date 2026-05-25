@@ -8,7 +8,8 @@ class Post
     {
         add_filter( 'register_post_post_type_args', [$this, 'rewrite'], 10, 2 );
         add_filter( 'register_post_post_type_args', [$this, 'template'], 10, 2 );
-        add_filter( 'register_category_taxonomy_args', [$this, 'categoryArgs'], 10, 2 );
+        add_filter( 'register_category_taxonomy_args', [$this, 'categoryArgs'], 10 );
+        add_filter( 'register_post_tag_taxonomy_args', [$this, 'tagArgs'], 10 );
         add_filter( 'pre_post_link', [$this, 'permalink'], 10, 3);
         add_filter( 'post_type_labels_post', [$this, 'labels']);
     }
@@ -30,7 +31,7 @@ class Post
     {
         $args['rewrite']['slug'] = $this->slug();
         $args['rewrite']['with_front'] = false;
-        $args['taxonomies'] = [ 'category', 'tag' ];
+        $args['taxonomies'] = [ 'category', 'post_tag' ];
         $args['menu_icon'] = 'dashicons-align-right';
 
         return $args;
@@ -125,6 +126,16 @@ class Post
     public function categoryArgs($args)
     {
         $args['default_term'] = false;
+        $args['graphql_single_name'] = 'category';
+        $args['graphql_plural_name'] = 'categories';
+
+        return $args;
+    }
+
+    public function tagArgs($args)
+    {
+        $args['graphql_single_name'] = 'postTag';
+        $args['graphql_plural_name'] = 'postTags';
 
         return $args;
     }

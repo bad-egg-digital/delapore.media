@@ -19,6 +19,7 @@ export default function CardPodcast( props ) {
     featuredImage,
     isLoaded,
     episodeAudio,
+    taxonomy,
   } = props
 
   const className = clsx(
@@ -55,19 +56,30 @@ export default function CardPodcast( props ) {
         )}
       </header>
       <div className="card-content inner inner-small">
-        <p>
-          <time dateTime={ date }>
+        <div className="card-meta">
+
+          { terms?.nodes?.length > 0 &&
+            <TermList
+              className="card-meta-terms"
+              items={ terms?.nodes }
+              primaryItem={ taxonomy && props?.[ taxonomy?.graphqlSingleName + 'PrimaryTerm' ] }
+              limit={ 1 }
+              isLoaded={ isLoaded }
+            />
+          }
+
+          <time className="card-meta-date" dateTime={ date }>
             {
               new Date(date).toLocaleDateString(
                 'en-US',
-                { year: 'numeric', month: 'long', day: 'numeric' }
+                { year: 'numeric', month: 'short', day: 'numeric' }
               )
             }
           </time>
-          <span className="card-podcast-duration">{ episodeAudio?.length_formatted }</span>
-        </p>
+          <span className="card-meta-duration">{ episodeAudio?.length_formatted }</span>
+        </div>
 
-        <h2>{ title }</h2>
+        <h2 className="section-title">{ title }</h2>
         { excerpt && <div className="card-excerpt">{ parse(excerpt) }</div> }
       </div>
       <footer className="inner inner-small inner-unset-top">

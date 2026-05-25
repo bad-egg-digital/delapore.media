@@ -7,6 +7,7 @@ export default function TermList( props) {
   const {
     className,
     items = [],
+    primaryItem,
     postType,
     limit,
     isLoaded,
@@ -14,7 +15,17 @@ export default function TermList( props) {
    } = props
 
   const location = useLocation()
-  const itemList = (limit && items.length > 0) ? items.slice(0, limit) : items
+  let itemList = (limit && items.length > 0) ? items.slice(0, limit) : items
+
+  if(primaryItem) {
+    // https://stackoverflow.com/a/36192641/10585540
+    itemList.unshift(                               // add to the front of the array
+      itemList.splice(                              // the result of deleting items
+        itemList.findIndex(                         // starting with the index where
+          item => item.slug === primaryItem.slug),  // the slug matches
+      1)[0]                                         // and continuing for one item
+    )
+  }
 
   return (
     <div className={ `termlist ${ className || '' }` }>
@@ -46,8 +57,8 @@ export default function TermList( props) {
                   let termClass = clsx(
                     'termlist-term-' + item.slug,
                     (isActive) && `active`,
+                    (item.slug === primaryItem?.slug) && 'termlist-term-primary',
                   )
-
 
                   return (
                     <li key={ index } className={ termClass }>

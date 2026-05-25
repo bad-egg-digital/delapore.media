@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 
+import { querySingle } from '@scripts/lib/graphql-queries'
 import BlockList from '@views/components/BlockList/BlockList'
 import Error from '@views/templates/Error'
 
@@ -10,7 +11,7 @@ export default function Single({ postType }) {
   const [ post, setPost ] = useState(null)
   const [ isLoaded, setIsLoaded ] = useState(false)
 
-  const query = buildQuery(slug, postType);
+  const query = querySingle(slug, postType);
 
   useEffect(() => {
     fetch( badEggCupAPI.graphql, {
@@ -44,69 +45,3 @@ export default function Single({ postType }) {
   }
 }
 
-function buildQuery(slug, postType)
-{
-  let queryTerms = ''
-  let queryBlocks = ''
-  let queryWhere = ''
-  let podcastFields = ''
-
-  if(postType?.primaryTaxonomy) {
-    queryWhere = `(where: {taxonomies: ${ postType.primaryTaxonomy.graphqlSingleName.toUpperCase() }})`
-  }
-
-  if(postType?.name !== 'page') {
-    queryTerms = `terms${ queryWhere } {
-      nodes {
-        databaseId
-        uri
-        name
-        slug
-        taxonomyName
-        count
-      }
-    }`
-  }
-
-  if(postType?.name === 'podcast') {
-    podcastFields = `
-      episodeAudio
-      episodeContent
-    `
-  }
-
-  if(['page', 'post', 'podcast'].includes(postType?.name)) {
-    queryBlocks = `blocks {
-      index
-      name
-      attributes
-      content
-      rawContent
-      innerBlocks {
-        index
-        name
-        attributes
-        content
-        rawContent
-      }
-    }`
-  }
-
-  let query = `
-    {
-      ${ postType?.graphqlSingleName?.toLowerCase() }(id: "${ slug || '/' }", idType: URI) {
-        id
-        slug
-        title
-        excerpt
-        date
-        databaseId
-        ${ podcastFields }
-        ${ queryBlocks }
-        ${ queryTerms }
-      }
-    }
-  `;
-
-  return query;
-}

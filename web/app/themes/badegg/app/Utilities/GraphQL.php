@@ -34,7 +34,7 @@ class GraphQL
                 // foreach($products as $product) {
                     // echo '<pre>',print_r(get_post_meta($product->ID)),'</pre>';
                     // echo '<pre>',print_r(get_post_type_object('post')),'</pre>';
-                    echo '<pre>',print_r(get_taxonomy('category')),'</pre>';
+                    // echo '<pre>',print_r(get_taxonomy('category')),'</pre>';
                 // }
 
                 // echo '<pre>',print_r($postTypes),'</pre>';

@@ -29,6 +29,10 @@
       "type": "string",
       "default": ""
     },
+    "hideTerms": {
+      "type": "boolean",
+      "default": false
+    },
     "hideTitlePrefix": {
       "type": "boolean",
       "default": false

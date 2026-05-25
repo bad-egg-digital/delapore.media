@@ -2,6 +2,7 @@ import './PostGrid.scss'
 import { useEffect, useState } from 'react'
 import TermList from '@views/components/TermList/TermList'
 import Posts from '@views/components/PostGrid/Posts'
+import { queryArchive } from '@scripts/lib/graphql-queries'
 
 export default function PostGrid( props ) {
   const [ posts, setPosts ] = useState([])
@@ -13,7 +14,7 @@ export default function PostGrid( props ) {
     activeTerm,
   } = props
 
-  const query = buildQuery( props )
+  const query = queryArchive( props )
   const terms = taxonomy?.connectedTerms?.nodes
 
   useEffect(() => {
@@ -57,74 +58,4 @@ export default function PostGrid( props ) {
       </div>
     </section>
   )
-}
-
-function buildQuery({ postType, taxonomy, activeTerm })
-{
-  let queryWhere = ''
-  let termsWhere = ''
-  let podcastFields = ''
-  let productFields = ''
-
-  if(activeTerm && taxonomy?.graphqlSingleName) {
-    queryWhere = `(where: { ${ taxonomy.graphqlSingleName }Name: "${ activeTerm }" })`
-  }
-
-  if(taxonomy && taxonomy?.graphqlSingleName) {
-    termsWhere = `(where: { taxonomies: ${ taxonomy.graphqlSingleName.toUpperCase() } })`
-  }
-
-  if(postType?.name === 'podcast') {
-    podcastFields = `
-      episodeAudio
-      episodeContent
-    `
-  }
-
-  if(postType?.name === 'product') {
-    productFields = `
-      productPrice
-      productOffsiteURL
-      productCoverID
-      productOffsiteURL
-    `
-  }
-
-  let query = `
-    {
-      ${ postType.graphqlPluralName.toLowerCase() }${ queryWhere } {
-        nodes {
-          id
-          slug
-          title
-          excerpt
-          date
-          uri
-          ${ podcastFields }
-          ${ productFields }
-          featuredImage {
-            node {
-              altText
-              sourceUrl
-              srcSet
-              title
-              mediaDetails {
-                width
-                height
-              }
-            }
-          }
-          terms${ termsWhere } {
-            nodes {
-              name
-              slug
-              uri
-            }
-          }
-        }
-      }
-    }
-  `
-
-  return query
 }

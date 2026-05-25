@@ -18,6 +18,7 @@ import Footer from '@views/sections/Footer/Footer'
 import Archive from '@views/templates/Archive'
 import Single from '@views/templates/Single'
 import AudioTray from '@views/components/AudioTray/AudioTray'
+import { queryApp } from '@scripts/lib/graphql-queries'
 
 const Wrapper = ({ children }) => {
   const location = useLocation();
@@ -49,7 +50,7 @@ export default function App() {
     fetch( badEggCupAPI.graphql, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: buildQuery() }),
+      body: JSON.stringify({ query: queryApp() }),
     })
       .then(res => res.json())
       .then(res => {
@@ -142,79 +143,3 @@ export default function App() {
   )
 }
 
-function buildQuery()
-{
-  let query = `
-    {
-      badEggCup {
-        company {
-          name
-          nameLegal
-          socials {
-            icon
-            link
-            svg
-          }
-        }
-      }
-      menuItems(where: { location: PRIMARY_NAVIGATION }) {
-        nodes {
-          label
-          path
-        }
-      }
-      contentType(id: "page", idType: NAME) {
-        name
-        graphqlPluralName
-        graphqlSingleName
-      }
-      contentTypes {
-        nodes {
-          name
-          label
-          uri
-          graphqlSingleName
-          graphqlPluralName
-          pageForArchive {
-            slug
-            title
-            content
-            excerpt
-            databaseId
-            uri
-            blocks {
-              attributes
-              content
-              name
-              rawContent
-              innerBlocks {
-                index
-                name
-                attributes
-                content
-                rawContent
-              }
-            }
-          }
-          primaryTaxonomy {
-            name
-            label
-            uri
-            graphqlSingleName
-            graphqlPluralName
-            connectedTerms {
-              nodes {
-                count
-                name
-                slug
-                uri
-              }
-            }
-          }
-        }
-      }
-    }
-  `
-
-  return query;
-}

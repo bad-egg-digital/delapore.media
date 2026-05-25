@@ -1,9 +1,12 @@
 import clsx from 'clsx'
+import { AppContext } from '@views/layouts/AppContext'
+import { useContext } from 'react'
 import parse from "html-react-parser"
 import { Link } from 'react-router-dom'
 import TermList from '@views/components/TermList/TermList'
 
 export default function CardPost( props ) {
+  const { appContext: { postTypes } } = useContext( AppContext )
 
   const {
     postType,
@@ -14,6 +17,7 @@ export default function CardPost( props ) {
     uri,
     featuredImage,
     isLoaded,
+    taxonomy,
   } = props
 
   const className = clsx(
@@ -23,6 +27,8 @@ export default function CardPost( props ) {
     'bg-white',
   )
 
+
+  const primaryTaxonomy = postTypes.find( type => type.name === postType)?.primaryTaxonomy?.graphqlSingleName
   const readMore = 'Continue reading'
 
   return (
@@ -43,8 +49,16 @@ export default function CardPost( props ) {
         }
       </header>
       <div className="card-content inner inner-small">
-        <TermList items={ terms?.nodes } limit={ 2 } isLoaded={ isLoaded } />
-        <h2>{ title }</h2>
+        <div className="card-meta">
+          <TermList
+            className="card-meta-terms"
+            items={ terms?.nodes }
+            primaryItem={ primaryTaxonomy && props?.[ primaryTaxonomy + 'PrimaryTerm' ] }
+            limit={ 2 }
+            isLoaded={ isLoaded }
+          />
+        </div>
+        <h2 className="section-title">{ title }</h2>
         { excerpt && <div className="card-excerpt">{ parse(excerpt) }</div> }
       </div>
       <footer className="inner inner-small inner-unset-top">

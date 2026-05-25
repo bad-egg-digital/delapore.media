@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { AppContext } from '@views/layouts/AppContext'
 
+import { querySingle } from '@scripts/lib/graphql-queries'
 import BlockList from '@views/components/BlockList/BlockList'
 import PostGrid from '@views/components/PostGrid/PostGrid'
 import Error from '@views/templates/Error'
