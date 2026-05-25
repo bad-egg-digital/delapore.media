@@ -4,6 +4,7 @@
 @forward "global/fonts";
 @forward "global/typography";
 @forward "global/framework";
+@use "components/button";
 
 html :where(.wp-block) {
   max-width: none;

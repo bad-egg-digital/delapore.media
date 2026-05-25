@@ -37,9 +37,10 @@ import allowedBlocks from '@json/block-core-whitelist.json';
 import { containerClassNames, sectionClassNames } from '@scripts/lib/classNames';
 import BlockSettings from '@blocks/-editor/BlockSettings';
 import BackgroundImage from '@views/components/BackgroundImage/BackgroundImage';
-import ArticleTOC from '@blocks/article/ArticleTOC'
-import Delibird from '@views/components/Delibird/Delibird'
-import AudioPlay from '@views/components/AudioPlay/AudioPlay'
+import ArticleTOC from '@blocks/article/ArticleTOC';
+import ArticleProduct from '@blocks/article/ArticleProduct';
+import Delibird from '@views/components/Delibird/Delibird';
+import AudioPlay from '@views/components/AudioPlay/AudioPlay';
 
 registerBlockType(metadata.name, {
   edit({ attributes, setAttributes, clientId, context: { postId } }) {
@@ -102,6 +103,8 @@ registerBlockType(metadata.name, {
           .catch(error => console.error('Error fetching media:', error));
       }
     }, [ meta ])
+
+    console.log(coverFile);
 
     return (
       <section { ...blockProps }>
@@ -180,6 +183,45 @@ registerBlockType(metadata.name, {
                         )}
                       />
                     </MediaUploadCheck>
+
+                    <Spacer />
+
+                    <TextControl
+                      label={ __('Price', 'badegg') }
+                      value={ meta?.product_price }
+                      onChange={(value) => setMeta({
+                        ...meta,
+                        product_price: value
+                       })}
+                      __next40pxDefaultSize
+                      __nextHasNoMarginBottom
+                    />
+
+                    { meta?.product_price &&
+                      <TextControl
+                        label={ __('Discounted Price', 'badegg') }
+                        value={ meta?.product_price_discount }
+                        onChange={(value) => setMeta({
+                          ...meta,
+                          product_price_discount: value
+                        })}
+                        __next40pxDefaultSize
+                        __nextHasNoMarginBottom
+                      />
+                    }
+
+                    <TextControl
+                      label={ __('Where to buy', 'badegg') }
+                      value={ meta?.product_offsite_url }
+                      type="url"
+                      placeholder="https://..."
+                      onChange={ (value) => setMeta({
+                        ...meta,
+                        product_offsite_url: value
+                      })}
+                      __next40pxDefaultSize
+                      __nextHasNoMarginBottom
+                    />
 
                   </>
                 }
@@ -335,8 +377,14 @@ registerBlockType(metadata.name, {
                     />
                   }
 
-                  { postType === 'product' &&
-                    <h3>Product</h3>
+                  { postType === 'product' && 'source_url' in coverFile &&
+                    <ArticleProduct
+                      coverSrc={ coverFile.source_url }
+                      price={ meta?.product_price }
+                      discount={ meta?.product_price_discount }
+                      link={ meta?.product_offsite_url }
+                      editor={ true }
+                    />
                   }
 
                   { postType === 'podcast' && audioFile &&

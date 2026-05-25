@@ -21,14 +21,6 @@
         flex: 1;
       }
 
-      @container BadEggArticle (max-width: #{variables.$screen-sm-max}) {
-        &-sidebar {
-          &:not(.article-sidebar-podcast) {
-            display: none;
-          }
-        }
-      }
-
       @container BadEggArticle (min-width: #{variables.$screen-sm}) {
         &-layout { flex-wrap: nowrap; }
         &-main { flex: 1 1 auto; }
@@ -64,26 +56,20 @@
 .article-sidebar {
   display: flex;
   gap: variables.$gapMedium;
+  flex-direction: column;
   justify-content: space-between;
 
-  &-inner {
-    position: sticky;
-    top: 0;
-    z-index: 2;
-
-    @container BadEggArticle (max-width: #{variables.$screen-xs-max}) {
-      order: 2;
-    }
-  }
-
   @container BadEggArticle (min-width: #{variables.$screen-sm}) {
-    flex-direction: column;
-    justify-content: space-between;
-  }
+    &-inner {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
 
-  .delibird {
-    position: sticky;
-    bottom: 2em;
+    .delibird {
+      position: sticky;
+      bottom: 2em;
+    }
   }
 
   &-block {
@@ -107,8 +93,78 @@
       mask-image: url("@images/embellish-corner-left-top.svg");
     }
 
+    &-toc {
+      @container BadEggArticle (max-width: #{variables.$screen-xs-max}) {
+        display: none;
+      }
+
+      h3 {
+        font-size: 1.25em;
+        margin: 0 0 1em;
+        padding: 0 0 1em;
+        border: 0 solid variables.$grey-light;
+        border-width: 0 0 1px;
+      }
+
+      a {
+        display: block;
+        color: variables.$white;
+        font-weight: 700;
+        padding: 0.5em 0;
+        font-size: 1.25em;
+        line-height: 1.1;
+        font-family: variables.$displayFont;
+        font-weight: 700;
+        text-decoration: none;
+
+        &.active,
+        &:hover {
+          color: variables.$primary;
+        }
+      }
+    }
+
+    &-product,
     &-podcast {
       text-align: center;
+    }
+
+    &-product {
+      .product {
+        &-image {
+          img {
+            display: block;
+            margin: auto;
+            border-radius: variables.$borderRadiusSmall;
+            max-width: 15em;
+            width: 100%;
+          }
+        }
+
+        &-pricing {
+          font-family: variables.$displayFont;
+          font-size: 1.875em;
+          margin: 0.25em 0 0.375em;
+
+          span {
+            display: inline-block;
+          }
+
+          &-discounted {
+           .product-pricing-current {
+              opacity: 0.5;
+              transform: scale(0.8);
+            }
+          }
+        }
+
+        &-link {
+          p {
+            margin: 0.5em 0 0;
+            font-size: 0.8em;
+          }
+        }
+      }
     }
 
     .article-sidebar-switch & {

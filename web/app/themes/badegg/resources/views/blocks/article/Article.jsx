@@ -6,6 +6,7 @@ import parse, { attributesToProps } from "html-react-parser"
 import Switchboard from '@views/components/Switchboard/Switchboard'
 import Block from '@views/layouts/Block'
 import ArticleTOC from '@blocks/article/ArticleTOC'
+import ArticleProduct from '@blocks/article/ArticleProduct'
 import Delibird from '@views/components/Delibird/Delibird'
 import AudioPlay from '@views/components/AudioPlay/AudioPlay'
 import { useLocation } from 'react-router-dom'
@@ -95,6 +96,19 @@ export default function Article( props ) {
           >
             <div className="article-sidebar-inner" style={{ top: sidebarOffset + 32 }}>
 
+              { !attributes?.hideTOC &&
+                <ArticleTOC label={ attributes?.tocLabel } headings={ hTwos } />
+              }
+
+              { postType?.name === 'product' &&
+                <ArticleProduct
+                  coverFile={ post?.productCoverImage }
+                  price={ post?.productPrice }
+                  discount={ post?.productPriceDiscount }
+                  link={ post?.productOffsiteURL }
+                />
+              }
+
               { postType?.name === 'podcast' && post?.episodeAudio &&
                 <div className={ clsx(
                   'article-sidebar-block',
@@ -109,10 +123,6 @@ export default function Article( props ) {
                     postDate={ post.date }
                   />
                 </div>
-              }
-
-              { !attributes?.hideTOC &&
-                <ArticleTOC label={ attributes?.tocLabel } headings={ hTwos } />
               }
 
             </div>

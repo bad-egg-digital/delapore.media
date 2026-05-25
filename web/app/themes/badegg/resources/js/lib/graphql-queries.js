@@ -4,6 +4,7 @@ export function querySingle( slug, postType, )
   let queryBlocks = ''
   let queryWhere = ''
   let podcastFields = ''
+  let productFields = ''
   let primaryTerm = ''
 
   if(postType?.primaryTaxonomy) {
@@ -29,6 +30,16 @@ export function querySingle( slug, postType, )
         count
       }
     }`
+  }
+
+  if(postType?.name === 'product') {
+    productFields = `
+      productCoverImage
+      productCoverID
+      productPrice
+      productPriceDiscount
+      productOffsiteURL
+    `
   }
 
   if(postType?.name === 'podcast') {
@@ -64,6 +75,7 @@ export function querySingle( slug, postType, )
         excerpt
         date
         databaseId
+        ${ productFields }
         ${ podcastFields }
         ${ queryBlocks }
         ${ primaryTerm }
@@ -105,9 +117,10 @@ export function queryArchive({ postType, taxonomy, activeTerm })
 
   if(postType?.name === 'product') {
     productFields = `
-      productPrice
-      productOffsiteURL
+      productCoverImage
       productCoverID
+      productPrice
+      productPriceDiscount
       productOffsiteURL
     `
   }

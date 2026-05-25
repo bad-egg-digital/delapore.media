@@ -386,6 +386,31 @@ class GraphQL
                 'resolve' => fn( $post ) => get_post_meta( $post->databaseId, 'product_' . $props['meta'], true ) ?: null,
             ]);
         }
+
+        register_graphql_field( 'Product', 'productCoverImage', [
+            'type' => 'JSON',
+            'resolve' => function( $content_type ) {
+                $coverID = get_post_meta($content_type->databaseId, 'product_cover_id', true);
+
+                if($coverID) {
+                    $coverImage = wp_get_attachment_image($coverID, 'full');
+
+                    return [
+                        'alt' => get_post_meta($coverID, '_wp_attachment_image_alt', true),
+                        'title' => get_post_field('post_title', $coverID),
+                        'caption' => get_post_field('post_excerpt', $coverID),
+                        'description' => get_post_field('post_content', $coverID),
+                        'srcSet' => wp_get_attachment_image_srcset($coverID, 'full'),
+                        'src' => wp_get_attachment_image_src($coverID, 'medium'),
+                        'width' => $coverImage[1],
+                        'height' => $coverImage[2],
+                    ];
+
+                } else {
+                    return null;
+                }
+            },
+        ]);
     }
 
     public function autodescription()
