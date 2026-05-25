@@ -30,6 +30,7 @@ class Post
     {
         $args['rewrite']['slug'] = $this->slug();
         $args['rewrite']['with_front'] = false;
+        $args['taxonomies'] = [ 'category', 'tag' ];
         $args['menu_icon'] = 'dashicons-align-right';
 
         return $args;

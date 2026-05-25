@@ -4,6 +4,7 @@ namespace App\Utilities;
 use BadEggCup\Tools;
 use BadEggCup\Data;
 use WPGraphQL\Model\Taxonomy;
+use WPGraphQL\Model\Term;
 
 class GraphQL
 {
@@ -21,9 +22,20 @@ class GraphQL
             add_action( 'graphql_register_types', [$this, 'badeggcup']);
             add_action( 'graphql_register_types', [$this, 'podcast']);
             add_action( 'graphql_register_types', [$this, 'product']);
+            add_action( 'graphql_register_types', [$this, 'autodescription']);
 
             add_action('admin_footer', function(){
                 echo '<div style="margin-left: 200px">';
+
+                $products = get_posts([
+                    'post_type' => 'product',
+                ]);
+
+                // foreach($products as $product) {
+                    // echo '<pre>',print_r(get_post_meta($product->ID)),'</pre>';
+                    // echo '<pre>',print_r(get_post_type_object('post')),'</pre>';
+                    echo '<pre>',print_r(get_taxonomy('category')),'</pre>';
+                // }
 
                 // echo '<pre>',print_r($postTypes),'</pre>';
 
@@ -373,6 +385,45 @@ class GraphQL
                 'type' => $props['type'],
                 'resolve' => fn( $post ) => get_post_meta( $post->databaseId, 'product_' . $props['meta'], true ) ?: null,
             ]);
+        }
+    }
+
+    public function autodescription()
+    {
+        $postTypes = get_post_types([
+            'show_in_graphql' => true,
+            'taxonomies' => true,
+        ], 'objects');
+
+        foreach($postTypes as $postType => $props) {
+            $taxonomies = @$props->taxonomies;
+            $postTypeSingular = @$props->graphql_single_name;
+
+            foreach($taxonomies as $taxonomyName) {
+                $taxonomy = get_taxonomy($taxonomyName);
+                $taxonomySingular = @$taxonomy->graphql_single_name ?: $taxonomyName;
+                $taxonomySingularLabel = @$taxonomy->labels->singular_name ?: ucfirst($taxonomyName);
+
+                register_graphql_field($props->graphql_single_name, $taxonomySingular . 'PrimaryTerm', [
+                    'type'    => 'TermNode',
+                    'resolve' => function( $content_type ) use($taxonomyName) {
+                        $primaryTermID = get_post_meta($content_type->databaseId, '_primary_term_' . $taxonomyName, true);
+                        $primaryTerm = ($primaryTermID) ? get_term($primaryTermID) : null;
+
+                        if($primaryTerm) {
+                            return new Term($primaryTerm);
+                        } else {
+                            $postTerms = wp_get_post_terms($content_type->databaseId, $taxonomyName);
+
+                            if($postTerms && count($postTerms) > 0) {
+                                return new Term($postTerms[0]);
+                            }
+                        }
+
+                        return null;
+                    },
+                ]);
+            }
         }
     }
 }
