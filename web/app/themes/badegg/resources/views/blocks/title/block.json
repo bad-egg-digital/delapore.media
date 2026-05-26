@@ -22,10 +22,6 @@
       "type": "boolean",
       "default": false
     },
-    "enableSubtitle": {
-      "type": "boolean",
-      "default": false
-    },
     "subtitle": {
       "type": "string"
     }

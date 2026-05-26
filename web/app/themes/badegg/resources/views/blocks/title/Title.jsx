@@ -6,21 +6,15 @@ import Delibird from '@views/components/Delibird/Delibird';
 
 export default function Title( props ) {
   const { post, postType, attributes } = props
-  const { subtitle, enabledSubtitle, hideDelibird } = attributes
-  const [ title, setTitle ] = useState('')
-  const [ excerpt, setExcerpt ] = useState('')
-
-  useEffect(() => {
-    setTitle( post.title )
-    setExcerpt( post.excerpt )
-  }, [ post ])
+  const { subtitle, hideDelibird } = attributes
+  const { title, excerpt } = post
 
   return (
     <Block className="wp-block-badegg-title" attributes={ attributes }>
       <div className={ `wp-block-badegg-title-layout ${ (!hideDelibird) ? 'has-delibird' : null }` }>
         <div className="wp-block-badegg-title-text">
           <h1>{ title }</h1>
-          { enabledSubtitle && subtitle &&
+          { subtitle &&
             <p className="wp-block-badegg-title-subtitle">{ subtitle }</p>
           }
 

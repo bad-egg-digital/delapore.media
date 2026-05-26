@@ -45,7 +45,6 @@ registerBlockType(metadata.name, {
     const {
       alignment,
       hideDelibird,
-      enableSubtitle,
       subtitle,
     } = attributes;
 
@@ -69,14 +68,12 @@ registerBlockType(metadata.name, {
                 __nextHasNoMarginBottom
               />
 
-              { enableSubtitle &&
-                <TextareaControl
-                  label={ __('Subtitle', 'badegg') }
-                  value={ subtitle }
-                  onChange={(value) => setAttributes({ subtitle: value }) }
-                  __nextHasNoMarginBottom
-                />
-              }
+              <TextareaControl
+                label={ __('Subtitle', 'badegg') }
+                value={ subtitle }
+                onChange={(value) => setAttributes({ subtitle: value }) }
+                __nextHasNoMarginBottom
+              />
 
               <TextareaControl
                 label={ __('Excerpt', 'badegg') }
@@ -89,12 +86,6 @@ registerBlockType(metadata.name, {
 
             </PanelBody>
             <PanelBody title={ __("Controls", "badegg") }>
-              <ToggleControl
-                label={ __('Enable Subtitle', 'badegg') }
-                checked={ enableSubtitle }
-                onChange={(value) => setAttributes({ enableSubtitle: value }) }
-                __nextHasNoMarginBottom
-              />
               <ToggleControl
                 label={ __('Hide Delibird', 'badegg') }
                 checked={ hideDelibird }
@@ -123,15 +114,13 @@ registerBlockType(metadata.name, {
                 }}
               />
 
-              { enableSubtitle &&
-                <RichText
-                  tagName="p"
-                  className="wp-block-badegg-title-subtitle"
-                  value={ subtitle }
-                  placeholder={ __('Enter the subtitle', 'badegg') }
-                  onChange={ (newSubtitle) =>  setAttributes({ subtitle: newSubtitle }) }
-                />
-              }
+              <RichText
+                tagName="p"
+                className="wp-block-badegg-title-subtitle"
+                value={ subtitle }
+                placeholder={ __('Enter the subtitle', 'badegg') }
+                onChange={ (newSubtitle) =>  setAttributes({ subtitle: newSubtitle }) }
+              />
 
               <div className="wp-block-badegg-title-excerpt">
                 <RichText
