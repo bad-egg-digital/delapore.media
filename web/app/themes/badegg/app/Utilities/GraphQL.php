@@ -255,18 +255,6 @@ class GraphQL
                 'type'    => ['list_of' => 'Block'],
                 'resolve' => $resolver,
             ]);
-
-            $fields = [
-                'titlePrefix' => 'String',
-                'subtitle' => 'String',
-            ];
-
-            foreach($fields as $field => $type) {
-                register_graphql_field($props->graphql_single_name, $field, [
-                    'type'    => $type,
-                    'resolve' => fn($post) => get_post_meta($post->databaseId, $field, true) ?: null,
-                ]);
-            }
         }
     }
 
