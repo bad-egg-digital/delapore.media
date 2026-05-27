@@ -59,6 +59,7 @@ export default function App() {
           company: res?.data?.badEggCup?.company,
           menuPrimaryData: res?.data?.menuItems?.nodes,
           postTypes: res?.data?.contentTypes?.nodes,
+          pageForPosts: res?.data?.readingSettings?.pageForPosts,
         }));
 
         setPageType(res?.data?.contentType)
@@ -107,7 +108,7 @@ export default function App() {
                                   { archive && (
                                     <>
                                       <Route path={ `/${archive.slug}/` } element={
-                                        <Archive key={ `route-${ postType }` } postType={ postType } archivePage={ archive } taxonomy={ taxonomy } />
+                                        <Archive key={ `route-${ postType }` } postType={ postType } pageID={ archive?.databaseId } taxonomy={ taxonomy } />
                                       } />
                                     </>
                                   ) }
@@ -115,7 +116,7 @@ export default function App() {
                                   { taxonomy && (
                                     <>
                                       <Route path={ `${ taxonomy.uri }/:term` } element={
-                                        <Archive key={ `route-${ postType }` } postType={ postType } archivePage={ archive } taxonomy={ taxonomy } />
+                                        <Archive key={ `route-${ postType }` } postType={ postType } pageID={ archive?.databaseId } taxonomy={ taxonomy } />
                                       } />
                                     </>
                                   ) }

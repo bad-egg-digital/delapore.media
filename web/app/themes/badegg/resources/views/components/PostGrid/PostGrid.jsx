@@ -1,10 +1,13 @@
 import './PostGrid.scss'
 import { useEffect, useState } from 'react'
+import { AppContext } from '@views/layouts/AppContext'
+import { useContext } from 'react'
 import TermList from '@views/components/TermList/TermList'
 import Posts from '@views/components/PostGrid/Posts'
 import { queryArchive } from '@scripts/lib/graphql-queries'
 
 export default function PostGrid( props ) {
+  const { appContext: { postTypes } } = useContext( AppContext )
   const [ posts, setPosts ] = useState([])
   const [ isLoaded, setIsLoaded ] = useState(false)
 
@@ -16,12 +19,11 @@ export default function PostGrid( props ) {
 
   const query = queryArchive( props )
   const terms = taxonomy?.connectedTerms?.nodes
+  const primaryTaxonomy = postTypes.find( type => type.name === postType?.name)?.primaryTaxonomy?.graphqlSingleName || ''
 
   useEffect(() => {
     setPosts([])
-  }, [ location.pathname ])
 
-  useEffect(() => {
     fetch( badEggCupAPI.graphql, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -39,7 +41,7 @@ export default function PostGrid( props ) {
       <div className="container container-large">
 
         <TermList
-          key={ taxonomy?.name }
+          key={ primaryTaxonomy }
           className="termlist-archive"
           items={ terms }
           postType={ postType }
@@ -51,6 +53,7 @@ export default function PostGrid( props ) {
           key={ postType?.name + activeTerm }
           posts={ posts }
           postType={ postType }
+          primaryTaxonomy={ primaryTaxonomy }
           isLoaded={ isLoaded }
           showLoading={ true }
         />

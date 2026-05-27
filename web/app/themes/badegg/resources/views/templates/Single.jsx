@@ -11,9 +11,12 @@ export default function Single({ postType }) {
   const [ post, setPost ] = useState(null)
   const [ isLoaded, setIsLoaded ] = useState(false)
 
-  const query = querySingle(slug, postType);
+  const query = querySingle({ slug: slug, postType: postType});
 
   useEffect(() => {
+    setIsLoaded(false)
+    setPost({})
+
     fetch( badEggCupAPI.graphql, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

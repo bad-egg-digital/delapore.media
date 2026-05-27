@@ -5,6 +5,7 @@ export default function Posts( props ) {
   const {
     posts,
     postType,
+    primaryTaxonomy,
     isLoaded,
     showLoading = false,
   } = props
@@ -27,6 +28,7 @@ export default function Posts( props ) {
               <Card
                 key={ `${ postType?.name }-${ index }` }
                 postType={ postType?.name }
+                primaryTaxonomy={ primaryTaxonomy }
                 isLoaded={ isLoaded }
                 { ...post }
               />

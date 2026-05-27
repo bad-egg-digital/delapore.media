@@ -1,11 +1,16 @@
-export function querySingle( slug, postType, )
+export function querySingle({ id = 0, slug, postType })
 {
+  let pageWhere = `id: "${ slug || '/' }", idType: URI`
   let queryTerms = ''
   let queryBlocks = ''
   let queryWhere = ''
   let podcastFields = ''
   let productFields = ''
   let primaryTerm = ''
+
+  if(id) {
+    pageWhere = `id: "${ id }", idType: DATABASE_ID`
+  }
 
   if(postType?.primaryTaxonomy) {
     let primaryTaxonomy =  (postType?.name === 'post') ? 'category' : postType?.primaryTaxonomy?.graphqlSingleName
@@ -49,26 +54,9 @@ export function querySingle( slug, postType, )
     `
   }
 
-  if(['page', 'post', 'podcast'].includes(postType?.name)) {
-    queryBlocks = `blocks {
-      index
-      name
-      attributes
-      content
-      rawContent
-      innerBlocks {
-        index
-        name
-        attributes
-        content
-        rawContent
-      }
-    }`
-  }
-
   let query = `
     {
-      ${ postType?.graphqlSingleName?.toLowerCase() }(id: "${ slug || '/' }", idType: URI) {
+      ${ postType?.graphqlSingleName?.toLowerCase() }(${ pageWhere }) {
         id
         slug
         titlePrefix
@@ -79,7 +67,20 @@ export function querySingle( slug, postType, )
         databaseId
         ${ productFields }
         ${ podcastFields }
-        ${ queryBlocks }
+        blocks {
+          index
+          name
+          attributes
+          content
+          rawContent
+          innerBlocks {
+            index
+            name
+            attributes
+            content
+            rawContent
+          }
+        }
         ${ primaryTerm }
         ${ queryTerms }
       }
@@ -204,26 +205,7 @@ export function queryApp()
           graphqlPluralName
           pageForArchive {
             slug
-            titlePrefix
-            title
-            subtitle
-            content
-            excerpt
             databaseId
-            uri
-            blocks {
-              attributes
-              content
-              name
-              rawContent
-              innerBlocks {
-                index
-                name
-                attributes
-                content
-                rawContent
-              }
-            }
           }
           primaryTaxonomy {
             name

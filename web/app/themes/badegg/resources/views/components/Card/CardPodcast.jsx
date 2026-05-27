@@ -20,6 +20,7 @@ export default function CardPodcast( props ) {
     isLoaded,
     episodeAudio,
     taxonomy,
+    primaryTaxonomy,
   } = props
 
   const className = clsx(
@@ -62,7 +63,7 @@ export default function CardPodcast( props ) {
             <TermList
               className="card-terms"
               items={ terms?.nodes }
-              primaryItem={ taxonomy && props?.[ taxonomy?.graphqlSingleName + 'PrimaryTerm' ] }
+              primaryItem={ primaryTaxonomy && props?.[ primaryTaxonomy + 'PrimaryTerm' ] }
               limit={ 1 }
               isLoaded={ isLoaded }
             />
