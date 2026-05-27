@@ -1,0 +1,17 @@
+.transitions {
+  &-page {
+    opacity: 0;
+    transform: translate3d(-2em, -1em, 0) scale(0.9);
+    transform-origin: top left;
+    transition: all 300ms ease;
+
+    &-exit {
+      transform: translate3d(2em, 1em, 0) scale(1.2);
+    }
+
+    &-enter-done {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
