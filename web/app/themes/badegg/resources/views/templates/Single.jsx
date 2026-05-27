@@ -1,22 +1,25 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { CSSTransition } from 'react-transition-group';
+import { AppContext } from '@views/layouts/AppContext'
 
 import { querySingle } from '@scripts/lib/graphql-queries'
 import BlockList from '@views/components/BlockList/BlockList'
 import Error from '@views/templates/Error'
 
 export default function Single({ postType }) {
-  const nodeRef = useRef(null);
   const { slug } = useParams()
   const [ post, setPost ] = useState({})
-  const [ isLoaded, setIsLoaded ] = useState(false)
-
+  const { appContext, setAppContext } = useContext( AppContext )
+  const { pageLoaded } = appContext
   const query = querySingle({ slug: slug, postType: postType});
 
   useEffect(() => {
-    setIsLoaded(false)
+    setAppContext(prevState => ({
+      ...prevState,
+      pageLoaded: false,
+    }))
 
     fetch( badEggCupAPI.graphql, {
       method: 'POST',
@@ -26,7 +29,12 @@ export default function Single({ postType }) {
       .then(res => res.json())
       .then(res => {
         setPost(res?.data?.[postType?.name] || {})
-        setIsLoaded(true)
+
+        setAppContext(prevState => ({
+          ...prevState,
+          pageLoaded: true,
+        }))
+
       })
       .catch( error => {
         console.error('Error fetching page:', error)
@@ -44,17 +52,7 @@ export default function Single({ postType }) {
         <meta property="og:description" content="Dynamic page content" />
       </Helmet>
 
-      <CSSTransition
-        nodeRef={ nodeRef }
-        in={ isLoaded }
-        timeout={ 300 }
-        classNames="transitions-page"
-        // unmountOnExit={ true }
-      >
-        <div className="transitions-page" ref={ nodeRef }>
-          <BlockList key={ post?.databaseId } id={ post?.databaseId } postType={ postType } post={ post } />
-        </div>
-      </CSSTransition>
+      <BlockList key={ post?.databaseId } id={ post?.databaseId } postType={ postType } post={ post } />
     </>
   )
 }

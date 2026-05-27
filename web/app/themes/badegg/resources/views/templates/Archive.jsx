@@ -1,8 +1,7 @@
 import { AppContext } from '@views/layouts/AppContext'
-import { useEffect, useState, useContext, useRef } from 'react'
+import { useEffect, useState, useContext, appContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
-import { CSSTransition } from 'react-transition-group';
 
 import { querySingle } from '@scripts/lib/graphql-queries'
 import BlockList from '@views/components/BlockList/BlockList'
@@ -10,8 +9,6 @@ import PostGrid from '@views/components/PostGrid/PostGrid'
 import Error from '@views/templates/Error'
 
 export default function Archive( props ) {
-  const nodeRef = useRef(null);
-
   const {
     postType = 'post',
     pageID,
@@ -19,10 +16,10 @@ export default function Archive( props ) {
   } = props
 
   const { term } = useParams()
-  const { appContext = {} } = useContext( AppContext )
-  const pageType = appContext?.postTypes.find( type => type.name === 'page') || {}
+  const { appContext, setAppContext } = useContext( AppContext )
+  const { pageLoaded, postTypes } = appContext
+  const pageType = postTypes.find( type => type.name === 'page') || {}
   const [ archivePage, setArchivePage ] = useState({})
-  const [ isLoaded, setIsLoaded ] = useState(false)
 
   const query = querySingle({
     id: pageID,
@@ -30,7 +27,10 @@ export default function Archive( props ) {
   })
 
   useEffect(() => {
-    setIsLoaded(false)
+    setAppContext(prevState => ({
+      ...prevState,
+      pageLoaded: false,
+    }))
 
     fetch( badEggCupAPI.graphql, {
       method: 'POST',
@@ -40,7 +40,11 @@ export default function Archive( props ) {
       .then(res => res.json())
       .then(res => {
         setArchivePage(res?.data?.page || {})
-        setIsLoaded(true)
+
+        setAppContext(prevState => ({
+          ...prevState,
+          pageLoaded: true,
+        }))
       })
       .catch( error => {
         console.error('Error fetching page:', error)
@@ -58,21 +62,16 @@ export default function Archive( props ) {
         <meta property="og:description" content="Dynamic page content" />
       </Helmet>
 
-      <CSSTransition
-        nodeRef={ nodeRef }
-        in={ isLoaded }
-        timeout={ 300 }
-        classNames="transitions-page"
-        // unmountOnExit={ true }
-      >
-        <div className="transitions-page" ref={ nodeRef }>
-          <BlockList key={ pageID } id={ pageID } postType={ pageType } post={ archivePage } />
+      <BlockList key={ pageID } id={ pageID } postType={ pageType } post={ archivePage } />
+
+      { pageLoaded &&
+        <>
 
           <div className="badegg-block-list">
             <PostGrid key={ postType?.name + taxonomy?.name } postType={ postType } taxonomy={ taxonomy } activeTerm={ term }  />
           </div>
-        </div>
-      </CSSTransition>
+        </>
+      }
     </>
   )
 }
