@@ -34,6 +34,10 @@ export default function PostGrid( props ) {
         setPosts(res?.data?.[postType?.graphqlPluralName.toLowerCase()]?.nodes)
         setIsLoaded(true)
       })
+      .catch( error => {
+        console.error('Error fetching posts:', error)
+        console.log(query)
+      })
   }, [ postType, location.pathname ])
 
   return (

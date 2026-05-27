@@ -27,6 +27,10 @@ export default function Single({ postType }) {
         setPost(res?.data?.[postType?.name])
         setIsLoaded(true)
       })
+      .catch( error => {
+        console.error('Error fetching page:', error)
+        console.log(query)
+      })
   }, [ slug, postType ])
 
   if( isLoaded && post ) {
@@ -44,7 +48,12 @@ export default function Single({ postType }) {
       </>
     )
   } else if (isLoaded) {
-    return <Error />
+    return (
+      <Error
+        title="Page not found"
+        description="There was a page here but that is no longer the case."
+      />
+    )
   }
 }
 

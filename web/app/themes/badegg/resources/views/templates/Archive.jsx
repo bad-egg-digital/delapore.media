@@ -43,13 +43,6 @@ export default function Archive( props ) {
       .catch( error => {
         console.error('Error fetching page:', error)
         console.log(query)
-
-        return (
-          <Error
-            title="Archive not found"
-            description="There was a page here but that is no longer the case."
-          />
-        )
       })
   }, [ pageID, postType ])
 
@@ -72,6 +65,12 @@ export default function Archive( props ) {
         </div>
       </>
     )
+  } else if(isLoaded) {
+    return (
+      <Error
+        title="Archive not found"
+        description="There was a page here but that is no longer the case."
+      />
+    )
   }
 }
-

@@ -19,6 +19,7 @@ import Archive from '@views/templates/Archive'
 import Single from '@views/templates/Single'
 import AudioTray from '@views/components/AudioTray/AudioTray'
 import { queryApp } from '@scripts/lib/graphql-queries'
+import Error from '@views/templates/Error'
 
 const Wrapper = ({ children }) => {
   const location = useLocation();
@@ -50,7 +51,7 @@ export default function App() {
     fetch( badEggCupAPI.graphql, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: queryApp() }),
+      body: JSON.stringify({ query: queryApp }),
     })
       .then(res => res.json())
       .then(res => {
@@ -65,11 +66,15 @@ export default function App() {
         setPageType(res?.data?.contentType)
         setIsLoaded(true);
       })
+      .catch( error => {
+        console.error('Error fetching app data:', error)
+        console.log(queryApp)
+      })
   }, [])
 
   return (
     <HelmetProvider>
-      { isLoaded && (
+      { isLoaded ? (
         <>
           <Helmet>
             {/* <title>{ companyName }</title>
@@ -136,8 +141,14 @@ export default function App() {
             <AudioTray />
 
           </Router>
-          </>
-        )}
+        </>
+      ) : (
+        <Error
+          code="400"
+          title="Connection Lost"
+          description="Please reload when you find it."
+        />
+      )}
 
       <BgTexture className="global fixed" />
     </HelmetProvider>

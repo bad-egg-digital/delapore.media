@@ -170,62 +170,56 @@ export function queryArchive({ postType, taxonomy, activeTerm })
   return query
 }
 
-export function queryApp()
+export const queryApp = `
 {
-  let query = `
-    {
-      badEggCup {
-        company {
-          name
-          nameLegal
-          socials {
-            icon
-            link
-            svg
-          }
-        }
+  badEggCup {
+    company {
+      name
+      nameLegal
+      socials {
+        icon
+        link
+        svg
       }
-      menuItems(where: { location: PRIMARY_NAVIGATION }) {
-        nodes {
-          label
-          path
-        }
+    }
+  }
+  menuItems(where: { location: PRIMARY_NAVIGATION }) {
+    nodes {
+      label
+      path
+    }
+  }
+  contentType(id: "page", idType: NAME) {
+    name
+    graphqlPluralName
+    graphqlSingleName
+  }
+  contentTypes {
+    nodes {
+      name
+      label
+      uri
+      graphqlSingleName
+      graphqlPluralName
+      pageForArchive {
+        slug
+        databaseId
       }
-      contentType(id: "page", idType: NAME) {
+      primaryTaxonomy {
         name
-        graphqlPluralName
+        label
+        uri
         graphqlSingleName
-      }
-      contentTypes {
-        nodes {
-          name
-          label
-          uri
-          graphqlSingleName
-          graphqlPluralName
-          pageForArchive {
-            slug
-            databaseId
-          }
-          primaryTaxonomy {
+        graphqlPluralName
+        connectedTerms {
+          nodes {
+            count
             name
-            label
+            slug
             uri
-            graphqlSingleName
-            graphqlPluralName
-            connectedTerms {
-              nodes {
-                count
-                name
-                slug
-                uri
-              }
-            }
           }
         }
       }
     }
-  `
-
-  return query;
-}
+  }
+}`;
