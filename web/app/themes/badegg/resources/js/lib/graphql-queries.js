@@ -176,6 +176,8 @@ export const queryApp = `
     company {
       name
       nameLegal
+      tel
+      email
       socials {
         icon
         link

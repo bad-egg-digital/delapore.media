@@ -1,0 +1,53 @@
+{
+  "apiVersion": 3,
+  "name": "badegg/contact-platform",
+  "title": "Platform",
+  "category": "text",
+  "icon": {
+    "src": "welcome-widgets-menus",
+    "foreground": "#f58762"
+  },
+  "description": "Display the page or post excerpt.",
+  "keywords": [ "contact", "platform", "logo" ],
+  "parent": [ "badegg/contact-methods" ],
+  "supports": {
+    "html": true,
+    "multiple": true,
+    "color": {
+      "background": false,
+      "text": false
+    }
+  },
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": ""
+    },
+    "description": {
+      "type": "string",
+      "default": ""
+    },
+    "platformLink": {
+      "type": "string",
+      "default": ""
+    },
+    "logo": {
+      "type": "number",
+      "default": 0
+    },
+    "logo_url": {
+      "type": "string",
+      "default": ""
+    },
+    "logo_width": {
+      "type": "number"
+    },
+    "logo_height": {
+      "type": "number"
+    },
+    "logo_alt": {
+      "type": "string",
+      "default": ""
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "apiVersion": 3,
+  "name": "badegg/contact-socials",
+  "title": "Social Media",
+  "category": "text",
+  "icon": {
+    "src": "share",
+    "foreground": "#f58762"
+  },
+  "description": "Links to social networks",
+  "keywords": [ "contact", "socials", "social", "channels" ],
+  "parent": [ "badegg/contact-methods" ],
+  "supports": {
+    "html": true,
+    "multiple": true,
+    "color": {
+      "background": false,
+      "text": false
+    }
+  },
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": ""
+    },
+    "description": {
+      "type": "string",
+      "default": ""
+    }
+  }
+}

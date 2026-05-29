@@ -1,0 +1,21 @@
+{
+  "apiVersion": 3,
+  "name": "badegg/contact-methods",
+  "title": "Contact Methods",
+  "category": "badegg",
+  "icon": {
+    "src": "email-alt2",
+    "foreground": "#f58762"
+  },
+  "description": "Display the page title and intro.",
+  "keywords": [ "contact" ],
+  "supports": {
+    "html": true,
+    "multiple": false,
+    "draggable": false,
+    "color": {
+      "background": false,
+      "text": false
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "apiVersion": 3,
+  "name": "badegg/contact-delibird",
+  "title": "Delibird",
+  "category": "text",
+  "icon": {
+    "src": "format-status",
+    "foreground": "#f58762"
+  },
+  "description": "Delibird",
+  "keywords": [ "contact", "delibird", "delapore" ],
+  "parent": [ "badegg/contact-methods" ],
+  "supports": {
+    "html": true,
+    "multiple": false,
+    "color": {
+      "background": false,
+      "text": false
+    }
+  }
+}

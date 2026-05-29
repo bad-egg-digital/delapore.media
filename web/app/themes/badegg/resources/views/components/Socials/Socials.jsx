@@ -3,10 +3,10 @@ import { AppContext } from '@views/layouts/AppContext'
 import { useContext } from 'react'
 import parse from "html-react-parser"
 
-export default function MenuSide() {
+export default function Socials( items ) {
   const { appContext, setAppContext } = useContext( AppContext )
 
-  if(appContext?.company?.socials) {
+  if(items) {
     return (
       <ul className="socials nolist">
         { appContext.company.socials.map((item, index) => {

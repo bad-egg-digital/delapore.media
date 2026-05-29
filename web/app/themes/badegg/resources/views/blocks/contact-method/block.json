@@ -1,0 +1,35 @@
+{
+  "apiVersion": 3,
+  "name": "badegg/contact-method",
+  "title": "Contact Method",
+  "category": "text",
+  "icon": {
+    "src": "email-alt2",
+    "foreground": "#f58762"
+  },
+  "description": "Display the page or post excerpt.",
+  "keywords": [ "contact", "email", "phone" ],
+  "parent": [ "badegg/contact-methods" ],
+  "supports": {
+    "html": true,
+    "multiple": true,
+    "color": {
+      "background": false,
+      "text": false
+    }
+  },
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": ""
+    },
+    "description": {
+      "type": "string",
+      "default": ""
+    },
+    "method": {
+      "type": "string",
+      "default": ""
+    }
+  }
+}

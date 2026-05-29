@@ -27,6 +27,13 @@ import Fallback       from '@blocks/core/Fallback'
 // Full-width blocks
 import Article        from '@blocks/article/Article'
 import Title          from '@blocks/title/Title'
+import ContactMethods from '@blocks/contact-methods/ContactMethods'
+
+// Contact Method Blocks
+import ContactMethod   from '@blocks/contact-method/ContactMethod'
+import ContactSocials  from '@blocks/contact-socials/ContactSocials'
+import ContactPlatform from '@blocks/contact-platform/ContactPlatform'
+import ContactDelibird from '@blocks/contact-delibird/ContactDelibird'
 
 // Custom inner blocks
 import Masthead       from '@blocks/masthead/Masthead'
@@ -42,6 +49,13 @@ export default function Switchboard( props ) {
     // Full-width blocks
     case "badegg/title":              return <Title           { ...props } />
     case "badegg/article":            return <Article         { ...props } />
+    case "badegg/contact-methods":    return <ContactMethods  { ...props } />
+
+    // Contact Methods
+    case "badegg/contact-method":     return <ContactMethod   { ...props } />
+    case "badegg/contact-socials":    return <ContactSocials  { ...props } />
+    case "badegg/contact-platform":   return <ContactPlatform { ...props } />
+    case "badegg/contact-delibird":   return <ContactDelibird { ...props } />
 
     // Custom inner blocks
     case "badegg/masthead":           return <Masthead        { ...props } />

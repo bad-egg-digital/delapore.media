@@ -1,0 +1,75 @@
+@use "@styles/global/variables";
+
+.wp-block-badegg-contact-methods {
+  container-name: BlockContactMethods;
+  container-type: inline-size;
+}
+
+.contact-method {
+  &-cards,
+  &-inner .block-editor-block-list__layout {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: variables.$gap;
+
+    @container BlockContactMethods (min-width: #{variables.$screen-sm}) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @container BlockContactMethods (min-width: #{variables.$screen-md}) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @container BlockContactMethods (min-width: #{variables.$screen-lg}) {
+      gap: variables.$gapLarge;
+    }
+  }
+
+  &-delibird {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @container BlockContactMethods (min-width: #{variables.$screen-sm}) {
+      grid-row: 1 / 3;
+      grid-column: 2;
+    }
+
+    @container BlockContactMethods (min-width: #{variables.$screen-md}) {
+      grid-column: 3;
+    }
+  }
+
+  &-card {
+    backdrop-filter: blur(0.25em);
+    background: linear-gradient(-30deg, rgba(variables.$black, 0.1), rgba(variables.$white, 0.1), rgba(variables.$black, 0.1));
+    border-top-left-radius: 0;
+    border-radius: variables.$borderRadius;
+    border: 1px solid variables.$grey-lighter-a;
+
+    hr {
+      border-color: variables.$grey-lighter-a;
+      margin: 1.5em 0 1em;
+    }
+
+    .socials {
+      font-size: 2.25em;
+    }
+  }
+
+  &-single {
+    a {
+      font-family: variables.$displayFont;
+      font-weight: 700;
+      font-size: 2em;
+    }
+  }
+
+  &-platform {
+    img {
+      max-width: 15em;
+      object-fit: contain;
+      object-position: left;
+    }
+  }
+}
