@@ -61,6 +61,7 @@ export default function CardProduct( props ) {
             primaryItem={ primaryTaxonomy && props?.[ primaryTaxonomy + 'PrimaryTerm' ] }
             limit={ 1 }
             isLoaded={ isLoaded }
+            state={{ preserveScroll: true }}
           />
 
           { titlePrefix && <p className="card-title-prefix secondary-darkest">{ titlePrefix }</p> }

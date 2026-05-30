@@ -1,7 +1,7 @@
 export default function ArticleTOC({ label, headings }) {
   if(headings && headings.length > 0) {
     return (
-      <div className="article-sidebar-block article-sidebar-block-toc bg-black inner inner-small">
+      <div className="article-sidebar-block article-sidebar-block-toc card-opaque inner inner-small">
         <h3 className="section-title">{ label || 'In this article' }</h3>
         <ul className="nolist">
           { headings.map((heading, index) => {

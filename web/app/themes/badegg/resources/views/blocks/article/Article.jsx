@@ -33,7 +33,7 @@ export default function Article( props ) {
     if (!refArticleMain.current || !refArticleSidebar.current) return;
 
     const renderedH2s = refArticleMain.current.querySelectorAll('h2')
-    const renderedTOC = refArticleSidebar.current.querySelector('.article-toc')
+    const renderedTOC = refArticleSidebar.current.querySelector('.article-sidebar-block-toc')
 
     if (!renderedTOC || renderedH2s.length <= 2) return;
 
@@ -113,6 +113,7 @@ export default function Article( props ) {
                 <div className={ clsx(
                   'article-sidebar-block',
                   'article-sidebar-block-podcast',
+                  'card-opaque',
                   'inner',
                   'inner-small',
                 )}>

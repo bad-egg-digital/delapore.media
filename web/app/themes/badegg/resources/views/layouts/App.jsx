@@ -66,6 +66,7 @@ export default function App() {
           menuPrimaryData: res?.data?.menuItems?.nodes,
           postTypes: res?.data?.contentTypes?.nodes,
           pageForPosts: res?.data?.readingSettings?.pageForPosts,
+          firstPost: res?.data?.posts?.nodes?.[0],
           pageLoaded: false,
         }));
 

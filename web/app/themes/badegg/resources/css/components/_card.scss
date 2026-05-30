@@ -1,85 +1,10 @@
 @use "sass:math";
-@use "../global/variables";
+@use "@styles/global/variables";
 
-.card {
-  display: flex;
-  flex-direction: column;
-  container-name: Card;
-  container-type: inline-size;
-  position: relative;
-  margin: math.div(variables.$gap, 2);
-  flex: 0 0 calc(100% - 1em);
-  padding: 0;
-
-  &-wrap {
-    container-name: CardWrap;
-    container-type: inline-size;
-  }
-
-  &-flex {
-    display: flex;
-    flex-wrap: wrap;
-    margin: math.div(variables.$gap, 2) * -1;
-
-    @container CardWrap (min-width: #{variables.$screen-lg}) {
-      margin: math.div(variables.$gapLarge, 2) * -1;
-    }
-  }
-
-  &-header {
-    img {
-      display: block;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-    }
-  }
-
-  &-content {
-    flex: auto;
-  }
-
-  p {
-    font-size: 1em;
-
-    &.subtitle {
-      font-size: 0.8em;
-      opacity: 0.5;
-    }
-
-    @container Card (min-width: 20em) {
-      font-size: 1.125em;
-    }
-
-    @container Card (min-width: 25em) {
-      font-size: 1.25em;
-
-      &.subtitle { font-size: 1em; }
-    }
-  }
-
-  @container CardWrap (min-width: #{variables.$screen-sm}) {
-    flex: 0 0 calc(50% - variables.$gap);
-
-    &-service {
-      &:nth-child(2n) {
-        transform: translateY(variables.$gap * -1);
-      }
-    }
-  }
-
-  @container CardWrap (min-width: #{variables.$screen-md}) {
-    margin: math.div(variables.$gapLarge, 2);
-    flex: 0 0 calc(33.33% - variables.$gapLarge);
-
-    &-service {
-      &:nth-child(3n + 2) {
-        transform: translateY(variables.$gapLarge * -1);
-      }
-
-      &:nth-child(3n) {
-        transform: translateY(variables.$gapLarge * -2);
-      }
-    }
-  }
+.card-opaque  {
+  backdrop-filter: blur(0.25em);
+  background: linear-gradient(-30deg, rgba(variables.$black, 0.1), rgba(variables.$white, 0.1), rgba(variables.$black, 0.1));
+  border-top-left-radius: 0;
+  border-radius: variables.$borderRadius;
+  border: 1px solid variables.$grey-lighter-a;
 }

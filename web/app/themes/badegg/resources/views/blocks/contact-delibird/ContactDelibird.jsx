@@ -7,7 +7,7 @@ export default function ContactDelibird({ attributes }) {
    } = attributes
 
   return (
-    <div className="wp-block-contact-method contact-method-card contact-method-delibird inner inner-small">
+    <div className="wp-block-contact-method contact-method-card contact-method-delibird card-opaque inner inner-small">
       <Delibird />
     </div>
   )

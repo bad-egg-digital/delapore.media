@@ -33,7 +33,7 @@ export default function ContactPlatform({ attributes }) {
   }
 
   return (
-    <div className="wp-block-contact-method contact-method-card contact-method-platform inner inner-small">
+    <div className="wp-block-contact-method contact-method-card contact-method-platform card-opaque inner inner-small">
       <h2 className="section-title">{ heading }</h2>
       <p>{ description }</p>
       <hr/>

@@ -41,12 +41,6 @@
   }
 
   &-card {
-    backdrop-filter: blur(0.25em);
-    background: linear-gradient(-30deg, rgba(variables.$black, 0.1), rgba(variables.$white, 0.1), rgba(variables.$black, 0.1));
-    border-top-left-radius: 0;
-    border-radius: variables.$borderRadius;
-    border: 1px solid variables.$grey-lighter-a;
-
     hr {
       border-color: variables.$grey-lighter-a;
       margin: 1.5em 0 1em;

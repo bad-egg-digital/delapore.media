@@ -77,7 +77,7 @@ registerBlockType(metadata.name, {
           </Panel>
         </InspectorControls>
 
-        <div className="contact-method-card contact-method-single inner inner-small">
+        <div className="contact-method-card contact-method-single card-opaque inner inner-small">
           <RichText
             tagName="h2"
             className="section-title"

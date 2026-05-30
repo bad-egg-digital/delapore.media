@@ -10,7 +10,7 @@ registerBlockType(metadata.name, {
 
     return (
       <div { ...blockProps }>
-        <div className="contact-method-card contact-method-delibird inner inner-small">
+        <div className="contact-method-card contact-method-delibird card-opaque inner inner-small">
           <Delibird />
         </div>
       </div>

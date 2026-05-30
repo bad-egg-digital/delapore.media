@@ -389,6 +389,7 @@ registerBlockType(metadata.name, {
                     <div className={ clsx(
                       'article-sidebar-block',
                       'article-sidebar-block-podcast',
+                      'card-opaque',
                       'inner',
                       'inner-small',
                     )}>

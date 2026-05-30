@@ -66,6 +66,7 @@ export default function CardPodcast( props ) {
               primaryItem={ primaryTaxonomy && props?.[ primaryTaxonomy + 'PrimaryTerm' ] }
               limit={ 1 }
               isLoaded={ isLoaded }
+              state={{ preserveScroll: true }}
             />
           }
 

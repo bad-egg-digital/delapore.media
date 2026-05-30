@@ -11,6 +11,7 @@ export default function ArticleProduct({ coverFile, coverSrc, price, discount, l
         clsx(
           'article-sidebar-block',
           'article-sidebar-block-product',
+          'card-opaque',
           'inner',
         )
       }

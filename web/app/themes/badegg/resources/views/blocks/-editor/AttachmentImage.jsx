@@ -1,4 +1,5 @@
 import { useSelect } from '@wordpress/data';
+import clsx from 'clsx';
 
 /**
  * AttachmentImage
@@ -13,7 +14,7 @@ import { useSelect } from '@wordpress/data';
  * @param {string} props.size The size of the image to display. Defaults to 'full'.
  * @returns {*} React JSX
  */
-export default function AttachmentImage({ imageId, size = 'full' }) {
+export default function AttachmentImage({ imageId, size = 'full', className }) {
 
 	const { image } = useSelect((select) => ({
 		image: select('core').getEntityRecord('postType', 'attachment', imageId),
@@ -23,7 +24,10 @@ export default function AttachmentImage({ imageId, size = 'full' }) {
 		let attributes = {
 			src: image.source_url,
 			alt: image.alt_text,
-			className: `attachment-${size} size-${size}`,
+			className: clsx(
+        `attachment-${size} size-${size}`,
+        className,
+      ),
 			width: image.media_details.width,
 			height: image.media_details.height,
 		};
