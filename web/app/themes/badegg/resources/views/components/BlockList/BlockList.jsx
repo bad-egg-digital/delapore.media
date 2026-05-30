@@ -4,9 +4,7 @@ import Switchboard from '@views/components/Switchboard/Switchboard'
 
 export default function BlockList({ id, postType, post }) {
   const [ blocks, setBlocks ] = useState(post?.blocks || [])
-  const [ isLoaded, setIsLoaded ] = useState(false)
-
-  const endpoint = `/wp-json/wp/v2/${ postType.graphqlPluralName.toLowerCase() }/${id}/blocks`
+  const endpoint = `/wp-json/wp/v2/${ postType?.graphqlPluralName?.toLowerCase() }/${id}/blocks`
 
   useEffect( () => {
     if(id) {
@@ -17,7 +15,6 @@ export default function BlockList({ id, postType, post }) {
       })
       .then( data => {
         setBlocks( data || [] );
-        setIsLoaded( true );
       } )
       .catch((error) => {
         console.error('Error fetching blocks:', error)

@@ -14,6 +14,7 @@ import { CSSTransition } from 'react-transition-group';
 
 import { AppContext } from '@views/layouts/AppContext'
 import BgTexture from '@views/components/BgTexture/BgTexture'
+import LoadScreen from '@views/components/LoadScreen/LoadScreen'
 import MenuSide from '@views/components/MenuSide/MenuSide'
 import Header from '@views/sections/Header/Header'
 import Footer from '@views/sections/Footer/Footer'
@@ -79,92 +80,82 @@ export default function App() {
 
   return (
     <HelmetProvider>
-      { isLoaded ? (
-        <>
-          <Helmet>
-            {/* <title>{ companyName }</title>
-            <meta name="description" content="Dynamic page from WordPress" />
+      <Helmet>
+        {/* <title>{ companyName }</title>
+        <meta name="description" content="Dynamic page from WordPress" />
 
-            <meta property="og:title" content={ companyName } />
-            <meta property="og:description" content="Dynamic page content" /> */}
-          </Helmet>
+        <meta property="og:title" content={ companyName } />
+        <meta property="og:description" content="Dynamic page content" /> */}
+      </Helmet>
 
-          <Router>
-            <div className="wrapper">
-              <main className="main">
-                <Header />
-                  <Wrapper>
-                    <CSSTransition
-                      nodeRef={ nodeRef }
-                      in={ pageLoaded }
-                      timeout={ 200 }
-                      classNames="transitions-page"
-                      // unmountOnExit={ true }
-                    >
-                      <div className="transitions-page" ref={ nodeRef }>
-                        <Routes>
-                          <Route path="/" element={ <Single key={ `route-page` } postType={ pageType } /> } />
-                          <Route path="/:slug" element={ <Single key={ `route-page` } postType={ pageType } /> } />
+      <Router>
+        <div className="wrapper">
+          <LoadScreen isLoaded={ isLoaded } />
+          <main className="main">
+            <Header isLoaded={ isLoaded } />
+              <Wrapper>
+                <CSSTransition
+                  nodeRef={ nodeRef }
+                  in={ pageLoaded }
+                  timeout={ 200 }
+                  classNames="transitions-page"
+                  // unmountOnExit={ true }
+                >
+                  <div className="transitions-page" ref={ nodeRef }>
+                    <Routes>
+                      <Route path="/" element={ <Single key={ `route-page` } postType={ pageType } /> } />
+                      <Route path="/:slug" element={ <Single key={ `route-page` } postType={ pageType } /> } />
 
-                          { (appContext?.postTypes) && (
-                            <>
-                              { Object(appContext.postTypes).map( postType => {
-                                if(postType?.name === 'page') {
+                      { (appContext?.postTypes) && (
+                        <>
+                          { Object(appContext.postTypes).map( postType => {
+                            if(postType?.name === 'page') {
 
-                                }
+                            }
 
-                                if(postType?.uri) {
-                                  let archive = postType?.pageForArchive
-                                  let taxonomy = postType?.primaryTaxonomy
+                            if(postType?.uri) {
+                              let archive = postType?.pageForArchive
+                              let taxonomy = postType?.primaryTaxonomy
 
-                                  return (
-                                    <React.Fragment key={ `routes-${postType}` }>
-                                      <Route path={ `${ postType.uri }:slug` } element={
-                                        <Single key={ `route-${ postType }` } postType={ postType } />
+                              return (
+                                <React.Fragment key={ `routes-${postType}` }>
+                                  <Route path={ `${ postType.uri }:slug` } element={
+                                    <Single key={ `route-${ postType }` } postType={ postType } />
+                                  } />
+
+                                  { archive && (
+                                    <>
+                                      <Route path={ `/${archive.slug}/` } element={
+                                        <Archive key={ `route-${ postType }` } postType={ postType } pageID={ archive?.databaseId } taxonomy={ taxonomy } />
                                       } />
+                                    </>
+                                  ) }
 
-                                      { archive && (
-                                        <>
-                                          <Route path={ `/${archive.slug}/` } element={
-                                            <Archive key={ `route-${ postType }` } postType={ postType } pageID={ archive?.databaseId } taxonomy={ taxonomy } />
-                                          } />
-                                        </>
-                                      ) }
+                                  { taxonomy && (
+                                    <>
+                                      <Route path={ `${ taxonomy.uri }/:term` } element={
+                                        <Archive key={ `route-${ postType }` } postType={ postType } pageID={ archive?.databaseId } taxonomy={ taxonomy } />
+                                      } />
+                                    </>
+                                  ) }
+                                </React.Fragment>
+                              )
+                            }
+                          })}
+                        </>
+                      )}
+                    </Routes>
+                  </div>
+                </CSSTransition>
+              </Wrapper>
+          </main>
+          <Footer />
+        </div>
 
-                                      { taxonomy && (
-                                        <>
-                                          <Route path={ `${ taxonomy.uri }/:term` } element={
-                                            <Archive key={ `route-${ postType }` } postType={ postType } pageID={ archive?.databaseId } taxonomy={ taxonomy } />
-                                          } />
-                                        </>
-                                      ) }
-                                    </React.Fragment>
-                                  )
-                                }
-                              })}
-                            </>
-                          )}
-                        </Routes>
-                      </div>
-                    </CSSTransition>
-                  </Wrapper>
-              </main>
-              <Footer />
-            </div>
+        <MenuSide open={ appContext.menuOpen } items={ primaryMenu } />
+        <AudioTray />
 
-            <MenuSide open={ appContext.menuOpen } items={ primaryMenu } />
-            <AudioTray />
-
-          </Router>
-        </>
-      ) : (
-        <Error
-          code="400"
-          title="Connection Lost"
-          description="Please reload when you find it."
-        />
-      )}
-
+      </Router>
       <BgTexture className="global fixed" />
     </HelmetProvider>
   )

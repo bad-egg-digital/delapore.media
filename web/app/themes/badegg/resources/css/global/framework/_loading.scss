@@ -23,6 +23,12 @@
       animation: loadingSweep 2s infinite;
     }
   }
+
+  &-nudge-down {
+    opacity: 0;
+    transform: translateY(1em);
+    transform-origin: top;
+  }
 }
 
 @keyframes loadingSweep {

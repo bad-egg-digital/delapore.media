@@ -1,12 +1,13 @@
 import './Header.scss';
 import { Link, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import clsx from 'clsx'
 
 import Brand from '@views/components/Brand/Brand';
 import MenuPrimary from '@views/components/MenuPrimary/MenuPrimary';
 import MenuToggle from '@views/components/MenuToggle/MenuToggle';
 
-export default function Header({ items, companyName }) {
+export default function Header({ isLoaded }) {
   const location = useLocation();
   const [ isScrolled, setIsScrolled ] = useState(false)
 
@@ -36,7 +37,11 @@ export default function Header({ items, companyName }) {
   }, [])
 
   return (
-    <header className={ `menu-fixed ${ (isScrolled ? 'scrolled' : '') }` }>
+    <header className={ clsx(
+      'menu-fixed',
+      isScrolled && 'scrolled',
+      !isLoaded && 'loading-nudge-down'
+    ) }>
       <div className="container container-large inner inner-smallest inner-zero-x">
         <Brand icon={ true } />
         <MenuPrimary />

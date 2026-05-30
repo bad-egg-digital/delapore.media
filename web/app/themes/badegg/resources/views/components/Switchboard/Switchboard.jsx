@@ -25,6 +25,7 @@ import Column         from '@blocks/core/Column'
 import Fallback       from '@blocks/core/Fallback'
 
 // Full-width blocks
+import FrontCover     from '@blocks/front-cover/FrontCover'
 import Article        from '@blocks/article/Article'
 import Title          from '@blocks/title/Title'
 import ContactMethods from '@blocks/contact-methods/ContactMethods'
@@ -47,6 +48,7 @@ export default function Switchboard( props ) {
   switch (name) {
 
     // Full-width blocks
+    case "badegg/front-cover":        return <FrontCover      { ...props } />
     case "badegg/title":              return <Title           { ...props } />
     case "badegg/article":            return <Article         { ...props } />
     case "badegg/contact-methods":    return <ContactMethods  { ...props } />

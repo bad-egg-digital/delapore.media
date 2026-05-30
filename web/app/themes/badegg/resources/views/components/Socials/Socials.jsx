@@ -9,7 +9,7 @@ export default function Socials( items ) {
   if(items) {
     return (
       <ul className="socials nolist">
-        { appContext.company.socials.map((item, index) => {
+        { appContext?.company?.socials.map((item, index) => {
           return (
             <li key={ index } className={ `social-${ item.icon }` }>
               <a href={ item.link } target="_blank" rel="noindex nofollow">
