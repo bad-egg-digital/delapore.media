@@ -62,7 +62,7 @@ export default function Archive( props ) {
         <meta property="og:description" content="Dynamic page content" />
       </Helmet>
 
-      <BlockList key={ pageID } id={ pageID } postType={ pageType } post={ archivePage } />
+      <BlockList key={ pageID } id={ pageID } postType={ postType } post={ archivePage } />
 
       { pageLoaded &&
         <>
