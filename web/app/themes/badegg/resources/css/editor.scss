@@ -5,6 +5,7 @@
 @forward "global/typography";
 @forward "global/framework";
 @use "components/button";
+@use "components/card";
 
 html :where(.wp-block) {
   max-width: none;

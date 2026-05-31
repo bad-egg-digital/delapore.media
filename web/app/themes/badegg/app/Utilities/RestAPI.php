@@ -63,5 +63,12 @@ class RestAPI
                 ]);
             }
         }
+
+        register_post_meta( 'post', '_primary_term_category', [
+            'show_in_rest' => true,
+            'single' => true,
+            'type' => 'number',
+            'sanitize_callback' => 'wp_kses_post',
+        ]);
     }
 }

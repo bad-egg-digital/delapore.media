@@ -78,6 +78,16 @@ a {
   &:hover {
     color: variables.$primary-light;
   }
+
+  &.more {
+    display: inline-block;
+    font-weight: 700;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 strong { font-weight: 700; }

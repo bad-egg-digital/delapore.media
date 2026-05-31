@@ -42,7 +42,7 @@ export default function Header({ isLoaded }) {
       isScrolled && 'scrolled',
       !isLoaded && 'loading-nudge-down'
     ) }>
-      <div className="container container-large inner inner-smallest inner-zero-x">
+      <div className="container container-large inner inner-small inner-zero-x">
         <Brand icon={ true } />
         <MenuPrimary />
         <MenuToggle />

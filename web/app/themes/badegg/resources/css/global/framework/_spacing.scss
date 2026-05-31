@@ -111,8 +111,8 @@ figure {
     &-smallest { padding: (variables.$innerSmallest * 1.5); }
   }
 
-  &-zero-x { padding-left: unset; padding-right: unset; }
-  &-zero-y { padding-top:  unset; padding-top:   unset; }
+  &-zero-x { padding-left: unset; padding-right:  unset; }
+  &-zero-y { padding-top:  unset; padding-bottom: unset; }
 
   &-top { padding-left: unset; padding-right: unset; padding-bottom: unset; }
   &-right { padding-left: unset; padding-top: unset; padding-bottom: unset; }

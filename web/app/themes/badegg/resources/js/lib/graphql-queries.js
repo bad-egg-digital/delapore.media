@@ -170,6 +170,53 @@ export function queryArchive({ postType, taxonomy, activeTerm })
   return query
 }
 
+export function queryFrontCover({ about, podcast }) {
+  let aboutQuery = '';
+  let podcastQuery = '';
+
+  if(about) {
+    aboutQuery = `
+      about:page(id: "${ about }", idType: DATABASE_ID) {
+        slug
+        titlePrefix
+        title
+        subtitle
+        excerpt
+        uri
+      }
+    `
+  }
+
+  if(podcast) {
+    podcastQuery = `
+      podcast:page(id: "${ podcast }", idType: DATABASE_ID) {
+        slug
+        titlePrefix
+        title
+        subtitle
+        excerpt
+        uri
+      }
+    `
+  }
+
+  if(about || podcast) {
+    return `{
+        podcasts(first: 3) {
+        nodes {
+          date
+          title
+          slug
+          uri
+          episodeAudio
+        }
+      }
+      ${ aboutQuery }
+      ${ podcastQuery }
+    }`
+  }
+}
+
 export const queryApp = `
 {
   badEggCup {
@@ -222,6 +269,53 @@ export const queryApp = `
           }
         }
       }
+    }
+  }
+  posts(first: 1) {
+    nodes {
+      id
+      slug
+      titlePrefix
+      title
+      subtitle
+      excerpt
+      date
+      uri
+      featuredImage {
+        node {
+          altText
+          sourceUrl
+          srcSet
+          title
+          mediaDetails {
+            width
+            height
+          }
+        }
+      }
+      terms(where: {taxonomies: CATEGORY}) {
+        nodes {
+          name
+          slug
+          uri
+        }
+      }
+      categoryPrimaryTerm {
+        name
+        slug
+        uri
+      }
+    }
+  }
+  podcasts(first: 3) {
+    nodes {
+      episodeAudio
+      episodeContent
+      date
+      title
+      titlePrefix
+      uri
+      slug
     }
   }
 }`;
