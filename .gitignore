@@ -28,3 +28,5 @@ auth.json
 wp-cli.local.yml
 
 .DS_Store
+*.sql
+
