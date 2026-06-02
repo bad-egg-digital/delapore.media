@@ -1,11 +1,12 @@
 import './Footer.scss';
 import { AppContext } from '@views/layouts/AppContext'
 import { useContext, useEffect, useState } from 'react'
+import clsx from 'clsx'
 
 import Brand from '@views/components/Brand/Brand';
 import Socials from '@views/components/Socials/Socials';
 
-export default function Footer() {
+export default function Footer({ isLoaded }) {
   const currentYear = new Date().getFullYear();
   const { appContext, setAppContext } = useContext( AppContext )
   const [ audioTrayOffset, setAudioTrayOffset ] = useState(0)
@@ -21,8 +22,11 @@ export default function Footer() {
 
   return (
     <footer
-      className="content-info"
       style={{ paddingBottom: audioTrayOffset || 0 }}
+      className={clsx(
+        'content-info',
+        !isLoaded && 'loading-nudge-down'
+      )}
     >
       <div className="section container container-narrow align-centre">
         <Brand name={ appContext?.companyName } tagline={ true } />

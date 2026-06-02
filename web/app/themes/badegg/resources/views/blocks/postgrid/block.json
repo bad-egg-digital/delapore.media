@@ -1,0 +1,50 @@
+{
+  "apiVersion": 3,
+  "name": "badegg/postgrid",
+  "title": "Post Grid",
+  "category": "badegg",
+  "icon": {
+    "src": "image-flip-horizontal",
+    "foreground": "#f58762"
+  },
+  "description": "Display some posts",
+  "keywords": [ "card", "post", "posts", "grid" ],
+  "supports": {
+    "html": true,
+    "multiple": true,
+    "color": {
+      "background": false,
+      "text": false
+    }
+  },
+  "attributes": {
+    "linkedPageID": {
+      "type": "number",
+      "default": 0
+    },
+    "linkedPageButton": {
+      "type": "string",
+      "default": "Learn more"
+    },
+    "selectPostType": {
+      "type": "string",
+      "default": ""
+    },
+    "postSource": {
+      "type": "string",
+      "default": "latest"
+    },
+    "heading": {
+      "type": "string",
+      "default": ""
+    },
+    "blurb": {
+      "type": "string",
+      "default": ""
+    },
+    "allButton": {
+      "type": "string",
+      "default": ""
+    }
+  }
+}

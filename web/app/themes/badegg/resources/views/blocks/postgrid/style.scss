@@ -1,0 +1,54 @@
+@use "@styles/global/variables";
+
+.wp-block-badegg-postgrid {
+  container-name: BlockPostGrid;
+  container-type: inline-size;
+
+  .titlebar {
+    h2 {
+      position: relative;
+      color: variables.$white;
+      margin: 0;
+
+      @container BlockPostGrid (width >= #{variables.$screen-md}) {
+        font-size: 2.25em;
+      }
+
+      &::before {
+        content: '';
+        display: block;
+        width: 4.44444444em;
+        height: 0.5em;
+        position: absolute;
+        bottom: calc(100% + 0.25em);
+        left: calc(50% - 2.22222222em);
+        background: variables.$primary;
+        mask-image: url("@images/embellish-centre-heading.svg");
+        mask-size: contain;
+        mask-position: center bottom;
+      }
+    }
+
+    p {
+      color: variables.$primary-lightest;
+      margin: 0.5em 0 0;
+    }
+  }
+
+  .postgrid {
+    padding: 0;
+  }
+
+  .postgrid-items {
+    display: flex;
+    gap: 0;
+    margin: variables.$gap * -1;
+    overflow-x: auto;
+
+    .card {
+      min-width: 20em;
+      flex: 1;
+      margin: variables.$gap;
+    }
+  }
+}

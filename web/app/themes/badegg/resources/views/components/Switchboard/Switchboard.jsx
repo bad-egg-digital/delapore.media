@@ -28,6 +28,7 @@ import Fallback       from '@blocks/core/Fallback'
 import FrontCover     from '@blocks/front-cover/FrontCover'
 import Article        from '@blocks/article/Article'
 import Title          from '@blocks/title/Title'
+import PostGrid       from '@blocks/postgrid/PostGrid'
 import ContactMethods from '@blocks/contact-methods/ContactMethods'
 
 // Contact Method Blocks
@@ -51,6 +52,7 @@ export default function Switchboard( props ) {
     case "badegg/front-cover":        return <FrontCover      { ...props } />
     case "badegg/title":              return <Title           { ...props } />
     case "badegg/article":            return <Article         { ...props } />
+    case "badegg/postgrid":           return <PostGrid        { ...props } />
     case "badegg/contact-methods":    return <ContactMethods  { ...props } />
 
     // Contact Methods

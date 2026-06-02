@@ -1,5 +1,4 @@
-@use "../variables";
-
+@use "@styles/global/variables";
 @use "sass:color";
 
 @mixin generate_button_colors($name, $hex) {
@@ -13,50 +12,50 @@
   @each $button in $buttons {
     #{$button}.#{$name} {
       color: variables.$white;
-      background: $hex;
+      background-color: $hex;
       border-color: $hex;
 
       &:hover {
         color: variables.$white;
-        background: color.adjust($hex, $lightness: 10%);
+        background-color: color.adjust($hex, $lightness: 10%);
         border-color: color.adjust($hex, $lightness: 10%);
       }
     }
 
     #{$button}.#{$name}.outline {
       color: $hex;
-      background: transparent;
+      background-color: transparent;
       border-color: $hex;
 
       &:hover {
-        color: white;
-        background: #{$hex};
-        border-color: #{$hex};
-      }
-    }
-
-    *:not(.bg-#{$name}) #{$button}.#{$name} {
-      color: white;
-      background-color: $hex;
-      border-color: $hex;
-
-      &:hover {
-        color: white;
-        background-color: color.adjust($hex, $lightness: 10%);
-        border-color: color.adjust($hex, $lightness: 10%);
+        @if($name == "white") {
+          color: variables.$black;
+          background: variables.$white;
+          border-color: variables.$white;
+        } @else if($name == "black") {
+          color: variables.$white;
+          background: variables.$black;
+          border-color: variables.$black;
+        } @else {
+          color: color.invert($hex);
+          background-color: #{$hex};
+          border-color: #{$hex};
+        }
       }
     }
 
     .bg-#{$name} #{$button}.#{$name} {
       color: $hex;
-      background: white;
+      background-color: white;
       border-color: white;
 
       &:hover {
         color: white;
-        background: transparent;
+        background-color: transparent;
         border-color: white;
       }
     }
   }
+
+
 }

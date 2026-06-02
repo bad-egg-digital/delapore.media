@@ -150,7 +150,7 @@ export default function App() {
                 </CSSTransition>
               </Wrapper>
           </main>
-          <Footer />
+          <Footer isLoaded={ isLoaded } />
         </div>
 
         <MenuSide open={ appContext.menuOpen } items={ primaryMenu } />

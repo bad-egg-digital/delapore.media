@@ -238,7 +238,7 @@ registerBlockType(metadata.name, {
           tagName="h1"
           className="masthead-title"
           value={ postTitle }
-          placeholder="The subtitle..."
+          placeholder="Enter the title..."
           onChange={ (newTitle) => {
             wp.data.dispatch('core/editor').editPost({ title: newTitle });
           }}

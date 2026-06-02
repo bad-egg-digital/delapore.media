@@ -1,11 +1,22 @@
+const podcastFields = `
+  episodeAudio
+  episodeContent
+`;
+
+const productFields = `
+  productCoverImage
+  productCoverID
+  productPrice
+  productPriceDiscount
+  productOffsiteURL
+`;
+
 export function querySingle({ id = 0, slug, postType })
 {
   let pageWhere = `id: "${ slug || '/' }", idType: URI`
   let queryTerms = ''
   let queryBlocks = ''
   let queryWhere = ''
-  let podcastFields = ''
-  let productFields = ''
   let primaryTerm = ''
 
   if(id) {
@@ -37,23 +48,6 @@ export function querySingle({ id = 0, slug, postType })
     }`
   }
 
-  if(postType?.name === 'product') {
-    productFields = `
-      productCoverImage
-      productCoverID
-      productPrice
-      productPriceDiscount
-      productOffsiteURL
-    `
-  }
-
-  if(postType?.name === 'podcast') {
-    podcastFields = `
-      episodeAudio
-      episodeContent
-    `
-  }
-
   let query = `
     {
       ${ postType?.graphqlSingleName?.toLowerCase() }(${ pageWhere }) {
@@ -65,8 +59,8 @@ export function querySingle({ id = 0, slug, postType })
         excerpt
         date
         databaseId
-        ${ productFields }
-        ${ podcastFields }
+        ${ postType?.name === 'podcast' ? podcastFields : '' }
+        ${ postType?.name === 'product' ? productFields : '' }
         blocks {
           index
           name
@@ -94,8 +88,6 @@ export function queryArchive({ postType, taxonomy, activeTerm })
 {
   let queryWhere = ''
   let termsWhere = ''
-  let podcastFields = ''
-  let productFields = ''
   let primaryTerm = ''
 
   if(activeTerm && taxonomy?.graphqlSingleName) {
@@ -111,23 +103,6 @@ export function queryArchive({ postType, taxonomy, activeTerm })
     }`
   }
 
-  if(postType?.name === 'podcast') {
-    podcastFields = `
-      episodeAudio
-      episodeContent
-    `
-  }
-
-  if(postType?.name === 'product') {
-    productFields = `
-      productCoverImage
-      productCoverID
-      productPrice
-      productPriceDiscount
-      productOffsiteURL
-    `
-  }
-
   let query = `
     {
       ${ postType.graphqlPluralName.toLowerCase() }${ queryWhere } {
@@ -140,8 +115,8 @@ export function queryArchive({ postType, taxonomy, activeTerm })
           excerpt
           date
           uri
-          ${ podcastFields }
-          ${ productFields }
+          ${ postType?.name === 'podcast' ? podcastFields : '' }
+          ${ postType?.name === 'product' ? productFields : '' }
           featuredImage {
             node {
               altText
@@ -215,6 +190,175 @@ export function queryFrontCover({ about, podcast }) {
       ${ podcastQuery }
     }`
   }
+}
+
+export function queryBlockPostGrid( props )
+{
+  const {
+    linkedPageID,
+    source,
+    currentPost,
+    postType,
+  } = props;
+
+  const dateObject = new Date(currentPost?.date || '');
+  const year = dateObject.getFullYear();
+  const month = dateObject.getMonth() + 1;
+  const day = dateObject.getDate();
+
+  let queryLinkedPage = '';
+  let queryPosts = '';
+  let termsWhere = '';
+  let primaryTerm = '';
+  let queryBeforeAfter = '';
+  let queryLatest = '';
+
+  if(postType?.primaryTaxonomy && postType?.primaryTaxonomy?.graphqlSingleName) {
+    termsWhere = `(
+      where: {
+        taxonomies: ${ postType.primaryTaxonomy.graphqlSingleName.toUpperCase() }
+      }
+    )`;
+
+    primaryTerm = `${ postType?.primaryTaxonomy.graphqlSingleName }PrimaryTerm {
+      name
+      slug
+      uri
+    }`;
+  }
+
+  let nodes = `nodes {
+    id
+    slug
+    titlePrefix
+    title
+    subtitle
+    excerpt
+    date
+    uri
+    ${ postType?.name === 'podcast' ? podcastFields : '' }
+    ${ postType?.name === 'product' ? productFields : '' }
+    featuredImage {
+      node {
+        altText
+        sourceUrl
+        srcSet
+        title
+        mediaDetails {
+          width
+          height
+        }
+      }
+    }
+    terms${ termsWhere } {
+      nodes {
+        name
+        slug
+        uri
+      }
+    }
+    ${ primaryTerm }
+  }`;
+
+  switch (source) {
+    case 'beforeAfter':
+      queryPosts = `
+        before: ${ postType.graphqlPluralName.toLowerCase() }(
+          first: 2
+          where: {
+            orderby: {
+              field: DATE,
+              order: DESC
+            },
+            dateQuery: {
+              before: {
+                day: ${ day },
+                month: ${ month },
+                year: ${ year }
+              }
+            }
+          }
+        ) {
+          ${ nodes }
+        }
+        after: ${ postType.graphqlPluralName.toLowerCase() }(
+          first: 2
+          where: {
+            orderby: {
+              field: DATE,
+              order: DESC
+            },
+            dateQuery: {
+              after: {
+                day: ${ day },
+                month: ${ month },
+                year: ${ year }
+              }
+            }
+          }
+        ) {
+          ${ nodes }
+        }
+      `;
+
+      break;
+
+    case 'latest':
+      queryPosts = `
+        latest: ${ postType.graphqlPluralName.toLowerCase() }(
+          first: 3
+          where: {
+            orderby: {
+              field: DATE
+              order: DESC
+            }
+            notIn: [ ${ currentPost?.databaseId } ]
+          }
+        ) {
+          ${ nodes }
+        }
+      `;
+
+      break;
+
+    case 'related':
+      if(postType?.primaryTaxonomy?.graphqlSingleName) {
+        let tax = postType?.primaryTaxonomy?.graphqlSingleName;
+        let term = currentPost?.[ tax + 'PrimaryTerm']?.slug;
+
+        queryPosts = `
+          related: ${ postType.graphqlPluralName.toLowerCase() }(
+            where: {
+              ${ tax }Name: "${ term }"
+              orderby: {
+                field: DATE
+                order: DESC
+              }
+              notIn: [ ${ currentPost?.databaseId } ]
+            }
+          ){
+            ${ nodes }
+          }
+        `;
+      }
+
+      break;
+
+    default:
+  }
+
+  queryLinkedPage = `
+    linkedPage:page(id: "${ linkedPageID }", idType: DATABASE_ID) {
+      uri
+    }
+  `;
+
+  const query = `{
+    ${ queryLinkedPage }
+    ${ queryPosts }
+  }`;
+
+  return query;
 }
 
 export const queryApp = `
@@ -317,5 +461,8 @@ export const queryApp = `
       uri
       slug
     }
+  }
+  readingSettings {
+    pageForPosts
   }
 }`;

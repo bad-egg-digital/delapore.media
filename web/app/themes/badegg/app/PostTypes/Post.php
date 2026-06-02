@@ -90,6 +90,16 @@ class Post
                     ],
                 ],
             ],
+            [
+                'badegg/postgrid',
+                [
+                    'background_colour' => 'black',
+                    'background_hex' => '#000000',
+                    'selectPostType' => 'post',
+                    'heading' => __('Related Articles', 'badegg'),
+                    'allButton' => __('See all articles', 'badegg'),
+                ],
+            ],
         ];
 
         return $args;
