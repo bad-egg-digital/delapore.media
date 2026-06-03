@@ -32,7 +32,6 @@ class Podcast
                     'editor',
                     'excerpt',
                     'thumbnail',
-                    'page-attributes',
                     'custom-fields',
                 ],
                 'menu_icon' => 'dashicons-controls-volumeon',

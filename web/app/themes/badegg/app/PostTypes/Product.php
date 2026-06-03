@@ -77,6 +77,7 @@ class Product
 
         $metaFields = [
             'cover_id'       => 'number',
+            'context_id'     => 'number',
             'price'          => 'string',
             'price_discount' => 'string',
             'offsite_url'    => 'string',
@@ -90,6 +91,13 @@ class Product
                 'sanitize_callback' => 'wp_kses_post',
             ]);
         }
+
+        register_post_meta( $this->postType, '_primary_term_product_category', [
+            'show_in_rest' => true,
+            'single' => true,
+            'type' => 'number',
+            'sanitize_callback' => 'wp_kses_post',
+        ]);
     }
 
     public function graphqlTaxQuery( $query_args, $source, $args, $context, $info ) {

@@ -83,6 +83,7 @@ registerBlockType(metadata.name, {
 
     const [ audioFile, setAudioFile ] = useState({});
     const [ coverFile, setCoverFile ] = useState({});
+    const [ contextFile, setContextFile ] = useState({});
 
     useEffect(() => {
       if (postType === 'podcast' && meta?.podcast_audio_id) {
@@ -94,15 +95,87 @@ registerBlockType(metadata.name, {
           .catch(error => console.error('Error fetching media:', error));
       }
 
-      if (postType === 'product' && meta?.product_cover_id) {
-        fetch(`/wp-json/wp/v2/media/${meta?.product_cover_id}`)
-          .then(response => response.json())
-          .then(media => {
-            setCoverFile(media);
-          })
-          .catch(error => console.error('Error fetching media:', error));
+      if (postType === 'product') {
+        if(meta?.product_cover_id) {
+          fetch(`/wp-json/wp/v2/media/${meta.product_cover_id}`)
+            .then(response => response.json())
+            .then(media => {
+              setCoverFile(media);
+            })
+            .catch(error => console.error('Error fetching media:', error));
+        }
+
+        if(meta?.product_context_id) {
+          fetch(`/wp-json/wp/v2/media/${meta.product_context_id}`)
+            .then(response => response.json())
+            .then(media => {
+              setContextFile(media);
+            })
+            .catch(error => console.error('Error fetching media:', error));
+        }
       }
     }, [ meta ])
+
+    const ProductImage = ({ metaField, image, setImage, spacer }) => {
+      return (
+        <>
+          { spacer &&
+            <Spacer margin="8" />
+          }
+
+          <Heading level="3" style={{ fontWeight: 'bold' }}>
+            { metaField.replace('_', ' ') }
+          </Heading>
+
+          { 'link' in image &&
+            <AttachmentImage imageId={ image?.id } />
+          }
+
+          <MediaUploadCheck>
+            <MediaUpload
+              onSelect={ (media) => {
+                setMeta({
+                  ...meta,
+                  ['product_' + metaField]: media?.id || 0,
+                });
+                setCoverFile( media || {} );
+              }}
+              allowedTypes={ ['image'] }
+              value={ meta?.['product_' + metaField] }
+              render={ ({ open }) => (
+                <>
+                  <Spacer />
+
+                  <Button
+                    onClick={ open }
+                    variant="secondary"
+                  >
+                    { __("Select File", "badegg") }
+                  </Button>
+
+                  { meta?.['product_' + metaField] != 0 && (
+                    <Button
+                      onClick={ () => {
+                        setMeta({
+                          ...meta,
+                          ['product_' + metaField]: 0,
+                        });
+                        setImage({});
+                      }}
+                      isDestructive
+                      variant="secondary"
+                      style={{ marginLeft: 8 }}
+                    >
+                      { __("Remove", "badegg") }
+                    </Button>
+                  )}
+                </>
+              )}
+            />
+          </MediaUploadCheck>
+        </>
+      );
+    }
 
     return (
       <section { ...blockProps }>
@@ -127,62 +200,10 @@ registerBlockType(metadata.name, {
 
                 { postType === 'product' &&
                   <>
+                    <ProductImage metaField="cover_id" image={ coverFile } setImage={ setCoverFile } />
+                    <ProductImage metaField="context_id" image={ contextFile } setImage={ setContextFile } spacer={ 8 } />
+
                     <Spacer margin="4" />
-
-                    { 'link' in coverFile &&
-                      <>
-                        <Heading level="3" style={{ fontWeight: 'bold' }}>
-                          { coverFile?.title?.rendered }
-                        </Heading>
-
-                        <AttachmentImage imageId={ coverFile?.id } />
-                      </>
-                    }
-
-                    <MediaUploadCheck>
-                      <MediaUpload
-                        onSelect={ (media) => {
-                          setMeta({
-                            ...meta,
-                            product_cover_id: media?.id || 0,
-                          });
-                          setCoverFile( media || {} );
-                        }}
-                        allowedTypes={ ['image'] }
-                        value={ meta?.product_cover_id }
-                        render={ ({ open }) => (
-                          <>
-                            <Spacer />
-
-                            <Button
-                              onClick={ open }
-                              variant="secondary"
-                            >
-                              { __("Select File", "badegg") }
-                            </Button>
-
-                            { meta?.product_cover_id != 0 && (
-                              <Button
-                                onClick={ () => {
-                                  setMeta({
-                                    ...meta,
-                                    product_cover_id: 0,
-                                  });
-                                  setCoverFile({});
-                                }}
-                                isDestructive
-                                variant="secondary"
-                                style={{ marginLeft: 8 }}
-                              >
-                                { __("Remove", "badegg") }
-                              </Button>
-                            )}
-                          </>
-                        )}
-                      />
-                    </MediaUploadCheck>
-
-                    <Spacer />
 
                     <TextControl
                       label={ __('Price', 'badegg') }

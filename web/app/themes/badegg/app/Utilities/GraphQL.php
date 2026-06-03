@@ -387,30 +387,35 @@ class GraphQL
             ]);
         }
 
-        register_graphql_field( 'Product', 'productCoverImage', [
-            'type' => 'JSON',
-            'resolve' => function( $content_type ) {
-                $coverID = get_post_meta($content_type->databaseId, 'product_cover_id', true);
+        $imageFields = [
+            'CoverImage'   => [ 'meta' => 'cover_id',   'type' => 'JSON' ],
+            'ContextImage' => [ 'meta' => 'context_id', 'type' => 'JSON' ],
+        ];
 
-                if($coverID) {
-                    $coverImage = wp_get_attachment_image($coverID, 'full');
+        foreach($imageFields as $field => $props) {
+            register_graphql_field( 'Product', 'product' . $field, [
+                'type' => $props['type'],
+                'resolve' => function( $content_type ) use ($props) {
+                    $imageID = get_post_meta($content_type->databaseId, 'product_' . $props['meta'], true);
 
-                    return [
-                        'alt' => get_post_meta($coverID, '_wp_attachment_image_alt', true),
-                        'title' => get_post_field('post_title', $coverID),
-                        'caption' => get_post_field('post_excerpt', $coverID),
-                        'description' => get_post_field('post_content', $coverID),
-                        'srcSet' => wp_get_attachment_image_srcset($coverID, 'full'),
-                        'src' => wp_get_attachment_image_src($coverID, 'medium'),
-                        'width' => $coverImage[1],
-                        'height' => $coverImage[2],
-                    ];
+                    if($imageID) {
+                        $image = wp_get_attachment_image_src($imageID, 'full');
 
-                } else {
-                    return null;
-                }
-            },
-        ]);
+                        return [
+                            'alt' => get_post_meta($imageID, '_wp_attachment_image_alt', true),
+                            'title' => get_post_field('post_title', $imageID),
+                            'srcSet' => wp_get_attachment_image_srcset($imageID, 'full'),
+                            'src' => wp_get_attachment_image_src($imageID, 'medium')[0],
+                            'width' => $image[1],
+                            'height' => $image[2],
+                        ];
+
+                    } else {
+                        return null;
+                    }
+                },
+            ]);
+        }
     }
 
     public function autodescription()

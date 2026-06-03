@@ -25,5 +25,6 @@
   "badegg/masthead",
   "badegg/excerpt",
   "badegg/podcast-title",
-  "badegg/podcast-content"
+  "badegg/podcast-content",
+  "badegg/featured-product"
 ]

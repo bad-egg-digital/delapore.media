@@ -137,6 +137,7 @@ class PodcastRSS
 
     public function contentTemplate()
     {
+        $aboutPage = get_page_by_path('about');
         ob_start();
 ?>
 
@@ -155,6 +156,10 @@ class PodcastRSS
 
 <!-- wp:badegg/podcast-content /-->
 <!-- /wp:badegg/article -->
+<!-- wp:badegg/featured-product /-->
+<?php if($aboutPage): ?>
+<!-- wp:badegg/postgrid {"background_colour":"black","background_hex":"#000000","linkedPageID":<?= $aboutPage->ID ?>,"linkedPageButton":"About Delapore","selectPostType":"podcast","postSource":"beforeAfter","heading":"More Episodes","allButton":"See all episodes"} /-->
+<?php endif; ?>
 
 <?php
         $template = ob_get_clean();

@@ -1,0 +1,30 @@
+{
+  "apiVersion": 3,
+  "name": "badegg/featured-product",
+  "title": "Featured Product",
+  "category": "media",
+  "icon": {
+    "src": "text",
+    "foreground": "#f58762"
+  },
+  "description": "Display a featured product.",
+  "keywords": [ "cta", "call", "action", "product" ],
+  "supports": {
+    "html": true,
+    "multiple": false,
+    "color": {
+      "background": false,
+      "text": false
+    }
+  },
+  "attributes": {
+    "specific": {
+      "type": "boolean",
+      "default": false
+    },
+    "productID": {
+      "type": "number",
+      "default": 0
+    }
+  }
+}
