@@ -369,7 +369,9 @@ registerBlockType(metadata.name, {
 
             <div className="article-main badegg-block-list wysiwyg">
               <InnerBlocks
-                allowedBlocks={ allowedBlocks }
+                allowedBlocks={ allowedBlocks.concat([
+                  'badegg/featured-product',
+                ]) }
                 defaultBlock={
                   {
                     name: "core/paragraph",
