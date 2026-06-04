@@ -1,0 +1,158 @@
+@use "@styles/global/variables";
+
+.cta-block {
+  position: relative;
+  container-name: ctaBlock;
+  container-type: inline-size;
+
+  .wp-block-badegg-article & {
+    border-radius: variables.$borderRadius;
+    overflow: hidden;
+    padding: variables.$innerLarge;
+    margin: 1em 0;
+    box-shadow: 0 0 0.5em rgba(variables.$black, 0.3);
+
+    .container {
+      max-width: none;
+      width: unset;
+    }
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+
+  &::before {
+    background-image: linear-gradient(
+      0deg,
+      rgba(variables.$black, 0) 10%,
+      rgba(variables.$black, 0.2) 50%,
+      rgba(variables.$black, 0) 90%,
+    );
+  }
+
+  &::after {
+    mask-image: url("@images/embellish-right-bottom.svg");
+    mask-repeat: no-repeat;
+    mask-size: auto 100%;
+    mask-position:  right;
+    background: variables.$secondary-darker;
+    inset: 5%;
+  }
+
+  &-inner {
+    position: relative;
+    z-index: 3;
+  }
+
+  &-columns {
+    display: flex;
+    flex-direction: column;
+    gap: variables.$gapLarge;
+
+    @container ctaBlock (width > #{variables.$screen-sm - 2}) {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    @container ctaBlock (width > #{variables.$screen-md}) {
+      gap: variables.$gapLarge * 2;
+    }
+
+    @container ctaBlock (width > #{variables.$screen-lg}) {
+      gap: variables.$gapLarge * 3;
+    }
+  }
+
+  &-column {
+    flex: 1;
+  }
+
+  &-image {
+    position: relative;
+    margin: auto;
+
+    &.has-shadow {
+      img {
+        position: relative;
+        z-index: 2;
+      }
+
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 70%;
+        left: 5%;
+        right: 5%;
+        bottom: -5%;
+        border-radius: 100%;
+        filter: blur(2em);
+        background: rgba(variables.$black, 0.3);
+      }
+    }
+  }
+
+  &-content {
+    text-align: center;
+    max-width: variables.$containerNarrow;
+    margin: auto;
+
+    @container ctaBlock (width > #{variables.$screen-sm - 2}) {
+      max-width: none;
+      text-align: left;
+      margin: unset;
+      flex-grow: 1;
+    }
+
+    @container ctaBlock (width > #{variables.$screen-md}) {
+      font-size: 1.25em;
+    }
+
+    &-heading {
+      font-size: 2em;
+      color: variables.$white;
+      margin: 0;
+    }
+
+    &-prefix {
+      color: variables.$primary;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    &-subtitle {
+      color: variables.$primary-lightest;
+      font-size: 0.8em;
+      margin: 0;
+    }
+
+    &-excerpt {
+      margin: 1em 0 0;
+    }
+  }
+
+  &-action {
+    margin: 1em 0 0;
+
+    .product-pricing {
+      font-family: variables.$displayFont;
+      font-size: 1.75em;
+      margin: -0.125em;
+
+      span {
+        display: inline-block;
+        margin: 0.125em;
+      }
+
+      &-discounted .strikethrough {
+        opacity: 0.7;
+        transform: scale(0.8);
+      }
+    }
+  }
+}

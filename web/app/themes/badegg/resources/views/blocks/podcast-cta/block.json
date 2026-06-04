@@ -1,0 +1,21 @@
+{
+  "apiVersion": 3,
+  "name": "badegg/podcast-cta",
+  "title": "Podcast CTA",
+  "category": "media",
+  "icon": {
+    "src": "megaphone",
+    "foreground": "#f58762"
+  },
+  "description": "Display a featured product.",
+  "keywords": [ "cta", "call", "action", "podcast" ],
+  "supports": {
+    "html": true,
+    "multiple": false,
+    "color": {
+      "background": false,
+      "text": false
+    }
+  },
+  "attributes": {}
+}

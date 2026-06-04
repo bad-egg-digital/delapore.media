@@ -30,6 +30,7 @@ import Article         from '@blocks/article/Article'
 import Title           from '@blocks/title/Title'
 import PostGrid        from '@blocks/postgrid/PostGrid'
 import FeaturedProduct from '@blocks/featured-product/FeaturedProduct'
+import PodcastCTA      from '@blocks/podcast-cta/PodcastCTA'
 import ContactMethods  from '@blocks/contact-methods/ContactMethods'
 
 // Contact Method Blocks
@@ -55,6 +56,7 @@ export default function Switchboard( props ) {
     case "badegg/article":            return <Article         { ...props } />
     case "badegg/postgrid":           return <PostGrid        { ...props } />
     case "badegg/featured-product":   return <FeaturedProduct { ...props } />
+    case "badegg/podcast-cta":        return <PodcastCTA      { ...props } />
     case "badegg/contact-methods":    return <ContactMethods  { ...props } />
 
     // Contact Methods

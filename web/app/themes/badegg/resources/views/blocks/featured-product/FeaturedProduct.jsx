@@ -5,6 +5,7 @@ import clsx from "clsx"
 import isUriValid from "@scripts/lib/isUriValid"
 import { Link } from "react-router-dom"
 import { CSSTransition } from 'react-transition-group';
+import CTA from "@views/components/CTA/CTA"
 
 export default function FeaturedProduct( props ) {
   const { post, attributes: { specific, productID } } = props
@@ -60,80 +61,75 @@ export default function FeaturedProduct( props ) {
   }, [ productID ])
 
   return (
-    <div className="wp-block-badegg-featured-product">
-      <div className="cta-block cta-block-product bg-secondary-darker section section-large">
-        <div className="container container-large">
-          <CSSTransition
-            nodeRef={ nodeRef }
-            in={ isLoaded }
-            timeout={ 200 }
-            classNames="transitions-page"
-            // unmountOnExit={ true }
-          >
-            <div className="cta-block-columns transitions-page" ref={ nodeRef }>
-              { product?.productContextImage ?
-                <div className="cta-block-image">
-                  <img loading="lazy" { ...product.productContextImage } />
-                </div>
+    <CSSTransition
+      nodeRef={ nodeRef }
+      in={ isLoaded }
+      timeout={ 200 }
+      classNames="transitions-page"
+      // unmountOnExit={ true }
+    >
+      <div className="wp-block-badegg-featured-product transitions-page" ref={ nodeRef }>
+        <CTA className="cta-block-product" hasColumns={ true }>
+          { product?.productContextImage ?
+            <div className="cta-block-column cta-block-image has-shadow">
+              <img loading="lazy" { ...product.productContextImage } />
+            </div>
+          : null }
+          <div className="cta-block-column cta-block-content">
+            { (product?.productCategoryPrimaryTerm || product?.titlePrefix) ?
+              <p className="cta-block-content-prefix">
+                { product?.productCategoryPrimaryTerm ?
+                  `${ product.productCategoryPrimaryTerm.name }: `
+                : ''}
+                { product?.titlePrefix }
+              </p>
+            : null }
+
+            <h2 className="cta-block-content-heading">{ product?.title }</h2>
+
+            { product?.subtitle &&
+              <p className="cta-block-content-subtitle">{ product.subtitle }</p>
+            }
+
+            { product?.excerpt &&
+              <div className="cta-block-content-excerpt">
+                { parse( product.excerpt ) }
+              </div>
+            }
+
+            <div className="cta-block-action">
+              { product?.productPrice ?
+                <p className={ clsx(
+                  'product-pricing',
+                  product?.productPriceDiscount && 'product-pricing-discounted',
+                )}>
+                  <span className={ clsx(
+                    'product-pricing-current',
+                    product?.productPriceDiscount && 'strikethrough',
+                  )}>
+                    { product.productPrice }
+                  </span>
+
+                  { product?.productPriceDiscount ?
+                    <span className="product-pricing-discount">
+                      { product.productPriceDiscount }
+                    </span>
+                  : null }
+                </p>
               : null }
-              <div className="cta-block-content">
-                { (product?.productCategoryPrimaryTerm || product?.titlePrefix) ?
-                  <p className="cta-block-content-prefix">
-                    { product?.productCategoryPrimaryTerm ?
-                      `${ product.productCategoryPrimaryTerm.name }: `
-                    : ''}
-                    { product?.titlePrefix }
-                  </p>
+
+              <div className="btn-wrap">
+                { 'href' in productLink ?
+                  <a href={ productLink.href } target="_blank" className="btn primary">Buy Now</a>
                 : null }
 
-                <h2 className="cta-block-content-heading">{ product?.title }</h2>
-
-                { product?.subtitle &&
-                  <p className="cta-block-content-subtitle">{ product.subtitle }</p>
-                }
-
-                { product?.excerpt &&
-                  <div className="cta-block-content-excerpt">
-                    { parse( product.excerpt ) }
-                  </div>
-                }
-
-                <div className="cta-block-action">
-                  { product?.productPrice ?
-                    <p className={ clsx(
-                      'product-pricing',
-                      product?.productPriceDiscount && 'product-pricing-discounted',
-                    )}>
-                      <span className={ clsx(
-                        'product-pricing-current',
-                        product?.productPriceDiscount && 'strikethrough',
-                      )}>
-                        { product.productPrice }
-                      </span>
-
-                      { product?.productPriceDiscount ?
-                        <span className="product-pricing-discount">
-                          { product.productPriceDiscount }
-                        </span>
-                      : null }
-                    </p>
-                  : null }
-
-                  <div className="btn-wrap">
-                    { 'href' in productLink ?
-                      <a href={ productLink.href } target="_blank" className="btn primary">Buy Now</a>
-                    : null }
-
-                    <Link to={ product.uri } className="btn white outline">Learn More</Link>
-                  </div>
-
-                </div>
+                <Link to={ product.uri } className="btn white outline">Learn More</Link>
               </div>
-            </div>
 
-          </CSSTransition>
-        </div>
+            </div>
+          </div>
+        </CTA>
       </div>
-    </div>
+    </CSSTransition>
   )
 }

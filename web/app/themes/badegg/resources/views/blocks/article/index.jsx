@@ -371,6 +371,7 @@ registerBlockType(metadata.name, {
               <InnerBlocks
                 allowedBlocks={ allowedBlocks.concat([
                   'badegg/featured-product',
+                  'badegg/podcast-cta',
                 ]) }
                 defaultBlock={
                   {

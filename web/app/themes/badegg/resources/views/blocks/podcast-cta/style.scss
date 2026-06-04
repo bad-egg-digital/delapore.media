@@ -1,0 +1,27 @@
+@use "@styles/global/variables";
+
+.wp-block-badegg-podcast-cta {
+  container-name: BlockPodcastCTA;
+  container-type: inline-size;
+
+  .cta-block {
+    &-content {
+      flex: 1 1 50%;
+    }
+
+    &-image {
+      flex: 0 0 12.5em;
+      max-width: 12.5em;
+
+      @container BlockPodcastCTA (width > #{variables.$screen-lg}) {
+        flex: 0 0 20em;
+        max-width: 20em;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+      }
+    }
+  }
+}

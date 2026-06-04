@@ -11,6 +11,7 @@ import { useEffect, useState } from '@wordpress/element';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import apiFetch from '@wordpress/api-fetch';
 import AttachmentImage from "@blocks/-editor/AttachmentImage"
+import CTA from "@views/components/CTA/CTA"
 
 import {
 	Panel,
@@ -137,69 +138,65 @@ registerBlockType(metadata.name, {
           </Panel>
         </InspectorControls>
 
-        <div className="cta-block cta-block-product bg-secondary-darker section">
-          <div className="container container-large">
-            <div className="cta-block-columns">
-              { selectedProduct?.meta?.product_context_id ?
-                <div className="cta-block-image">
-                  <AttachmentImage imageId={ selectedProduct.meta.product_context_id } />
-                </div>
+        <CTA className="cta-block-product" hasColumns={ true }>
+          { selectedProduct?.meta?.product_context_id ?
+            <div className="cta-block-column cta-block-image has-shadow">
+              <AttachmentImage imageId={ selectedProduct.meta.product_context_id } />
+            </div>
+          : null }
+
+          <div className="cta-block-column cta-block-content">
+            { (selectedProductTerm || selectedProduct?.meta?.titlePrefix) ?
+              <p className="cta-block-content-prefix">
+                { selectedProductTerm ? `${ selectedProductTerm.name }: ` : '' }
+                { selectedProduct?.meta?.titlePrefix }
+              </p>
+            : null }
+
+            <h2 className="cta-block-content-heading">{ selectedProduct?.title?.rendered }</h2>
+
+            { selectedProduct?.meta?.subtitle &&
+              <p className="cta-block-content-subtitle">{  selectedProduct.meta.subtitle }</p>
+            }
+
+            { selectedProduct?.excerpt &&
+              <div className="cta-block-content-excerpt">
+                { parse(selectedProduct.excerpt.rendered) }
+              </div>
+            }
+
+            <div className="cta-block-action">
+              { selectedProduct?.meta?.product_price ?
+                <p className={ clsx(
+                  'product-pricing',
+                  selectedProduct?.meta?.product_price_discount && 'product-pricing-discounted',
+                )}>
+                  <span className={ clsx(
+                    'product-pricing-current',
+                    selectedProduct?.meta?.product_price_discount && 'strikethrough',
+                  )}>
+                    { selectedProduct.meta.product_price }
+                  </span>
+
+                  { selectedProduct?.meta?.product_price_discount ?
+                    <span className="product-pricing-discount">
+                      { selectedProduct.meta.product_price_discount }
+                    </span>
+                  : null }
+                </p>
               : null }
 
-              <div className="cta-block-content">
-                { (selectedProductTerm || selectedProduct?.meta?.titlePrefix) ?
-                  <p className="cta-block-content-prefix">
-                    { selectedProductTerm ? `${ selectedProductTerm.name }: ` : '' }
-                    { selectedProduct?.meta?.titlePrefix }
-                  </p>
+              <div className="btn-wrap">
+                { selectedProduct?.meta?.product_offsite_url ?
+                  <span className="btn primary">Buy Now</span>
                 : null }
 
-                <h2 className="cta-block-content-heading">{ selectedProduct?.title?.rendered }</h2>
-
-                { selectedProduct?.meta?.subtitle &&
-                  <p className="cta-block-content-subtitle">{  selectedProduct.meta.subtitle }</p>
-                }
-
-                { selectedProduct?.excerpt &&
-                  <div className="cta-block-content-excerpt">
-                    { parse(selectedProduct.excerpt.rendered) }
-                  </div>
-                }
-
-                <div className="cta-block-action">
-                  { selectedProduct?.meta?.product_price ?
-                    <p className={ clsx(
-                      'product-pricing',
-                      selectedProduct?.meta?.product_price_discount && 'product-pricing-discounted',
-                    )}>
-                      <span className={ clsx(
-                        'product-pricing-current',
-                        selectedProduct?.meta?.product_price_discount && 'strikethrough',
-                      )}>
-                        { selectedProduct.meta.product_price }
-                      </span>
-
-                      { selectedProduct?.meta?.product_price_discount ?
-                        <span className="product-pricing-discount">
-                          { selectedProduct.meta.product_price_discount }
-                        </span>
-                      : null }
-                    </p>
-                  : null }
-
-                  <div className="btn-wrap">
-                    { selectedProduct?.meta?.product_offsite_url ?
-                      <span className="btn primary">Buy Now</span>
-                    : null }
-
-                    <span className="btn white outline">Learn More</span>
-                  </div>
-
-                </div>
+                <span className="btn white outline">Learn More</span>
               </div>
+
             </div>
           </div>
-        </div>
+        </CTA>
       </div>
     );
   },
