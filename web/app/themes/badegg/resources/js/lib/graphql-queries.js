@@ -77,6 +77,17 @@ export function querySingle({ id = 0, slug, postType })
         }
         ${ primaryTerm }
         ${ queryTerms }
+        autodescription {
+          blogname
+          title
+          description
+          canonicalUri
+          ogTitle
+          ogDescription
+          ogImage
+          ogImageHeight
+          ogImageWidth
+        }
       }
     }
   `;

@@ -455,5 +455,124 @@ class GraphQL
                 ]);
             }
         }
+
+        register_graphql_object_type( 'Autodescription', [
+            'fields' => [
+                'blogname' => [
+                    'type' => 'String',
+                ],
+                'title' => [
+                    'type' => 'String',
+                    'description' => 'The meta title can be used to determine the title used on search engine result pages.',
+                ],
+                'description' => [
+                    'type' => 'String',
+                    'description' => 'The meta description can be used to determine the text used under the title on search engine results pages.',
+                ],
+                'canonicalUri' => [
+                    'type' => 'String',
+                    'description' => 'This urges search engines to go to the outputted URL.'
+                ],
+                'ogTitle' => [
+                    'type' => 'String',
+                    'description' => 'Open Graph Title',
+                ],
+                'ogDescription' => [
+                    'type' => 'String',
+                    'description' => 'Open Graph Description',
+                ],
+                'ogImage' => [
+                    'type' => 'String',
+                    'description' => 'The social image URL can be used by search engines and social networks alike. It\'s best to use an image with a 1.91:1 aspect ratio that is at least 1200px wide for universal support.',
+                ],
+                'ogImageWidth' => [
+                    'type' => 'Number',
+                ],
+                'ogImageHeight' => [
+                    'type' => 'Number',
+                ],
+            ],
+        ]);
+
+        foreach(get_post_types([
+            'show_in_graphql' => true,
+        ], 'objects') as $postType => $props) {
+
+            register_graphql_field($props->graphql_single_name, 'autodescription', [
+                'type' => 'Autodescription',
+                'resolve' => function($contentType) {
+                    if(!function_exists('the_seo_framework')) return;
+
+                    $id = $contentType->databaseId;
+                    $tsf = the_seo_framework();
+                    $tsfArgs = ['id' => $id];
+                    $autodescription = get_option('autodescription-site-settings');
+
+                    $socialImagePostId = get_post_meta($id, '_social_image_id', true);
+                    $socialImagePostUri = get_post_meta($id, '_social_image_url', true);
+                    $socialImagePost = wp_get_attachment_image_src($socialImagePostId, 'full');
+
+                    $socialImageHomeId = @$autodescription['homepage_social_image_id'];
+                    $socialImageHomeUri = @$autodescription['homepage_social_image_url'];
+                    $socialImageHome = wp_get_attachment_image_src($socialImageHomeId, 'full');
+
+                    $socialImageFallbackId = @$autodescription['social_image_fb_id'];
+                    $socialImageFallbackUri = @$autodescription['social_image_fb_url'];
+                    $socialImageFallback = wp_get_attachment_image_src($socialImageFallbackId, 'full');
+
+                    if($socialImagePost) {
+                        $socialImage = $socialImagePost;
+                        $socialImageId = $socialImagePostId;
+                        $socialImageUri = $socialImagePostUri;
+                    } elseif($socialImageHome && $id == get_option('page_on_front')) {
+                        $socialImage = $socialImageHome;
+                        $socialImageId = $socialImageHomeId;
+                        $socialImageUri = $socialImageHomeUri;
+                    } else {
+                        $socialImage = $socialImageFallback;
+                        $socialImageId = $socialImageFallbackId;
+                        $socialImageUri = $socialImageFallbackUri;
+                    }
+
+                    $title = $tsf->get_title($tsfArgs);
+                    $description = $tsf->description()->get_description($tsfArgs);
+
+                    $values = [
+                        'blogname'      => get_bloginfo('name'),
+                        'title'         => $title,
+                        'description'   => $description,
+                        'canonicalUri'  => get_post_meta($id, '_genesis_canonical_uri', true) ?: get_the_permalink(),
+                        'ogTitle'       => get_post_meta($id, '_open_graph_title', true) ?: $title,
+                        'ogDescription' => get_post_meta($id, '_open_graph_description', true) ?: $description,
+                        'ogImage'       => $socialImageUri,
+                        'ogImageWidth'  => @$socialImage[1],
+                        'ogImageHeight' => @$socialImage[2],
+                    ];
+
+                    // The SEO Framework
+                    // '_genesis_title'            => 'title',
+                    // '_tsf_title_no_blogname'    => 'noBlogname',
+                    // '_genesis_description'      => 'description',
+                    // '_genesis_canonical_uri'    => 'canonicalURL',
+                    // 'redirect'                  => 'redirect',
+                    // '_social_image_url'         => 'imageURL',
+                    // '_social_image_id'          => 'imageID',
+                    // '_open_graph_title'         => 'ogTitle',
+                    // '_open_graph_description'   => 'ogDescription',
+                    // '_twitter_title'            => 'twitterTitle',
+                    // '_twitter_description'      => 'twitterDescription',
+                    // '_tsf_twitter_card_type'    => 'twitterCard',
+                    // '_genesis_noindex'          => 'noindex',
+                    // '_genesis_nofollow'         => 'nofollow',
+                    // '_genesis_noarchive'        => 'noarchive',
+                    // 'exclude_local_search'      => 'excludeSearch',
+                    // 'exclude_from_archive'      => 'excludeArchive',
+                    // '_primary_term_{taxonomy}'  => 'number',
+
+
+                    return $values;
+                }
+            ]);
+        }
     }
 }

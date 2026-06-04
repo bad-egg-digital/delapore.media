@@ -1,12 +1,12 @@
 import { AppContext } from '@views/layouts/AppContext'
 import { useEffect, useState, useContext, appContext } from 'react'
 import { useParams } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
 
 import { querySingle } from '@scripts/lib/graphql-queries'
 import BlockList from '@views/components/BlockList/BlockList'
 import PostGrid from '@views/components/PostGrid/PostGrid'
 import Error from '@views/templates/Error'
+import Metadata from '@views/components/Metadata/Metadata'
 
 export default function Archive( props ) {
   const {
@@ -54,14 +54,7 @@ export default function Archive( props ) {
 
   return (
     <>
-      <Helmet>
-        <title>{ archivePage?.title }</title>
-        <meta name="description" content="Dynamic page from WordPress" />
-
-        <meta property="og:title" content={ archivePage?.title } />
-        <meta property="og:description" content="Dynamic page content" />
-      </Helmet>
-
+      <Metadata { ...archivePage?.autodescription } />
       <BlockList key={ pageID } id={ pageID } postType={ postType } post={ archivePage } />
 
       { pageLoaded &&
