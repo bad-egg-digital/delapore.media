@@ -2,7 +2,6 @@ import { Helmet } from 'react-helmet-async'
 
 export default function Metadata( props ) {
   const {
-    blogname,
     title,
     description,
     canonicalUri,
@@ -20,12 +19,9 @@ export default function Metadata( props ) {
       <link rel="canonical" href={ canonicalUri } />
       <meta name="robots" content="max-image-preview:large" />
 
-      <meta property="og:locale" content="en_US" />
-      <meta property="og:type" content="website" />
       <meta property="og:title" content={ ogTitle } />
       <meta property="og:description" content={ ogDescription } />
       <meta property="og:url" content={ canonicalUri } />
-      <meta property="og:site_name" content={ blogname } />
 
       { ogImage ?
         <>

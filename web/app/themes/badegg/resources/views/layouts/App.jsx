@@ -81,14 +81,6 @@ export default function App() {
 
   return (
     <HelmetProvider>
-      <Helmet>
-        {/* <title>{ companyName }</title>
-        <meta name="description" content="Dynamic page from WordPress" />
-
-        <meta property="og:title" content={ companyName } />
-        <meta property="og:description" content="Dynamic page content" /> */}
-      </Helmet>
-
       <Router>
         <div className="wrapper">
           <LoadScreen isLoaded={ isLoaded } />

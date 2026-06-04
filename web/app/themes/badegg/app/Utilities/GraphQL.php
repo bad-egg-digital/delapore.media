@@ -458,9 +458,6 @@ class GraphQL
 
         register_graphql_object_type( 'Autodescription', [
             'fields' => [
-                'blogname' => [
-                    'type' => 'String',
-                ],
                 'title' => [
                     'type' => 'String',
                     'description' => 'The meta title can be used to determine the title used on search engine result pages.',
@@ -538,7 +535,6 @@ class GraphQL
                     $description = $tsf->description()->get_description($tsfArgs);
 
                     $values = [
-                        'blogname'      => get_bloginfo('name'),
                         'title'         => $title,
                         'description'   => $description,
                         'canonicalUri'  => get_post_meta($id, '_genesis_canonical_uri', true) ?: get_the_permalink(),
@@ -548,27 +544,6 @@ class GraphQL
                         'ogImageWidth'  => @$socialImage[1],
                         'ogImageHeight' => @$socialImage[2],
                     ];
-
-                    // The SEO Framework
-                    // '_genesis_title'            => 'title',
-                    // '_tsf_title_no_blogname'    => 'noBlogname',
-                    // '_genesis_description'      => 'description',
-                    // '_genesis_canonical_uri'    => 'canonicalURL',
-                    // 'redirect'                  => 'redirect',
-                    // '_social_image_url'         => 'imageURL',
-                    // '_social_image_id'          => 'imageID',
-                    // '_open_graph_title'         => 'ogTitle',
-                    // '_open_graph_description'   => 'ogDescription',
-                    // '_twitter_title'            => 'twitterTitle',
-                    // '_twitter_description'      => 'twitterDescription',
-                    // '_tsf_twitter_card_type'    => 'twitterCard',
-                    // '_genesis_noindex'          => 'noindex',
-                    // '_genesis_nofollow'         => 'nofollow',
-                    // '_genesis_noarchive'        => 'noarchive',
-                    // 'exclude_local_search'      => 'excludeSearch',
-                    // 'exclude_from_archive'      => 'excludeArchive',
-                    // '_primary_term_{taxonomy}'  => 'number',
-
 
                     return $values;
                 }
