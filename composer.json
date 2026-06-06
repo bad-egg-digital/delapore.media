@@ -70,7 +70,8 @@
     "bad-egg-packagist/hard-boiled-security": "^1.0",
     "wp-plugin/wp-graphql": "^2.11",
     "simplepie/simplepie": "^1.9",
-    "alleyinteractive/wp-block-converter": "^1.8"
+    "alleyinteractive/wp-block-converter": "^1.8",
+    "wp-plugin/wordpress-importer": "^0.9.5"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",

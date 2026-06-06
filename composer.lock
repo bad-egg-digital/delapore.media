@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3980cd8b22e8f82aa78ef39d7f2bbf2e",
+    "content-hash": "1be444a60961f27c321f4de52cbcca33",
     "packages": [
         {
             "name": "alleyinteractive/composer-wordpress-autoloader",
@@ -4642,6 +4642,37 @@
                 "changelog": "https://wordpress.org/plugins/resizable-editor-sidebar/#developers",
                 "issues": "https://wordpress.org/support/plugin/resizable-editor-sidebar",
                 "source": "https://plugins.svn.wordpress.org/resizable-editor-sidebar"
+            },
+            "time": "2026-03-23T19:23:21+00:00"
+        },
+        {
+            "name": "wp-plugin/wordpress-importer",
+            "version": "0.9.5",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wordpress-importer/",
+                "reference": "tags/0.9.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wordpress-importer.0.9.5.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "WordPress.org"
+                }
+            ],
+            "description": "Import posts, pages, comments, custom fields, categories, tags and more from a WordPress export file.",
+            "homepage": "https://wordpress.org/plugins/wordpress-importer/",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/wordpress-importer/#developers",
+                "issues": "https://wordpress.org/support/plugin/wordpress-importer",
+                "source": "https://plugins.svn.wordpress.org/wordpress-importer"
             },
             "time": "2026-03-23T19:23:21+00:00"
         },
