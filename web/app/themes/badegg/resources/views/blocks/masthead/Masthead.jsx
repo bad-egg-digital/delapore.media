@@ -52,7 +52,7 @@ export default function Masthead( props ) {
 
       <h1 className="masthead-title">{ title }</h1>
 
-      { !hideSubtitle &&
+      { !hideSubtitle && subtitle &&
         <p className="masthead-subtitle">{ subtitle }</p>
       }
     </div>
