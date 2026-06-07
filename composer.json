@@ -54,7 +54,7 @@
     "oscarotero/env": "^2.1",
     "roots/bedrock-autoloader": "^1.0",
     "roots/bedrock-disallow-indexing": "^2.0",
-    "roots/wordpress": "^6.9",
+    "roots/wordpress": "^7.0",
     "roots/wp-config": "1.0.0",
     "koodimonni-language/core-en_gb": "^6.8",
     "johnbillion/extended-cpts": "^5.1",
@@ -71,7 +71,6 @@
     "wp-plugin/wp-graphql": "^2.11",
     "simplepie/simplepie": "^1.9",
     "alleyinteractive/wp-block-converter": "^1.8",
-    "wp-plugin/wordpress-importer": "^0.9.5",
     "wp-plugin/redirection": "^5.7"
   },
   "require-dev": {
