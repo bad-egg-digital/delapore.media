@@ -20,6 +20,7 @@ import {
 
 import { containerClassNames, sectionClassNames } from '@scripts/lib/classNames';
 import BlockSettings from '@blocks/-editor/BlockSettings';
+import BackgroundImage from '@views/components/BackgroundImage/BackgroundImage';
 
 registerBlockType(metadata.name, {
   edit({ attributes, setAttributes, clientId }) {
@@ -118,7 +119,7 @@ registerBlockType(metadata.name, {
     }, [ aboutPageID, podcastPageID ]);
 
     return (
-      <div { ...blockProps }>
+      <section { ...blockProps }>
         <InspectorControls>
           <Panel className="badegg-components-panel">
             <PanelBody title={ __("Controls", "badegg") }>
@@ -249,7 +250,8 @@ registerBlockType(metadata.name, {
             </div>
           </div>
         </div>
-      </div>
+        <BackgroundImage { ...attributes } isAdmin={ true } />
+      </section>
     );
   },
 });

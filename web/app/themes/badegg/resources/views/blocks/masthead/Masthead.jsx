@@ -29,6 +29,7 @@ export default function Masthead( props ) {
               items={ nodes }
               primaryItem={ primaryTaxonomy && post?.[ primaryTaxonomy + 'PrimaryTerm' ] }
               isLoaded={ true }
+              limit={ 3 }
             />
           )}
 

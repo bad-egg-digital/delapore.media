@@ -27,7 +27,7 @@ export default function BackgroundImage( props ) {
     background_position = 'center',
     background_fixed = false,
     background_filter = false,
-    background_opacity = 70,
+    background_opacity,
     disableLazyBG = false,
     isAdmin = false,
   } = props;
@@ -37,8 +37,14 @@ export default function BackgroundImage( props ) {
       backgroundImage: `url(${background_url})`,
       backgroundPosition: `${ background_position.x * 100}% ${ background_position.y * 100}%`,
       backgroundSize: 'cover',
-      backgroundAttachment: background_fixed ? 'fixed' : 'scroll',
-      opacity: Number(background_opacity) * 0.01,
+    }
+
+    if(background_fixed) {
+      styles.backgroundAttachment = "fixed";
+    }
+
+    if(background_opacity) {
+      styles.opacity = Number(background_opacity) / 100;
     }
 
     let attributes = {

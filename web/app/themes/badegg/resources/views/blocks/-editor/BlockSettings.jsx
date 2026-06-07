@@ -86,7 +86,6 @@ export default function BlockSettings({ attributes, setAttributes }) {
     background_position,
 		background_opacity,
 		background_fixed,
-    background_filter,
 	} = attributes;
 
 	return (
@@ -119,7 +118,7 @@ export default function BlockSettings({ attributes, setAttributes }) {
           { __('Colour', 'badegg') }
         </p>
         <ColorPalette
-          colors={ configOptions.colours }
+          colors={ configOptions.colours.filter( item => item.slug !== 'white') }
           value={ background_hex }
           clearable={ false }
           disableCustomColors={ true }
@@ -172,12 +171,6 @@ export default function BlockSettings({ attributes, setAttributes }) {
               label={ __('Fixed Position', 'badegg') }
               checked={ background_fixed }
               onChange={(value) => setAttributes({ background_fixed: value }) }
-              __nextHasNoMarginBottom
-            />
-            <ToggleControl
-              label={ __('Filter Image', 'badegg') }
-              checked={ background_filter }
-              onChange={(value) => setAttributes({ background_filter: value }) }
               __nextHasNoMarginBottom
             />
             <ToggleControl

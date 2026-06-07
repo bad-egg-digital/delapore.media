@@ -64,9 +64,5 @@
   "background_fixed": {
       "type": "boolean",
       "default": false
-  },
-  "background_filter": {
-      "type": "boolean",
-      "default": false
   }
 }

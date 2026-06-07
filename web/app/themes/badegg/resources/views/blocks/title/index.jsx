@@ -31,6 +31,7 @@ import {
 import { containerClassNames, sectionClassNames } from '@scripts/lib/classNames';
 import BlockSettings from '@blocks/-editor/BlockSettings';
 import Delibird from '@views/components/Delibird/Delibird';
+import BackgroundImage from '@views/components/BackgroundImage/BackgroundImage';
 
 registerBlockType(metadata.name, {
   edit({ attributes, setAttributes, clientId }) {
@@ -49,7 +50,7 @@ registerBlockType(metadata.name, {
     } = attributes;
 
     return (
-      <div { ...blockProps }>
+      <section { ...blockProps }>
         <BlockControls>
           <AlignmentToolbar
             value={ alignment }
@@ -143,8 +144,8 @@ registerBlockType(metadata.name, {
 
           </div>
         </div>
-
-      </div>
+        <BackgroundImage { ...attributes } isAdmin={ true } />
+      </section>
     );
   },
 });
