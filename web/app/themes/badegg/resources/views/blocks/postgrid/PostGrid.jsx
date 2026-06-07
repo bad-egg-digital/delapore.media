@@ -28,6 +28,7 @@ export default function PostGrid( props ) {
     linkedPageID,
     linkedPageButton,
     allButton,
+    hideFirst,
   } = attributes;
 
   const selectPostTypeObj = appContext?.postTypes.find( type => type.name === selectPostType ) || {}
@@ -37,6 +38,7 @@ export default function PostGrid( props ) {
     postType: selectPostTypeObj,
     source: postSource,
     linkedPageID: linkedPageID,
+    hideFirst: hideFirst,
   })
 
   useEffect(() => {
@@ -67,6 +69,10 @@ export default function PostGrid( props ) {
 
         if('latest' in res?.data) {
           items = items.concat(res.data.latest.nodes);
+
+          if(hideFirst) {
+            items = items.slice(1);
+          }
         }
 
         setLinkedPage(res?.data?.linkedPage);
@@ -104,7 +110,7 @@ export default function PostGrid( props ) {
         { selectPostType &&
           <div className="footerbar align-centre inner inner-top wysiwyg">
             <div className="btn-wrap">
-              <Link to={ `/${ selectPostTypeObj?.pageForArchive?.slug }` } className="btn primary">{ allButton || 'View all' }</Link>
+              <Link to={ `/${ selectPostTypeObj?.pageForArchive?.slug }/` } className="btn primary">{ allButton || 'View all' }</Link>
 
               { linkedPage && 'uri' in linkedPage &&
                 <Link to={ linkedPage.uri } className="btn white outline">{ linkedPageButton || 'Learn more' }</Link>

@@ -34,6 +34,10 @@
       "type": "string",
       "default": "latest"
     },
+    "hideFirst": {
+      "type": "boolean",
+      "default": false
+    },
     "heading": {
       "type": "string",
       "default": ""

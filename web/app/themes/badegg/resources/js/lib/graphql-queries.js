@@ -209,6 +209,7 @@ export function queryBlockPostGrid( props )
     source,
     currentPost,
     postType,
+    hideFirst,
   } = props;
 
   const dateObject = new Date(currentPost?.date || '');
@@ -316,7 +317,7 @@ export function queryBlockPostGrid( props )
     case 'latest':
       queryPosts = `
         latest: ${ postType.graphqlPluralName.toLowerCase() }(
-          first: 3
+          first: ${ hideFirst ? '4' : '3' }
           where: {
             orderby: {
               field: DATE

@@ -23,6 +23,7 @@ import {
 	PanelBody,
   TextControl,
   TextareaControl,
+  ToggleControl,
   SelectControl,
 } from '@wordpress/components';
 
@@ -51,6 +52,7 @@ registerBlockType(metadata.name, {
       allButton,
       linkedPageID,
       linkedPageButton,
+      hideFirst,
     } = attributes;
 
     useEffect(() => {
@@ -176,6 +178,15 @@ registerBlockType(metadata.name, {
                       __nextHasNoMarginBottom={ true }
                     />
                   }
+
+                  { postSource === 'latest' &&
+                    <ToggleControl
+                      label={ __('Hide first post', 'badegg') }
+                      checked={ hideFirst }
+                      onChange={(value) => setAttributes({ hideFirst: value }) }
+                      __nextHasNoMarginBottom
+                    />
+                  }
                 </>
               : null }
             </PanelBody>
@@ -205,10 +216,13 @@ registerBlockType(metadata.name, {
             }
           </div>
 
-
           <div className="container container-narrow align-centre">
             <div className="card-opaque inner-small wysiwyg">
-              <p>The { postTypes?.[selectPostType]?.label.toLowerCase() } will appear here on the front end.</p>
+              { selectPostType ?
+                <p>The { postTypes?.[selectPostType]?.label.toLowerCase() } will appear here on the front end.</p>
+              :
+                <p>Please select a post type.</p>
+              }
             </div>
           </div>
 
