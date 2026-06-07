@@ -224,16 +224,16 @@
         },
         {
             "name": "bad-egg-packagist/bad-egg-cup",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://git.badegg.digital/bad-egg-packagist/bad-egg-cup",
-                "reference": "1.0.4"
+                "reference": "1.0.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://git.badegg.digital/api/packages/bad-egg-packagist/composer/files/bad-egg-packagist%2Fbad-egg-cup/1.0.4/bad-egg-packagist-bad-egg-cup.1.0.4.zip",
-                "shasum": "c8713252451ec2580595ef26e35a3309f5c13f71"
+                "url": "https://git.badegg.digital/api/packages/bad-egg-packagist/composer/files/bad-egg-packagist%2Fbad-egg-cup/1.0.5/bad-egg-packagist-bad-egg-cup.1.0.5.zip",
+                "shasum": "45cd097b7ffcb4faa08168ff5499b0647d127f0a"
             },
             "type": "wordpress-plugin",
             "license": [
@@ -241,7 +241,7 @@
             ],
             "description": "Companion plugin to the Bad Egg Digital Wordpress Theme.",
             "homepage": "https://github.com/bad-egg-digital/bad-egg-cup",
-            "time": "2026-06-07T13:23:52+00:00"
+            "time": "2026-06-07T20:01:57+00:00"
         },
         {
             "name": "bad-egg-packagist/bad-egg-digital-login-page",
