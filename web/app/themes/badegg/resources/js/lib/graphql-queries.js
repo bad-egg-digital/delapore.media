@@ -99,12 +99,29 @@ export function queryArchive({ postType, taxonomy, activeTerm })
   let queryWhereTax = ''
   let termsWhere = ''
   let primaryTerm = ''
+  let queryArchiveTerms = ''
 
   if(activeTerm && taxonomy?.graphqlSingleName) {
     queryWhereTax = `${ taxonomy.graphqlSingleName }Name: "${ activeTerm }"`
   }
 
   if(taxonomy && taxonomy?.graphqlSingleName) {
+    queryArchiveTerms = `
+      ${ taxonomy.graphqlPluralName } (
+        first: 100
+        where: {
+          orderby: COUNT,
+          order: DESC
+        }
+      ) {
+        nodes {
+          count
+          name
+          slug
+          uri
+        }
+      }
+    `;
     termsWhere = `(where: { taxonomies: ${ taxonomy.graphqlSingleName.toUpperCase() } })`
     primaryTerm = `${ taxonomy.graphqlSingleName }PrimaryTerm {
       name
@@ -166,6 +183,7 @@ export function queryArchive({ postType, taxonomy, activeTerm })
           }
         }
       }
+      ${ queryArchiveTerms }
     }
   `
 

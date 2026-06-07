@@ -10,6 +10,7 @@ import Card from '@views/components/Card/Card'
 
 export default function PostGrid( props ) {
   const { appContext: { postTypes } } = useContext( AppContext )
+  const [ terms, setTerms ] = useState([])
   const [ posts, setPosts ] = useState([])
   const [ pageInfo, setPageInfo ] = useState({ endCursor: null, hasNextPage: true })
   const [ loading, setLoading ] = useState(false)
@@ -23,7 +24,6 @@ export default function PostGrid( props ) {
   } = props
 
   const query = queryArchive( props )
-  const terms = taxonomy?.connectedTerms?.nodes
   const primaryTaxonomy = postTypes.find( type => type.name === postType?.name)?.primaryTaxonomy?.graphqlSingleName || ''
 
   const fetchData = async () => {
@@ -50,11 +50,13 @@ export default function PostGrid( props ) {
       });
 
       const result = await response.json();
-      const data = result?.data?.[postType?.graphqlPluralName.toLowerCase()];
+      const postData = result?.data?.[postType?.graphqlPluralName.toLowerCase()];
 
-      if(data?.edges && data.edges.length > 0) {
-        setPosts(prevPosts => [...prevPosts, ...data.edges.map(edge => edge.node)]);
-        setPageInfo(data?.pageInfo);
+      setTerms(result?.data?.[postType?.primaryTaxonomy?.graphqlPluralName]?.nodes || []);
+
+      if(postData?.edges && postData.edges.length > 0) {
+        setPosts(prevPosts => [...prevPosts, ...postData.edges.map(edge => edge.node)]);
+        setPageInfo(postData?.pageInfo);
         setLoading(false);
         setInitialLoad(true);
       } else {
@@ -121,7 +123,7 @@ export default function PostGrid( props ) {
           className="termlist-archive"
           items={ terms }
           postType={ postType }
-          isLoaded={ true }
+          isLoaded={ initialLoad }
           state={{ preserveScroll: true }}
         />
 
