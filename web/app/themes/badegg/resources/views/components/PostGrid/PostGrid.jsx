@@ -2,7 +2,7 @@ import './PostGrid.scss'
 import clsx from 'clsx'
 import { queryArchive } from '@scripts/lib/graphql-queries'
 import { AppContext } from '@views/layouts/AppContext'
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext, useRef } from 'react'
 
 import TermList from '@views/components/TermList/TermList'
 import Posts from '@views/components/PostGrid/Posts'
@@ -14,6 +14,7 @@ export default function PostGrid( props ) {
   const [ pageInfo, setPageInfo ] = useState({ endCursor: null, hasNextPage: true })
   const [ loading, setLoading ] = useState(false)
   const [ initialLoad, setInitialLoad ] = useState(false)
+  const loadMoreRef = useRef(null);
 
   const {
     postType,
@@ -26,6 +27,10 @@ export default function PostGrid( props ) {
   const primaryTaxonomy = postTypes.find( type => type.name === postType?.name)?.primaryTaxonomy?.graphqlSingleName || ''
 
   const fetchData = async () => {
+    if (loading || !pageInfo.hasNextPage) {
+      return
+    }
+
     setLoading(true);
 
     try {
@@ -37,8 +42,11 @@ export default function PostGrid( props ) {
         },
         body: JSON.stringify({
           query: query,
-          variables: { first: 12, after: pageInfo.endCursor }
-        })
+          variables: {
+            first: 6,
+            after: pageInfo.endCursor,
+          },
+        }),
       });
 
       const result = await response.json();
@@ -59,22 +67,42 @@ export default function PostGrid( props ) {
     }
   };
 
-  const fetchMorePosts = () => {
-    if (!loading && pageInfo.hasNextPage) {
-      setLoading(true);
-    }
-  };
-
   useEffect(() => {
     setPosts([]);
     setPageInfo({ endCursor: null, hasNextPage: true});
   }, [ activeTerm, postType]);
 
+  // Infinite scroll observer
   useEffect(() => {
-    if (pageInfo.hasNextPage && !loading) {
-      fetchData();
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (
+          entry.isIntersecting &&
+          pageInfo.hasNextPage &&
+          !loading
+        ) {
+          fetchData()
+        }
+      },
+      {
+        root: null,
+        rootMargin: '300px',
+        threshold: 0,
+      }
+    )
+
+    const current = loadMoreRef.current
+
+    if (current) {
+      observer.observe(current)
     }
-  }, [ pageInfo, loading ]);
+
+    return () => {
+      if (current) {
+        observer.unobserve(current)
+      }
+    }
+  }, [loading, pageInfo.hasNextPage, pageInfo.endCursor])
 
   const postGridClass = clsx(
     'section',
@@ -105,6 +133,16 @@ export default function PostGrid( props ) {
           isLoaded={ initialLoad }
           showLoading={ true }
         />
+
+        {pageInfo.hasNextPage && (
+          <div
+            ref={loadMoreRef}
+            style={{
+              height: '1px',
+              width: '100%',
+            }}
+          />
+        )}
 
       </div>
     </section>
