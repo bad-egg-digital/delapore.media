@@ -96,12 +96,12 @@ export function querySingle({ id = 0, slug, postType })
 
 export function queryArchive({ postType, taxonomy, activeTerm })
 {
-  let queryWhere = ''
+  let queryWhereTax = ''
   let termsWhere = ''
   let primaryTerm = ''
 
   if(activeTerm && taxonomy?.graphqlSingleName) {
-    queryWhere = `(where: { ${ taxonomy.graphqlSingleName }Name: "${ activeTerm }" })`
+    queryWhereTax = `${ taxonomy.graphqlSingleName }Name: "${ activeTerm }"`
   }
 
   if(taxonomy && taxonomy?.graphqlSingleName) {
@@ -114,39 +114,56 @@ export function queryArchive({ postType, taxonomy, activeTerm })
   }
 
   let query = `
-    {
-      ${ postType.graphqlPluralName.toLowerCase() }${ queryWhere } {
-        nodes {
-          id
-          slug
-          titlePrefix
-          title
-          subtitle
-          excerpt
-          date
-          uri
-          ${ postType?.name === 'podcast' ? podcastFields : '' }
-          ${ postType?.name === 'product' ? productFields : '' }
-          featuredImage {
-            node {
-              altText
-              sourceUrl
-              srcSet
-              title
-              mediaDetails {
-                width
-                height
+    query GetPosts( $first: Int!, $after: String ) {
+      ${ postType.graphqlPluralName.toLowerCase() }(
+        first: $first,
+        after: $after,
+        where: {
+          orderby: {
+            field: DATE,
+            order: DESC
+          }
+          ${ queryWhereTax }
+        }
+      ) {
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
+        edges {
+          cursor
+          node {
+            id
+            slug
+            titlePrefix
+            title
+            subtitle
+            excerpt
+            date
+            uri
+            ${ postType?.name === 'podcast' ? podcastFields : '' }
+            ${ postType?.name === 'product' ? productFields : '' }
+            featuredImage {
+              node {
+                altText
+                sourceUrl
+                srcSet
+                title
+                mediaDetails {
+                  width
+                  height
+                }
               }
             }
-          }
-          terms${ termsWhere } {
-            nodes {
-              name
-              slug
-              uri
+            terms${ termsWhere } {
+              nodes {
+                name
+                slug
+                uri
+              }
             }
+            ${ primaryTerm }
           }
-          ${ primaryTerm }
         }
       }
     }

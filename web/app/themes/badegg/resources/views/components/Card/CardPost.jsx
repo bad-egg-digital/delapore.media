@@ -51,7 +51,6 @@ export default function CardPost( props ) {
             primaryItem={ primaryTaxonomy && props?.[ primaryTaxonomy + 'PrimaryTerm' ] }
             limit={ 2 }
             isLoaded={ isLoaded }
-            state={{ preserveScroll: true }}
           />
         </div>
         <h2 className="card-title">{ title }</h2>
