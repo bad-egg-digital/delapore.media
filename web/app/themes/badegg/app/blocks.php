@@ -367,7 +367,7 @@ function core_image_modified($content, $block)
         $class = $image->getAttribute('class');
 
         // set image attributes
-        $image->setAttribute('src', $lazy[0]);
+        $image->setAttribute('src', @$lazy[0]);
         $image->setAttribute('srcset', '');
         $image->setAttribute('data-src', $src);
         $image->setAttribute('data-srcset', $srcset);
@@ -382,7 +382,7 @@ function core_image_modified($content, $block)
         $linkClone = $link->cloneNode();
 
         // set lightbox link attributes
-        $linkClone->setAttribute('href', $large[0]);
+        $linkClone->setAttribute('href', @$large[0]);
 
         // replace image with lightbox link
         $image->parentNode->replaceChild($linkClone, $image);
