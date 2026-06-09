@@ -62,23 +62,6 @@ registerBlockType(metadata.name, {
 		const selectedTerms = useSelect((select) => select('core/editor').getEditedPostAttribute(taxonomyBase), [ taxonomyBase ]) || [];
     const allTerms = useSelect((select) => select('core').getEntityRecords('taxonomy', taxonomy, taxArgs ), [ taxonomy ]) || [];
 
-    const toggleTerm = (termID, checked) => {
-      let updatedTerms;
-
-      if (checked) {
-        updatedTerms = [
-          ...selectedTerms,
-          termID,
-        ];
-      } else {
-        updatedTerms = selectedTerms.filter(
-          (id) => id !== termID
-        );
-      }
-
-      editPost({ [ taxonomy ]: updatedTerms });
-    };
-
     const {
       titlePrefix,
       subtitle,
@@ -162,22 +145,6 @@ registerBlockType(metadata.name, {
                 __nextHasNoMarginBottom
               />
             </PanelBody>
-
-            { !hideTerms &&
-              <PanelBody title={ taxonomyLabel }>
-                { allTerms?.map((category) => (
-                  <CheckboxControl
-                    key={category.id}
-                    label={category.name}
-                    checked={selectedTerms.includes(category.id)}
-                    onChange={(checked) => {
-                      toggleTerm(category.id, checked);
-                    }}
-                    __nextHasNoMarginBottom
-                  />
-                ))}
-              </PanelBody>
-            }
 
             { !hideDate &&
               <PanelBody title={ __('Publish Date', 'badegg') } initialOpen={ false }>
