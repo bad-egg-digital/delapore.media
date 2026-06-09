@@ -100,6 +100,8 @@ class Podcast
 
     public function template()
     {
+        $Post = new Post;
+
         return [
             [
                 'badegg/article',
@@ -145,7 +147,7 @@ class Podcast
                     [
                         'core/paragraph',
                         [
-                            'placeholder' => 'Start typing...',
+                            'placeholder' => $Post->paragraphPlaceholders[rand(0,9)],
                         ],
                     ],
                 ],

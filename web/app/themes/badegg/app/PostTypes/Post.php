@@ -14,7 +14,7 @@ class Post
         add_filter( 'post_type_labels_post', [$this, 'labels']);
     }
 
-    private $paragraphPlaceholders = [
+    public $paragraphPlaceholders = [
         'It was the day my grandmother exploded.',
         'All happy families are alike; each unhappy family is unhappy in its own way.',
         'I\'m pretty much fucked. That’s my considered opinion.',

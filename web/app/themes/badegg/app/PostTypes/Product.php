@@ -56,6 +56,7 @@ class Product
                 'show_in_graphql' => true,
                 'graphql_single_name' => 'Product',
                 'graphql_plural_name' => 'Products',
+                'template' => $this->template(),
             ],
         );
 
@@ -99,6 +100,60 @@ class Product
             'type' => 'number',
             'sanitize_callback' => 'wp_kses_post',
         ]);
+    }
+
+    public function template()
+    {
+        $Post = new Post;
+
+        return [
+            [
+                'badegg/article',
+                [
+                    'lock' => [
+                        'move' => false,
+                        'remove' => false,
+                    ],
+                    'sidebarSwitch' => true,
+                    'sidebarSwitch' => true,
+                ],
+                [
+                    [
+                        'badegg/masthead',
+                        [
+                            'lock' => [
+                                'move' => false,
+                                'remove' => false,
+                            ]
+                        ],
+                    ],
+                    [
+                        'core/separator',
+                        [
+                            'className' => 'is-style-wide',
+                        ]
+                    ],
+                    [
+                        'badegg/excerpt',
+                        [
+                            'lock' => [
+                                'move' => false,
+                                'remove' => true,
+                            ],
+                        ],
+                    ],
+                    [
+                        'core/paragraph',
+                        [
+                            'placeholder' => $Post->paragraphPlaceholders[rand(0,9)],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'badegg/podcast-cta',
+            ],
+        ];
     }
 
     public function graphqlTaxQuery( $query_args, $source, $args, $context, $info ) {
