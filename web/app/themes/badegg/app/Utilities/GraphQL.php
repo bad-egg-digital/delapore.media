@@ -20,27 +20,7 @@ class GraphQL
             add_action( 'graphql_register_types', [$this, 'taxonomiesWhere']);
             add_action( 'graphql_register_types', [$this, 'blocks']);
             add_action( 'graphql_register_types', [$this, 'badeggcup']);
-            add_action( 'graphql_register_types', [$this, 'podcast']);
-            add_action( 'graphql_register_types', [$this, 'product']);
             add_action( 'graphql_register_types', [$this, 'autodescription']);
-
-            add_action('admin_footer', function(){
-                echo '<div style="margin-left: 200px">';
-
-                $products = get_posts([
-                    'post_type' => 'product',
-                ]);
-
-                // foreach($products as $product) {
-                    // echo '<pre>',print_r(get_post_meta($product->ID)),'</pre>';
-                    // echo '<pre>',print_r(get_post_type_object('post')),'</pre>';
-                    // echo '<pre>',print_r(get_taxonomy('category')),'</pre>';
-                // }
-
-                // echo '<pre>',print_r($postTypes),'</pre>';
-
-                echo '</div>';
-            });
         }
     }
 
@@ -341,81 +321,6 @@ class GraphQL
         }
 
         return $companyFields;
-    }
-
-    public function podcast()
-    {
-        register_graphql_field( 'Podcast', 'episodeContent', [
-            'type' => 'String',
-            'description' => __('Imported content from RSS feed', 'badegg'),
-            'resolve' => function( $post ) {
-                return get_post_meta( $post->databaseId, 'podcast_content', true );
-            }
-        ]);
-
-        register_graphql_field( 'Podcast', 'episodeAudio', [
-            'type' => 'JSON',
-            'description' => __('Audio attachment', 'badegg'),
-            'resolve' => function( $post ) {
-                $audioID = get_post_meta( $post->databaseId, 'podcast_audio_id', true );
-
-                if(!$audioID) return null;
-
-                $audioMetadata = wp_get_attachment_metadata($audioID);
-                $audioURL = wp_make_link_relative(wp_get_attachment_url( $audioID ));
-                $audioMetadata['uri'] = $audioURL ?: null;
-
-                return $audioMetadata;
-
-            }
-        ]);
-    }
-
-    public function product()
-    {
-        $fields = [
-            'CoverID'        => [ 'meta' => 'cover_id',       'type' => 'Number'   ],
-            'Price'          => [ 'meta' => 'price',          'type' => 'String'   ],
-            'PriceDiscount'  => [ 'meta' => 'price_discount', 'type' => 'String'   ],
-            'OffsiteURL'     => [ 'meta' => 'offsite_url',    'type' => 'String'   ],
-        ];
-
-        foreach($fields as $field => $props) {
-            register_graphql_field( 'Product', 'product' . $field, [
-                'type' => $props['type'],
-                'resolve' => fn( $post ) => get_post_meta( $post->databaseId, 'product_' . $props['meta'], true ) ?: null,
-            ]);
-        }
-
-        $imageFields = [
-            'CoverImage'   => [ 'meta' => 'cover_id',   'type' => 'JSON' ],
-            'ContextImage' => [ 'meta' => 'context_id', 'type' => 'JSON' ],
-        ];
-
-        foreach($imageFields as $field => $props) {
-            register_graphql_field( 'Product', 'product' . $field, [
-                'type' => $props['type'],
-                'resolve' => function( $content_type ) use ($props) {
-                    $imageID = get_post_meta($content_type->databaseId, 'product_' . $props['meta'], true);
-
-                    if($imageID) {
-                        $image = wp_get_attachment_image_src($imageID, 'full');
-
-                        return [
-                            'alt' => get_post_meta($imageID, '_wp_attachment_image_alt', true),
-                            'title' => get_post_field('post_title', $imageID),
-                            'srcSet' => wp_get_attachment_image_srcset($imageID, 'full'),
-                            'src' => wp_get_attachment_image_src($imageID, 'medium')[0],
-                            'width' => $image[1],
-                            'height' => $image[2],
-                        ];
-
-                    } else {
-                        return null;
-                    }
-                },
-            ]);
-        }
     }
 
     public function autodescription()

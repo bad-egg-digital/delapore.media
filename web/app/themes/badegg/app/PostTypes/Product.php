@@ -13,6 +13,7 @@ class Product
     {
         add_action('init', [$this, 'register']);
         add_filter( 'graphql_post_object_connection_query_args', [$this, 'graphqlTaxQuery'], 10, 5);
+        add_action( 'graphql_register_types', [$this, 'product']);
     }
 
     public function register()
@@ -119,5 +120,52 @@ class Product
         }
 
         return $query_args;
+    }
+
+    public function product()
+    {
+        $fields = [
+            'CoverID'        => [ 'meta' => 'cover_id',       'type' => 'Number'   ],
+            'Price'          => [ 'meta' => 'price',          'type' => 'String'   ],
+            'PriceDiscount'  => [ 'meta' => 'price_discount', 'type' => 'String'   ],
+            'OffsiteURL'     => [ 'meta' => 'offsite_url',    'type' => 'String'   ],
+        ];
+
+        foreach($fields as $field => $props) {
+            register_graphql_field( 'Product', 'product' . $field, [
+                'type' => $props['type'],
+                'resolve' => fn( $post ) => get_post_meta( $post->databaseId, 'product_' . $props['meta'], true ) ?: null,
+            ]);
+        }
+
+        $imageFields = [
+            'CoverImage'   => [ 'meta' => 'cover_id',   'type' => 'JSON' ],
+            'ContextImage' => [ 'meta' => 'context_id', 'type' => 'JSON' ],
+        ];
+
+        foreach($imageFields as $field => $props) {
+            register_graphql_field( 'Product', 'product' . $field, [
+                'type' => $props['type'],
+                'resolve' => function( $content_type ) use ($props) {
+                    $imageID = get_post_meta($content_type->databaseId, 'product_' . $props['meta'], true);
+
+                    if($imageID) {
+                        $image = wp_get_attachment_image_src($imageID, 'full');
+
+                        return [
+                            'alt' => get_post_meta($imageID, '_wp_attachment_image_alt', true),
+                            'title' => get_post_field('post_title', $imageID),
+                            'srcSet' => wp_get_attachment_image_srcset($imageID, 'full'),
+                            'src' => wp_get_attachment_image_src($imageID, 'medium')[0],
+                            'width' => $image[1],
+                            'height' => $image[2],
+                        ];
+
+                    } else {
+                        return null;
+                    }
+                },
+            ]);
+        }
     }
 }

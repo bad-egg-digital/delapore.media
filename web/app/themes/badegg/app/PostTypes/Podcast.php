@@ -15,6 +15,7 @@ class Podcast
         add_filter( 'graphql_post_object_connection_query_args', [$this, 'graphqlTaxQuery'], 10, 5);
         add_action('admin_menu', [$this, 'settings_page']);
         add_action('admin_init', [$this, 'settings_fields']);
+        add_action( 'graphql_register_types', [$this, 'podcast']);
     }
 
     public function register()
@@ -242,5 +243,33 @@ class Podcast
         }
 
         return $query_args;
+    }
+
+    public function podcast()
+    {
+        register_graphql_field( 'Podcast', 'episodeContent', [
+            'type' => 'String',
+            'description' => __('Imported content from RSS feed', 'badegg'),
+            'resolve' => function( $post ) {
+                return get_post_meta( $post->databaseId, 'podcast_content', true );
+            }
+        ]);
+
+        register_graphql_field( 'Podcast', 'episodeAudio', [
+            'type' => 'JSON',
+            'description' => __('Audio attachment', 'badegg'),
+            'resolve' => function( $post ) {
+                $audioID = get_post_meta( $post->databaseId, 'podcast_audio_id', true );
+
+                if(!$audioID) return null;
+
+                $audioMetadata = wp_get_attachment_metadata($audioID);
+                $audioURL = wp_make_link_relative(wp_get_attachment_url( $audioID ));
+                $audioMetadata['uri'] = $audioURL ?: null;
+
+                return $audioMetadata;
+
+            }
+        ]);
     }
 }
