@@ -107,10 +107,15 @@ class Post
 
     public function permalink($permalink, $post, $leavename)
     {
-        if (get_post_type($post) == 'post')
-            return $this->slug() . $permalink;
-        else
+        if (get_post_type($post) !== 'post')  return $permalink;
+
+        $slug = $this->slug();
+
+        if (strpos($permalink, '/' . $slug . '/') !== false || strpos($permalink, '/' . $slug . '%') !== false) {
             return $permalink;
+        }
+
+        return '/' . $slug . $permalink;
     }
 
     public function labels($labels)
