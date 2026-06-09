@@ -100,8 +100,8 @@ export default function PostGrid( props ) {
         <div className="section-postgrid">
           <Posts
             posts={ posts }
-            postType={ postType }
-            primaryTaxonomy={ postType?.primaryTaxonomy }
+            postType={ selectPostTypeObj }
+            primaryTaxonomy={ selectPostTypeObj?.primaryTaxonomy }
             isLoaded={ isLoaded }
             showLoading={ true }
           />
