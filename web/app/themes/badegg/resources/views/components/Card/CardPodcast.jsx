@@ -5,6 +5,7 @@ import { AppContext } from '@views/layouts/AppContext'
 import { Link } from 'react-router-dom'
 import TermList from '@views/components/TermList/TermList'
 import AudioPlay from '@views/components/AudioPlay/AudioPlay'
+import fallbackImage from '@images/delapore-media-podcast-fallback-cover.jpg'
 
 export default function CardPodcast( props ) {
 
@@ -53,7 +54,13 @@ export default function CardPodcast( props ) {
             height={ featuredImage?.node?.mediaDetails?.height }
           />
         ) : (
-          <div className="card-featured-placeholder" />
+          <img
+            loading="lazy"
+            src={ fallbackImage }
+            alt="A fancy microphone next to a laptop displaying soundwaves"
+            width="768"
+            height="512"
+          />
         )}
       </header>
       <div className="card-content inner inner-small">

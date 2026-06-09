@@ -16,7 +16,7 @@ class PodcastRSS
     }
 
     public function importCLI() {
-        $imports = $this->importEpisodes([ 'cli' => true, 'placeholder_images' => true ]);
+        $imports = $this->importEpisodes([ 'cli' => true ]);
 
         if($imports) {
             WP_CLI::log('Successfully imported/updated ' . count($imports) . ' podcast episodes.');
@@ -78,9 +78,6 @@ class PodcastRSS
             if($cli) WP_CLI::log($num . ': Existing Audio Source: ' . $existingAudioSource);
             if($cli) WP_CLI::log($num . ': RSS Audio source: ' . $props['media']);
 
-            $existingThumbnail = get_post_thumbnail_id($existingID);
-            $existingPlaceholder = get_post_meta($existingID, 'podcast_placeholder_image', true);
-
             if(!$existing || !$existing->post_content) {
                 $postArgs['post_content'] = $this->contentTemplate();
             }
@@ -107,22 +104,6 @@ class PodcastRSS
 
             } else {
                 if($cli) WP_CLI::log($num . ': Audio source filenames match. Skipping audio attachment.');
-            }
-
-            if($args['placeholder_images'] && !$existingThumbnail) {
-                if($cli) WP_CLI::log($num . ': Uploading placeholder image');
-                $attachmentID = $Uploads->byURL("https://static.photos/bokeh/1200x630.jpg");
-
-                if($attachmentID) {
-                    $postArgs['meta_input']['podcast_placeholder_image'] = $attachmentID;
-                    set_post_thumbnail($postID, $attachmentID);
-                    update_post_meta($postID, 'podcast_placeholder_image', $attachmentID);
-
-                    if($cli) WP_CLI::log($num . ': Placeholder image attached.');
-                }
-
-            } else {
-                if($cli) WP_CLI::log($num . ': Already has a featured image. Skipping image attachment.');
             }
 
             $imports[] = $postID;
@@ -234,7 +215,6 @@ class PodcastRSS
             'feed' => get_option('badegg_podcast_libsyn_rss_url'),
             'cli' => false,
             'force' => false,
-            'placeholder_images' => false,
         ];
     }
 
