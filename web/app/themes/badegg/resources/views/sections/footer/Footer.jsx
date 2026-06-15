@@ -1,4 +1,4 @@
-import './Footer.scss';
+import './footer.scss';
 import { AppContext } from '@views/layouts/AppContext'
 import { useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
