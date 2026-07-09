@@ -10,7 +10,7 @@ import { dateI18n, getSettings } from '@wordpress/date';
 import { useEffect, useState } from '@wordpress/element';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import apiFetch from '@wordpress/api-fetch';
-import Delibird from "@views/components/delibird/Delibird";
+import Delibird from "@views/components/Delibird/Delibird";
 import CTA from "@views/components/CTA/CTA"
 
 import {

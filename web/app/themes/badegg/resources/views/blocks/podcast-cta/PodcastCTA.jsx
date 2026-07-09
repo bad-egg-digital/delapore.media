@@ -7,7 +7,7 @@ import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group';
 import CTA from "@views/components/CTA/CTA"
-import Delibird from "@views/components/delibird/Delibird";
+import Delibird from "@views/components/Delibird/Delibird";
 
 export default function PodcastCTA( props ) {
   const nodeRef = useRef(null)
