@@ -110,10 +110,6 @@ function add_categories( $categories ) {
                 'slug'  => 'badegg',
                 'title' => __('Provided by Bad Egg Digital'),
             ],
-            [
-                'slug' => 'badegg-projects',
-                'title' => __('Project Blocks'),
-            ],
         ], $categories);
 
         return $categories;
@@ -291,38 +287,6 @@ function list_allowed()
         list_inner(),
         apply_filters('badegg_block_types_allow', $add_allowed),
     );
-}
-
-function render_acf($block, $content = '', $is_preview = false, $post_id = 0, $wp_block = false, $context = false) {
-    $slug = basename($block['name']);
-    $block['slug'] = $slug;
-
-    $blade = \Roots\view(
-        "blocks.{$slug}.render",
-        [
-            'block' => $block,
-            'content' => $content,
-            'is_preview' => $is_preview,
-            'post_id' => $post_id,
-            'wp_block' => $wp_block,
-            'context' => $context,
-        ],
-    );
-
-    if($blade) {
-        echo $blade;
-    } else {
-        ob_start(); ?>
-
-        <section class="section bg-error">
-            <div class="container container-small align-centre wysiwyg">
-                <h2>Missing Blade Template</h2>
-                <p>(resources/views/blocks/<?= $slug ?>/render.blade.php)</p>
-            </div>
-        </section>
-
-        <?php echo ob_get_clean();
-    }
 }
 
 function core_details_modified($content, $block)
