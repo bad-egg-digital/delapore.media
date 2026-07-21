@@ -190,53 +190,6 @@ export function queryArchive({ postType, taxonomy, activeTerm })
   return query
 }
 
-export function queryFrontCover({ about, podcast }) {
-  let aboutQuery = '';
-  let podcastQuery = '';
-
-  if(about) {
-    aboutQuery = `
-      about:page(id: "${ about }", idType: DATABASE_ID) {
-        slug
-        titlePrefix
-        title
-        subtitle
-        excerpt
-        uri
-      }
-    `
-  }
-
-  if(podcast) {
-    podcastQuery = `
-      podcast:page(id: "${ podcast }", idType: DATABASE_ID) {
-        slug
-        titlePrefix
-        title
-        subtitle
-        excerpt
-        uri
-      }
-    `
-  }
-
-  if(about || podcast) {
-    return `{
-        podcasts(first: 3) {
-        nodes {
-          date
-          title
-          slug
-          uri
-          episodeAudio
-        }
-      }
-      ${ aboutQuery }
-      ${ podcastQuery }
-    }`
-  }
-}
-
 export function queryBlockPostGrid( props )
 {
   const {
@@ -461,7 +414,23 @@ export const queryApp = `
       }
     }
   }
-  posts(first: 1) {
+  pageAbout:page(id: "${ badEggCupAPI.archiveIDs.about }", idType: DATABASE_ID) {
+    slug
+    titlePrefix
+    title
+    subtitle
+    excerpt
+    uri
+  }
+  pagePodcast:page(id: "${ badEggCupAPI.archiveIDs.podcast }", idType: DATABASE_ID) {
+    slug
+    titlePrefix
+    title
+    subtitle
+    excerpt
+    uri
+  }
+  firstPost:posts(first: 1) {
     nodes {
       id
       slug
@@ -497,7 +466,7 @@ export const queryApp = `
       }
     }
   }
-  podcasts(first: 3) {
+  firstPodcasts:podcasts(first: 3) {
     nodes {
       episodeAudio
       episodeContent

@@ -14,6 +14,7 @@ class GraphQL
     {
         if(class_exists('WPGraphQL') && class_exists('\BadEggCup\Tools\Settings')) {
             add_filter( 'badeggcup_restapi_localize', [ $this, 'addGraphQL' ]);
+            add_filter( 'badeggcup_restapi_localize', [ $this, 'restArchiveIDs' ]);
             add_action( 'graphql_register_types', [$this, 'JSON']);
             add_action( 'graphql_register_types', [$this, 'archives']);
             add_action( 'graphql_register_types', [$this, 'taxonomies']);
@@ -37,6 +38,20 @@ class GraphQL
 
 
         $data['graphql'] = '/' . $graphqlEndpoint;
+
+        return $data;
+    }
+
+    public function restArchiveIDs( $data )
+    {
+        $Archives = new Data\Archives;
+        $archiveIDs = $Archives->pagesForArchives();
+
+        $aboutID = get_option('badegg_page_about_id') ?: 0;
+
+        $archiveIDs['about'] = $aboutID;
+
+        $data['archiveIDs'] = $archiveIDs;
 
         return $data;
     }

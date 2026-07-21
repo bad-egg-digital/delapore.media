@@ -1,59 +1,37 @@
 import './style.scss'
 import parse from "html-react-parser"
 import { AppContext } from '@views/layouts/AppContext'
-import { useContext, useState, useEffect, useRef } from 'react'
+import { useContext, useState, useEffect } from 'react'
 
 import Block from '@views/layouts/Block'
 import TermList from '@views/components/TermList/TermList'
 import { Link, useLocation } from 'react-router-dom'
-import { queryFrontCover } from "@scripts/lib/graphql-queries"
 import AudioPlay from '@views/components/AudioPlay/AudioPlay'
 
 export default function FrontCover( props ) {
   const { post, postType, attributes } = props
   const { aboutPageID, podcastPageID } = attributes
   const { appContext, setAppContext } = useContext( AppContext )
-  const nodeRef = useRef(null);
-  const [ aboutPage, setAboutPage ] = useState({});
-  const [ podcastPage, setPodcastPage ] = useState({});
-  const [ podcasts, setPodcasts ] = useState([]);
-  const [ isLoaded, setIsLoaded ] = useState(false);
 
-  const query = queryFrontCover({ about: aboutPageID, podcast: podcastPageID })
-
-  useEffect(() => {
-    fetch( badEggCupAPI.graphql, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: query }),
-    })
-      .then(res => res.json())
-      .then(res => {
-        setPodcastPage(res?.data?.podcast || {})
-        setAboutPage(res?.data?.about || {})
-        setPodcasts(res?.data?.podcasts?.nodes || [])
-        setIsLoaded(true)
-      })
-      .catch( error => {
-        console.error('Error fetching page:', error)
-        console.log(query)
-      })
-  }, [])
+  const firstPost = appContext?.firstPost;
+  const aboutPage = appContext?.pageAbout;
+  const podcastPage = appContext?.pagePodcast;
+  const podcasts = appContext?.firstPodcasts;
 
   return (
     <Block className="wp-block-badegg-front-cover" attributes={ attributes }>
       <div className="front-cover">
-        { appContext?.firstPost &&
+        { firstPost &&
           <div className="front-cover-post section section-zero-top">
             <div className="front-cover-post-featured rounded">
-              { appContext?.firstPost?.featuredImage ? (
+              { firstPost?.featuredImage ? (
                 <figure>
                   <img
-                    src={ appContext?.firstPost?.featuredImage?.node?.sourceUrl }
-                    srcSet={ appContext?.firstPost?.featuredImage?.node?.srcSet }
-                    alt={ appContext?.firstPost?.featuredImage?.node?.altText }
-                    width={ appContext?.firstPost?.featuredImage?.node?.mediaDetails?.width }
-                    height={ appContext?.firstPost?.featuredImage?.node?.mediaDetails?.height }
+                    src={ firstPost?.featuredImage?.node?.sourceUrl }
+                    srcSet={ firstPost?.featuredImage?.node?.srcSet }
+                    alt={ firstPost?.featuredImage?.node?.altText }
+                    width={ firstPost?.featuredImage?.node?.mediaDetails?.width }
+                    height={ firstPost?.featuredImage?.node?.mediaDetails?.height }
                   />
                 </figure>
               ) : (
@@ -61,30 +39,30 @@ export default function FrontCover( props ) {
               )}
             </div>
 
-            { appContext?.firstPost?.titlePrefix &&
+            { firstPost?.titlePrefix &&
               <p className="front-cover-post-prefix grey-light-a">{ appContext.firstPost.titlePrefix }</p>
             }
 
-            <h1>{ appContext?.firstPost?.title }</h1>
+            <h1>{ firstPost?.title }</h1>
 
-            { appContext?.firstPost?.subtitle &&
+            { firstPost?.subtitle &&
               <p className="front-cover-post-subtitle primary-lightest">{ appContext.firstPost.subtitle }</p>
             }
 
-            { appContext?.firstPost?.excerpt &&
+            { firstPost?.excerpt &&
               <div className="front-cover-post-excerpt">
-                { parse(appContext?.firstPost?.excerpt) }
+                { parse(firstPost?.excerpt) }
               </div>
             }
 
-            <Link to={ appContext?.firstPost?.uri } className="more">
+            <Link to={ firstPost?.uri } className="more">
               +Continue reading
             </Link>
             <hr/>
 
             <TermList
-              items={ appContext?.firstPost?.terms?.nodes }
-              primaryItem={ appContext?.firstPost?.categoryPrimaryTerm }
+              items={ firstPost?.terms?.nodes }
+              primaryItem={ firstPost?.categoryPrimaryTerm }
               isLoaded={ true }
             />
 
@@ -92,7 +70,7 @@ export default function FrontCover( props ) {
         }
 
         <div className="front-cover-column">
-          <div className="front-cover-column-inner" ref={ nodeRef }>
+          <div className="front-cover-column-inner">
             { aboutPage && aboutPage?.title && (
               <div className="front-cover-column-block">
                 <h2 className="section-title">{ aboutPage?.title }</h2>
