@@ -10,7 +10,6 @@ import React, {
 
 import { Routes, Route, BrowserRouter as Router, useLocation } from 'react-router-dom'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
-import { CSSTransition } from 'react-transition-group';
 
 import { AppContext } from '@views/layouts/AppContext'
 import BgTexture from '@views/components/BgTexture/BgTexture'

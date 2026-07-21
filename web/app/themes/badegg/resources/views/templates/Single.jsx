@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
-import { CSSTransition } from 'react-transition-group';
 import { AppContext } from '@views/layouts/AppContext'
 
 import { querySingle } from '@scripts/lib/graphql-queries'

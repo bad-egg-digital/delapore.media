@@ -4,7 +4,6 @@ import parse from "html-react-parser"
 import clsx from "clsx"
 import isUriValid from "@scripts/lib/isUriValid"
 import { Link } from "react-router-dom"
-import { CSSTransition } from 'react-transition-group';
 import CTA from "@views/components/CTA/CTA"
 
 export default function FeaturedProduct( props ) {
@@ -61,75 +60,67 @@ export default function FeaturedProduct( props ) {
   }, [ productID ])
 
   return (
-    <CSSTransition
-      nodeRef={ nodeRef }
-      in={ isLoaded }
-      timeout={ 200 }
-      classNames="transitions-page"
-      // unmountOnExit={ true }
-    >
-      <div className="wp-block-badegg-featured-product transitions-page" ref={ nodeRef }>
-        <CTA className="cta-block-product" hasColumns={ true }>
-          { product?.productContextImage ?
-            <div className="cta-block-column cta-block-image has-shadow">
-              <img loading="lazy" { ...product.productContextImage } />
-            </div>
+    <div className="wp-block-badegg-featured-product" ref={ nodeRef }>
+      <CTA className="cta-block-product" hasColumns={ true }>
+        { product?.productContextImage ?
+          <div className="cta-block-column cta-block-image has-shadow">
+            <img loading="lazy" { ...product.productContextImage } />
+          </div>
+        : null }
+        <div className="cta-block-column cta-block-content">
+          { (product?.productCategoryPrimaryTerm || product?.titlePrefix) ?
+            <p className="cta-block-content-prefix">
+              { product?.productCategoryPrimaryTerm ?
+                `${ product.productCategoryPrimaryTerm.name }: `
+              : ''}
+              { product?.titlePrefix }
+            </p>
           : null }
-          <div className="cta-block-column cta-block-content">
-            { (product?.productCategoryPrimaryTerm || product?.titlePrefix) ?
-              <p className="cta-block-content-prefix">
-                { product?.productCategoryPrimaryTerm ?
-                  `${ product.productCategoryPrimaryTerm.name }: `
-                : ''}
-                { product?.titlePrefix }
+
+          <h2 className="cta-block-content-heading">{ product?.title }</h2>
+
+          { product?.subtitle &&
+            <p className="cta-block-content-subtitle">{ product.subtitle }</p>
+          }
+
+          { product?.excerpt &&
+            <div className="cta-block-content-excerpt">
+              { parse( product.excerpt ) }
+            </div>
+          }
+
+          <div className="cta-block-action">
+            { product?.productPrice ?
+              <p className={ clsx(
+                'product-pricing',
+                product?.productPriceDiscount && 'product-pricing-discounted',
+              )}>
+                <span className={ clsx(
+                  'product-pricing-current',
+                  product?.productPriceDiscount && 'strikethrough',
+                )}>
+                  { product.productPrice }
+                </span>
+
+                { product?.productPriceDiscount ?
+                  <span className="product-pricing-discount">
+                    { product.productPriceDiscount }
+                  </span>
+                : null }
               </p>
             : null }
 
-            <h2 className="cta-block-content-heading">{ product?.title }</h2>
-
-            { product?.subtitle &&
-              <p className="cta-block-content-subtitle">{ product.subtitle }</p>
-            }
-
-            { product?.excerpt &&
-              <div className="cta-block-content-excerpt">
-                { parse( product.excerpt ) }
-              </div>
-            }
-
-            <div className="cta-block-action">
-              { product?.productPrice ?
-                <p className={ clsx(
-                  'product-pricing',
-                  product?.productPriceDiscount && 'product-pricing-discounted',
-                )}>
-                  <span className={ clsx(
-                    'product-pricing-current',
-                    product?.productPriceDiscount && 'strikethrough',
-                  )}>
-                    { product.productPrice }
-                  </span>
-
-                  { product?.productPriceDiscount ?
-                    <span className="product-pricing-discount">
-                      { product.productPriceDiscount }
-                    </span>
-                  : null }
-                </p>
+            <div className="btn-wrap">
+              { 'href' in productLink ?
+                <a href={ productLink.href } target="_blank" className="btn primary">Buy Now</a>
               : null }
 
-              <div className="btn-wrap">
-                { 'href' in productLink ?
-                  <a href={ productLink.href } target="_blank" className="btn primary">Buy Now</a>
-                : null }
-
-                <Link to={ product.uri } className="btn white outline">Learn More</Link>
-              </div>
-
+              <Link to={ product.uri } className="btn white outline">Learn More</Link>
             </div>
+
           </div>
-        </CTA>
-      </div>
-    </CSSTransition>
+        </div>
+      </CTA>
+    </div>
   )
 }

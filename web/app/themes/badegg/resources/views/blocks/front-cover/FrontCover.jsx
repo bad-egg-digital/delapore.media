@@ -2,7 +2,6 @@ import './style.scss'
 import parse from "html-react-parser"
 import { AppContext } from '@views/layouts/AppContext'
 import { useContext, useState, useEffect, useRef } from 'react'
-import { CSSTransition } from 'react-transition-group';
 
 import Block from '@views/layouts/Block'
 import TermList from '@views/components/TermList/TermList'
@@ -40,9 +39,6 @@ export default function FrontCover( props ) {
         console.log(query)
       })
   }, [])
-
-  // console.log(aboutPage)
-  // console.log(appContext)
 
   return (
     <Block className="wp-block-badegg-front-cover" attributes={ attributes }>
@@ -96,65 +92,57 @@ export default function FrontCover( props ) {
         }
 
         <div className="front-cover-column">
+          <div className="front-cover-column-inner" ref={ nodeRef }>
+            { aboutPage && aboutPage?.title && (
+              <div className="front-cover-column-block">
+                <h2 className="section-title">{ aboutPage?.title }</h2>
+                { parse(aboutPage?.excerpt || '') }
+                <Link to={ aboutPage?.uri } className="more">
+                  +Learn more
+                </Link>
+              </div>
+            )}
 
-          <CSSTransition
-            nodeRef={ nodeRef }
-            in={ isLoaded }
-            timeout={ 200 }
-            classNames="transitions-page"
-          >
-            <div className="front-cover-column-inner transitions-page" ref={ nodeRef }>
-              { aboutPage && (
-                <div className="front-cover-column-block">
-                  <h2 className="section-title">{ aboutPage?.title }</h2>
-                  { parse(aboutPage?.excerpt || '') }
-                  <Link to={ aboutPage?.uri } className="more">
-                    +Learn more
-                  </Link>
+            { podcastPage && podcasts.length > 0 && (
+              <div className="front-cover-column-block">
+                <h2 className="section-title">{ podcastPage?.title }</h2>
+                { parse(podcastPage?.excerpt || '') }
+
+                <div className="podcast-playlist card-opaque inner inner-small inner-zero-y">
+                  <ul className="nolist">
+                    { Object.entries(podcasts).map( ([index, podcast]) => (
+                      <li key={ index }>
+                        <Link to={ podcast.uri }>
+                          <time className="masthead-date" dateTime={ podcast.date }>
+                            {
+                              new Date(podcast.date).toLocaleDateString(
+                                'en-US',
+                                { year: 'numeric', month: 'short', day: 'numeric' }
+                              )
+                            }
+                          </time>
+                          <h4 className="section-title">{ podcast.title }</h4>
+                        </Link>
+
+                        <AudioPlay
+                          { ...podcast.episodeAudio }
+                          postLink={ podcast.uri }
+                          postTitle={ podcast.title }
+                          postDate={ podcast.date }
+                          hideLabel={ true }
+                        />
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              )}
 
-              { podcastPage && podcasts.length > 0 && (
-                <div className="front-cover-column-block">
-                  <h2 className="section-title">{ podcastPage?.title }</h2>
-                  { parse(podcastPage?.excerpt || '') }
+                <Link to={ podcastPage?.uri } className="more">
+                  +See all episodes
+                </Link>
+              </div>
+            )}
 
-                  <div className="podcast-playlist card-opaque inner inner-small inner-zero-y">
-                    <ul className="nolist">
-                      { Object.entries(podcasts).map( ([index, podcast]) => (
-                        <li key={ index }>
-                          <Link to={ podcast.uri }>
-                            <time className="masthead-date" dateTime={ podcast.date }>
-                              {
-                                new Date(podcast.date).toLocaleDateString(
-                                  'en-US',
-                                  { year: 'numeric', month: 'short', day: 'numeric' }
-                                )
-                              }
-                            </time>
-                            <h4 className="section-title">{ podcast.title }</h4>
-                          </Link>
-
-                          <AudioPlay
-                            { ...podcast.episodeAudio }
-                            postLink={ podcast.uri }
-                            postTitle={ podcast.title }
-                            postDate={ podcast.date }
-                            hideLabel={ true }
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <Link to={ podcastPage?.uri } className="more">
-                    +See all episodes
-                  </Link>
-                </div>
-              )}
-
-            </div>
-          </CSSTransition>
+          </div>
         </div>
       </div>
     </Block>
