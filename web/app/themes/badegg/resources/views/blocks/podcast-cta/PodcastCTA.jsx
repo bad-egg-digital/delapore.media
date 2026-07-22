@@ -1,62 +1,19 @@
 import './style.scss'
-import { useEffect, useState, useRef } from 'react'
-import parse from "html-react-parser"
-import clsx from "clsx"
-import { AppContext } from '@views/layouts/AppContext'
-import { useContext } from 'react'
-import { Link } from 'react-router-dom'
-import CTA from "@views/components/CTA/CTA"
+import parse from "html-react-parser";
+import { AppContext } from '@views/layouts/AppContext';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import CTA from "@views/components/CTA/CTA";
 import Delibird from "@views/components/Delibird/Delibird";
 
 export default function PodcastCTA( props ) {
-  const nodeRef = useRef(null)
-  const { appContext, setAppContext } = useContext( AppContext )
-  const podcastType = appContext?.postTypes.find( type => type.name === 'podcast') || {}
-  const [ podcastArchive, setPodcastArchive ] = useState({})
-  const [ latestPodcast, setLatestPodcast ] = useState({})
-  const [ isLoaded, setIsLoaded ] = useState(false)
+  const { appContext, setAppContext } = useContext( AppContext );
 
-  let query = `
-    {
-      ${ podcastType?.pageForArchive?.databaseId ? `
-        podcastArchive: page(id: "${ podcastType.pageForArchive.databaseId }", idType: DATABASE_ID) {
-          titlePrefix
-          title
-          subtitle
-          excerpt
-          uri
-        }
-      ` : '' }
-      podcasts(first: 1) {
-        nodes {
-          uri
-        }
-      }
-    }
-  `;
-
-  useEffect(() => {
-    fetch( badEggCupAPI.graphql, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: query }),
-    })
-      .then(res => res.json())
-      .then(res => {
-        let first = res?.data?.podcasts?.nodes?.[0]
-
-        setLatestPodcast(first || {})
-        setPodcastArchive(res?.data?.podcastArchive || {})
-        setIsLoaded(true)
-      })
-      .catch( error => {
-        console.error('Error fetching page:', error)
-        console.log(query)
-      })
-  }, [])
+  const podcastArchive = appContext?.pagePodcast || {};
+  const latestPodcast = appContext?.firstPodcasts[0] || {};
 
   return (
-    <div className="wp-block-badegg-podcast-cta" ref={ nodeRef }>
+    <div className="wp-block-badegg-podcast-cta">
       <CTA className="cta-block-podcast" hasColumns={ true }>
         <div className="cta-block-column cta-block-image">
           <Delibird variant="podcast" />
