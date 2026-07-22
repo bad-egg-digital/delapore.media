@@ -1,5 +1,5 @@
 import './style.scss'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import parse from "html-react-parser"
 import clsx from "clsx"
 import isUriValid from "@scripts/lib/isUriValid"
@@ -8,7 +8,6 @@ import CTA from "@views/components/CTA/CTA"
 
 export default function FeaturedProduct( props ) {
   const { post, attributes: { specific, productID } } = props
-  const nodeRef = useRef(null)
   const [ product, setProduct ] = useState('')
   const [ productLink, setProductLink ] = useState({})
   const [ isLoaded, setIsLoaded ] = useState(false)
@@ -59,8 +58,10 @@ export default function FeaturedProduct( props ) {
       })
   }, [ productID ])
 
+  if(!isLoaded) return;
+
   return (
-    <div className="wp-block-badegg-featured-product" ref={ nodeRef }>
+    <div className="wp-block-badegg-featured-product">
       <CTA className="cta-block-product" hasColumns={ true }>
         { product?.productContextImage ?
           <div className="cta-block-column cta-block-image has-shadow">
