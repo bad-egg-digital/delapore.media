@@ -4,7 +4,6 @@ import './style.scss'
 import parse from "html-react-parser"
 import { AppContext } from '@views/layouts/AppContext'
 import { useContext, useState, useEffect, useRef } from 'react'
-import { CSSTransition } from 'react-transition-group';
 
 import Block from '@views/layouts/Block'
 import Posts from '@views/components/PostGrid/Posts'
