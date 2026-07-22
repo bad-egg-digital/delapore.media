@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d40b255834516691a7741d17206357c6",
+    "content-hash": "2873df17e64e6fb033ae2d701aa2a34f",
     "packages": [
         {
             "name": "alleyinteractive/composer-wordpress-autoloader",
@@ -4706,6 +4706,37 @@
                 "source": "https://plugins.svn.wordpress.org/wp-graphql"
             },
             "time": "2026-06-04T14:46:22+00:00"
+        },
+        {
+            "name": "wp-plugin/wpgraphql-smart-cache",
+            "version": "2.2.2",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wpgraphql-smart-cache/",
+                "reference": "tags/2.2.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wpgraphql-smart-cache.2.2.2.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Jason Bahl"
+                }
+            ],
+            "description": "WPGraphQL Smart Cache is a WordPress plugin that provides fast, accurate API responses by intelligently caching and invalidating WPGraphQL queries.",
+            "homepage": "https://github.com/wp-graphql/wp-graphql/tree/main/plugins/wp-graphql-smart-cache",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/wpgraphql-smart-cache/#developers",
+                "issues": "https://wordpress.org/support/plugin/wpgraphql-smart-cache",
+                "source": "https://plugins.svn.wordpress.org/wpgraphql-smart-cache"
+            },
+            "time": "2026-06-29T18:11:19+00:00"
         }
     ],
     "packages-dev": [
