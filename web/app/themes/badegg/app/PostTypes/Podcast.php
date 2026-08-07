@@ -96,6 +96,14 @@ class Podcast
             'type' => 'string',
             'sanitize_callback' => 'wp_kses_post',
         ]);
+
+        register_post_meta( $this->postType, '_primary_term_' . $this->postType . '_' . $this->taxonomy, [
+            'show_in_rest' => true,
+            'single' => true,
+            'type' => 'number',
+            'sanitize_callback' => 'wp_kses_post',
+            'auth_callback' => fn() => current_user_can('edit_posts'),
+        ]);
     }
 
     public function template()
