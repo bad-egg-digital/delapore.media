@@ -12,6 +12,7 @@ class PodcastRSS
     {
        if(class_exists('WP_CLI')) {
            WP_CLI::add_command( 'badegg-podcast-import', [ $this, 'importCLI' ] );
+           WP_CLI::add_command( 'badegg-podcast-truncate-slugs', [ $this, 'truncateSlugs' ] );
        }
     }
 
@@ -53,10 +54,14 @@ class PodcastRSS
 
             if($cli) WP_CLI::log('Processing ' . $num);
 
+            $slug = $props['slug'];
+
+            if(strlen($slug) > 200) $slug = substr($string, 0, 200);
+
             $postArgs = [
                 'post_type'    => 'podcast',
                 'post_title'   => $props['title'],
-                'post_name'    => $props['slug'],
+                'post_name'    => $slug,
                 'post_date'    => $props['date'],
                 'post_status'  => 'publish',
                 'post_author'  => get_current_user_id(),
@@ -208,6 +213,26 @@ class PodcastRSS
         }
 
         return $items;
+    }
+
+    public function truncateSlugs()
+    {
+        $podcasts = get_posts([
+            'post_type' => 'podcast',
+            'numberposts' => -1,
+            'fields' => 'ids',
+        ]);
+
+        foreach($podcasts as $podcast) {
+
+            $slug =  get_post_field('post_name', $podcast);
+            if(strlen($slug) > 200) $slug = substr($string, 0, 200);
+
+            wp_update_post([
+                'ID' => $podcast,
+                'post_name' => $slug,
+            ]);
+        }
     }
 
     public function defaultArgs() {
