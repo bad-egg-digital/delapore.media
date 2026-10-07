@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cb858e4ab4c2e2f18476b24129cf9001",
+    "content-hash": "acd0ef1af5926be89fb8cb1a04e1254f",
     "packages": [
         {
             "name": "alleyinteractive/composer-wordpress-autoloader",
@@ -4655,6 +4655,37 @@
                 "source": "https://plugins.svn.wordpress.org/wp-graphql"
             },
             "time": "2026-09-22T18:41:24+00:00"
+        },
+        {
+            "name": "wp-plugin/wpgraphql-smart-cache",
+            "version": "2.3.2",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/wpgraphql-smart-cache/",
+                "reference": "tags/2.3.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/wpgraphql-smart-cache.2.3.2.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0|~2.0"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://wp-packages.org/downloads",
+            "authors": [
+                {
+                    "name": "Jason Bahl"
+                }
+            ],
+            "description": "WPGraphQL Smart Cache is a WordPress plugin that provides fast, accurate API responses by intelligently caching and invalidating WPGraphQL queries.",
+            "homepage": "https://github.com/wp-graphql/wp-graphql/tree/main/plugins/wp-graphql-smart-cache",
+            "support": {
+                "changelog": "https://wordpress.org/plugins/wpgraphql-smart-cache/#developers",
+                "issues": "https://wordpress.org/support/plugin/wpgraphql-smart-cache",
+                "source": "https://plugins.svn.wordpress.org/wpgraphql-smart-cache"
+            },
+            "time": "2026-09-15T18:26:14+00:00"
         }
     ],
     "packages-dev": [
@@ -4734,12 +4765,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "08ce189d89be521a44e20b191a2418b299a44b2b"
+                "reference": "7ffb508d0fec1adae95e086e0c7e2cdf1ee5f02f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/08ce189d89be521a44e20b191a2418b299a44b2b",
-                "reference": "08ce189d89be521a44e20b191a2418b299a44b2b",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/7ffb508d0fec1adae95e086e0c7e2cdf1ee5f02f",
+                "reference": "7ffb508d0fec1adae95e086e0c7e2cdf1ee5f02f",
                 "shasum": ""
             },
             "conflict": {
@@ -4853,7 +4884,6 @@
                 "cardgate/magento2": "<2.0.33",
                 "cardgate/woocommerce": "<=3.1.15",
                 "cart2quote/module-quotation": ">=4.1.6,<4.4.6|>=5,<5.4.4",
-                "cart2quote/module-quotation-encoded": ">=4.1.6,<=4.4.5|>=5,<5.4.4",
                 "cartalyst/sentry": "<2.1.7",
                 "catfan/medoo": "<1.7.5",
                 "causal/oidc": "<4",
@@ -5717,6 +5747,7 @@
                 "typo3fluid/fluid": ">=2,<2.0.8|>=2.1,<2.1.7|>=2.2,<2.2.4|>=2.3,<2.3.7|>=2.4,<2.4.4|>=2.5,<2.5.11|>=2.6,<2.6.10",
                 "ua-parser/uap-php": "<3.8",
                 "uasoft-indonesia/badaso": "<=2.9.7",
+                "ueberdosis/tiptap-php": "<2.1.1",
                 "unisharp/laravel-filemanager": "<2.9.1",
                 "universal-omega/dynamic-page-list3": "<3.6.4",
                 "unopim/unopim": "<=0.3",
@@ -5876,7 +5907,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-05T23:50:51+00:00"
+            "time": "2026-10-07T17:18:05+00:00"
         },
         {
             "name": "wp-plugin/ajax-thumbnail-rebuild",
