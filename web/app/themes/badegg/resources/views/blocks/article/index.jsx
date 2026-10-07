@@ -116,7 +116,7 @@ registerBlockType(metadata.name, {
       }
     }, [ meta ])
 
-    const ProductImage = ({ metaField, image, setImage, spacer }) => {
+    const ProductImage = ({ metaField, label, image, setImage, spacer }) => {
       return (
         <>
           { spacer &&
@@ -124,7 +124,7 @@ registerBlockType(metadata.name, {
           }
 
           <Heading level="3" style={{ fontWeight: 'bold' }}>
-            { metaField.replace('_', ' ') }
+            { label || metaField.replace('_', ' ') }
           </Heading>
 
           { 'link' in image &&
@@ -150,7 +150,7 @@ registerBlockType(metadata.name, {
                     onClick={ open }
                     variant="secondary"
                   >
-                    { __("Select File", "badegg") }
+                    { __("Select/upload image", "badegg") }
                   </Button>
 
                   { meta?.['product_' + metaField] != 0 && (
@@ -200,8 +200,8 @@ registerBlockType(metadata.name, {
 
                 { postType === 'product' &&
                   <>
-                    <ProductImage metaField="cover_id" image={ coverFile } setImage={ setCoverFile } />
-                    <ProductImage metaField="context_id" image={ contextFile } setImage={ setContextFile } spacer={ 8 } />
+                    <ProductImage metaField="cover_id" label={ __("Flat front cover image", "badegg") } image={ coverFile } setImage={ setCoverFile } />
+                    <ProductImage metaField="context_id" label={ __("3D book mockup displaying the cover") } image={ contextFile } setImage={ setContextFile } spacer={ 8 } />
 
                     <Spacer margin="4" />
 
@@ -286,7 +286,7 @@ registerBlockType(metadata.name, {
                               onClick={ open }
                               variant="secondary"
                             >
-                              { __("Select File", "badegg") }
+                              { __("Select/Upload MP3", "badegg") }
                             </Button>
 
                             { meta?.podcast_audio_id != 0 && (
