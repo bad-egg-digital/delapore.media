@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e95a6873de29a3e67c3f3fc1eabbbdf4",
+    "content-hash": "cb858e4ab4c2e2f18476b24129cf9001",
     "packages": [
         {
             "name": "alleyinteractive/composer-wordpress-autoloader",
@@ -5880,15 +5880,15 @@
         },
         {
             "name": "wp-plugin/ajax-thumbnail-rebuild",
-            "version": "1.14",
+            "version": "2.2.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/ajax-thumbnail-rebuild/",
-                "reference": "tags/1.14"
+                "reference": "tags/2.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/ajax-thumbnail-rebuild.1.14.zip"
+                "url": "https://downloads.wordpress.org/plugin/ajax-thumbnail-rebuild.2.2.1.zip"
             },
             "require": {
                 "composer/installers": "~1.0|~2.0"

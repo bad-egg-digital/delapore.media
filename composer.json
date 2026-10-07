@@ -76,7 +76,7 @@
   "require-dev": {
     "roave/security-advisories": "dev-latest",
     "laravel/pint": "^1.18",
-    "wp-plugin/ajax-thumbnail-rebuild": "^1.14",
+    "wp-plugin/ajax-thumbnail-rebuild": "^2.2",
     "wp-plugin/user-switching": "^1.11"
   },
   "config": {
