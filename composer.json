@@ -54,7 +54,7 @@
     "oscarotero/env": "^2.1",
     "roots/bedrock-autoloader": "^1.0",
     "roots/bedrock-disallow-indexing": "^2.0",
-    "roots/wordpress": "^7.0",
+    "roots/wordpress": "^7.1",
     "roots/wp-config": "1.0.0",
     "koodimonni-language/core-en_gb": "^6.8",
     "johnbillion/extended-cpts": "^5.1",
@@ -77,7 +77,7 @@
   "require-dev": {
     "roave/security-advisories": "dev-latest",
     "laravel/pint": "^1.18",
-    "wp-plugin/ajax-thumbnail-rebuild": "^1.14",
+    "wp-plugin/ajax-thumbnail-rebuild": "^2.2",
     "wp-plugin/user-switching": "^1.11"
   },
   "config": {

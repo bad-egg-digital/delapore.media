@@ -198,8 +198,8 @@ class GraphQL
 
             foreach($taxonomies as $taxonomyName) {
                 $taxonomy = get_taxonomy($taxonomyName);
-                $taxonomySingular = $taxonomy->graphql_single_name;
-                $taxonomySingularLabel = $taxonomy->labels->singular_name;
+                $taxonomySingular = @$taxonomy->graphql_single_name ?: @$taxonomy->name;
+                $taxonomySingularLabel = @$taxonomy->labels->singular_name ?: @$taxonomy->labels->singular;
 
                 register_graphql_field(
                     'RootQueryTo' . ucfirst($postTypeSingular) . 'ConnectionWhereArgs',
